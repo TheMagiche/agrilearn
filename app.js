@@ -58,8 +58,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-// Check on dev mode don't uncomment
-app.use(express.static(__dirname + "/public/"));
+// // Check on dev mode don't uncomment
+// app.use(express.static(__dirname + "/public/"));
 // Set up public folder
 
 // Handle SPA
