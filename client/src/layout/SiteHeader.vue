@@ -25,7 +25,7 @@
           >
             <a slot="title" href="#" class="nav-link" data-toggle="dropdown" role="button">
               <i class="ni ni-ui-04 d-lg-none"></i>
-              <span class="nav-link-inner--text black">Instructor Dashboard</span>
+              <span class="nav-link-inner--text black">{{ getUsername }} 's Dashboard</span>
             </a>
             <div class="dropdown-menu-inner">
               <router-link
@@ -49,12 +49,15 @@
                   <p class="description d-none d-md-inline-block mb-0">Create new class</p>
                 </div>
               </router-link>
+              <li class="nav-items">
+                <a @click="logout" class="nav-log-link aLog">Logout</a>
+              </li>
             </div>
           </base-dropdown>
           <base-dropdown v-if="isLoggedIn && isStudent" tag="li" class="nav-item">
             <a slot="title" href="#" class="nav-link" data-toggle="dropdown" role="button">
               <i class="ni ni-ui-04 d-lg-none"></i>
-              <span class="nav-link-inner--text black">Student's Dashboard</span>
+              <span class="nav-link-inner--text black">{{ getUsername }} 's Dashboard</span>
             </a>
             <div class="dropdown-menu-inner">
               <router-link :to="{ name:'studentClasses'}" class="media d-flex align-items-center">
@@ -66,6 +69,9 @@
                   <p class="description d-none d-md-inline-block mb-0">View your Classes</p>
                 </div>
               </router-link>
+              <li class="nav-items">
+                <a @click="logout" class="nav-log-link aLog">Logout</a>
+              </li>
             </div>
           </base-dropdown>
         </ul>
@@ -132,11 +138,6 @@
               </a>
             </li>
           </ul>
-          <ul v-if="isLoggedIn" class="navbar-nav navbar-nav-hover align-items-lg-center">
-            <li class="nav-items">
-              <a @click="logout" class="nav-log-link aLog">{{getUsername}}| Logout</a>
-            </li>
-          </ul>
           <li class="nav-item d-none d-lg-block ml-lg-4">
             <a href="#contact" target="_blank" rel="noopener" class="btn btn-success btn-icon">
               <span class="btn-inner--icon">
@@ -157,6 +158,7 @@ i {
 }
 .aLog {
   font-size: 80%;
+  cursor: pointer;
 }
 .green {
   color: #20e434;

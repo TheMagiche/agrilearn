@@ -64,8 +64,8 @@ export default {
           // eslint-disable-next-line no-console
           // console.log(resp.data.classes);
           this.classes = resp.data.classes;
-          // eslint-disable-next-line no-console
-          console.log(this.classes);
+          // // eslint-disable-next-line no-console
+          // console.log(this.classes);
         })
         .catch(err => {
           // eslint-disable-next-line no-console

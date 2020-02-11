@@ -1,23 +1,36 @@
 var express = require("express");
 var router = express.Router();
 var Class = require("../models/class");
-
 var Instructor = require("../models/instructor");
 var User = require("../models/user");
 
-// All courses
+/**
+ * @route POST api/classes/
+ * @desc Get all classes
+ * @access Private
+ * Not working
+ */
 router.get("/", function(req, res, next) {
-  console.log("classes...");
-  Class.getClasses(function(err, classes) {
-    if (err) {
-      throw err;
-    }
-    console.log(classes);
-    res.status(200).json({ title: "All Classes", classes: classes });
-  }, 4);
+  try {
+    console.log("classes...");
+    Class.getClasses(function(err, classes) {
+      if (err) {
+        throw err;
+      }
+      console.log(classes);
+      res.status(200).json({ title: "All Classes", classes: classes });
+    }, 4);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-//create course
+/**
+ * @route POST api/classes/create/:id
+ * @desc Create class
+ * @access Private
+ * Working
+ */
 router.post("/create/:id", async function(req, res, next) {
   console.log("Receiving class details...");
 
@@ -49,7 +62,13 @@ router.post("/create/:id", async function(req, res, next) {
     console.log(err);
   }
 });
-//update course
+
+/**
+ * @route POST api/classes/:id/update
+ * @desc Update class
+ * @access Private
+ * Untested
+ */
 router.put("/:id/update", function(req, res, next) {
   Class.findByIdAndUpdate(req.params.id, req.body, function(err, myclass) {
     if (err) return next(err);
@@ -60,7 +79,13 @@ router.put("/:id/update", function(req, res, next) {
     });
   });
 });
-//delete course
+
+/**
+ * @route POST api/classes/:id/delete
+ * @desc Delete class
+ * @access Private
+ * Untested
+ */
 router.delete("/:id/delete", function(req, res, next) {
   Class.findByIdAndRemove(req.params.id, req.body, function(err, myclass) {
     if (err) return next(err);
@@ -72,7 +97,12 @@ router.delete("/:id/delete", function(req, res, next) {
   });
 });
 
-// Single course
+/**
+ * @route POST api/classes/details/:id/
+ * @desc get single class
+ * @access Private
+ * Not Working
+ */
 router.get("/details/:id", async function(req, res) {
   console.log("fetching class...");
   try {
@@ -96,7 +126,12 @@ router.get("/details/:id", async function(req, res) {
   }
 });
 
-//get class by instructor
+/**
+ * @route POST api/classes/instructors/:id
+ * @desc Get instructors classes
+ * @access Private
+ * Not working
+ */
 router.post("/instructor/:id", async function(req, res, next) {
   const { id } = req.params;
   const instructorByClass = await (await Class.findById(id)).populate(
@@ -104,53 +139,5 @@ router.post("/instructor/:id", async function(req, res, next) {
   );
   res.status(200).json({ class: instructorByClass });
 });
-
-// // Lessons
-// router.get("/:id/lessons", isLoggedIn, function(req, res, next) {
-//   var user = req.user;
-//   var id = req.params.id;
-//   if (user.type == "student") {
-//     Class.getClassById(id, function(err, classname) {
-//       if (err) {
-//         throw err;
-//       }
-//       res.json({ class: classname });
-//     });
-//   } else {
-//     Class.getClassById(id, function(err, classname) {
-//       if (err) {
-//         throw err;
-//       }
-//       res.json({ class: classname });
-//     });
-//   }
-// });
-
-// router.get("/:id/lessons/:lesson_id", isLoggedIn, function(req, res, next) {
-//   var id = req.params.id;
-//   Class.getClassById(id, function(err, classname) {
-//     var lesson;
-//     if (err) {
-//       throw err;
-//     }
-//     // Get specific lesson that matches the id
-//     for (var i = 0; i < classname.lessons.length; i++) {
-//       if (classname.lessons[i].lesson_number == req.params.lesson_id) {
-//         lesson = classname.lessons[i];
-//       }
-//     }
-//     res.json({ class: classname, lesson: lesson });
-//   });
-// });
-
-// Access Control
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    req.flash("You must login to access this page.");
-    // res.redirect("/users/signin");
-  }
-}
 
 module.exports = router;

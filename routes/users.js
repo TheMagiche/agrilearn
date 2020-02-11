@@ -1,16 +1,30 @@
-var express = require("express");
-var router = express.Router();
-var passport = require("passport");
-var LocalStrategy = require("passport-local").Strategy;
-var User = require("../models/user");
-var Student = require("../models/student");
-var Instructor = require("../models/instructor");
+const express = require("express");
+const router = express.Router();
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const User = require("../models/user");
+const Student = require("../models/student");
+const Instructor = require("../models/instructor");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+
+// Serialize user for the session to determine which data will be saved
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+// Deserialize user
+passport.deserializeUser(function(id, done) {
+  User.getUserById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
 /**
- * @route POST api/users/login
- * @desc Signing in the User
+ * @route POST api/users/register
+ * @desc REgisterthe User
  * @access Public
+ * Working
  */
 
 router.post("/register", async (req, res) => {
@@ -95,9 +109,6 @@ router.post("/register", async (req, res) => {
           console.log("Instructor created!");
         });
       }
-      // Flash message
-      // req.flash("success_msg", "User added");
-      // res.render("user/signin");
       res.json({
         username: username,
         success: true,
@@ -111,22 +122,11 @@ router.post("/register", async (req, res) => {
 
 // Sign in
 
-// Serialize user for the session to determine which data will be saved
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
-});
-
-// Deserialize user
-passport.deserializeUser(function(id, done) {
-  User.getUserById(id, function(err, user) {
-    done(err, user);
-  });
-});
-
 /**
  * @route POST api/users/login
  * @desc Signing in the User
  * @access Public
+ * Working
  */
 
 router.post(
@@ -211,11 +211,14 @@ passport.use(
   })
 );
 
-// Logout
+/**
+ * @route POST api/users/logout
+ * @desc Return the User's Data
+ * @access Private
+ * Working
+ */
 router.get("/logout", function(req, res) {
   req.logout();
-  req.flash("success_msg", "Logged out");
-  // res.redirect("/");
 });
 
 /**

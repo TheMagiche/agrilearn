@@ -1,20 +1,15 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+const User = require("../models/user");
+const Student = require("../models/student");
+const Class = require("../models/class");
 
-var User = require("../models/user");
-var Student = require("../models/student");
-var Class = require("../models/class");
-
-// // Student classes
-// router.get("/classes", isLoggedIn, function(req, res, next) {
-//   Student.getStudentByUsername(req.user.username, function(err, student) {
-//     if (err) {
-//       throw err;
-//     }
-//     res.json({ student: student });
-//   });
-// });
-// student classes
+/**
+ * @route POST api/student/classes/:id
+ * @desc Get students classes
+ * @access Private
+ * Untested
+ */
 router.get("/classes/:id", async function(req, res, next) {
   try {
     const { id } = req.params;
@@ -32,10 +27,14 @@ router.get("/classes/:id", async function(req, res, next) {
     console.log(err);
   }
 });
-router.post("/:id/class/:classID/register", isLoggedIn, async function(
-  req,
-  res
-) {
+
+/**
+ * @route POST api/student/class/:classID/register
+ * @desc Register Student for a class
+ * @access Private
+ * Untested
+ */
+router.post("/:id/class/:classID/register", async function(req, res) {
   console.log("Registering classes...");
   try {
     const { id, classID } = req.params;
@@ -59,29 +58,5 @@ router.post("/:id/class/:classID/register", isLoggedIn, async function(
     console.log(err);
   }
 });
-// router.post("/classes/register", isLoggedIn, function(req, res) {
-//   var info = [];
-//   info["student_username"] = req.user.username;
-//   info["class_id"] = req.body.class_id;
-//   info["class_title"] = req.body.class_title;
 
-//   Student.register(info, function(err, student) {
-//     if (err) {
-//       throw err;
-//     }
-//     console.log(student);
-//   });
-//   req.flash("success_msg", "You are now enrroled in this class.");
-//   // res.redirect("/students/classes");
-// });
-
-// Access Control
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    req.flash("You must login to access this page.");
-    // res.redirect("/users/signin");
-  }
-}
 module.exports = router;

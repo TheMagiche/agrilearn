@@ -4,7 +4,12 @@ const router = express.Router();
 const Lesson = require("../models/lesson");
 const Class = require("../models/class");
 
-//create lesson
+/**
+ * @route POST api/lessons/create/:classID
+ * @desc Create lesson
+ * @access Private
+ * Untested
+ */
 router.post("/create/:classID", async function(req, res, next) {
   console.log("Receiving lesson details...");
 
@@ -33,7 +38,12 @@ router.post("/create/:classID", async function(req, res, next) {
   }
 });
 
-//update lesson
+/**
+ * @route POST api/lessons/update/:classID
+ * @desc Update lesson
+ * @access Private
+ * Untested
+ */
 router.put("/update/:id", function(req, res, next) {
   Class.findByIdAndUpdate(req.params.id, req.body, function(err, myclass) {
     if (err) return next(err);
@@ -44,7 +54,13 @@ router.put("/update/:id", function(req, res, next) {
     });
   });
 });
-//delete lesson
+
+/**
+ * @route POST api/lessons/delete/:classID
+ * @desc Delete lesson
+ * @access Private
+ * Untested
+ */
 router.delete("/delete/:id", function(req, res, next) {
   Class.findByIdAndRemove(req.params.id, req.body, function(err, myclass) {
     if (err) return next(err);
@@ -56,7 +72,12 @@ router.delete("/delete/:id", function(req, res, next) {
   });
 });
 
-// Single lesson
+/**
+ * @route POST api/lessons/create/:classID
+ * @desc Get single lesson
+ * @access Private
+ * Untested
+ */
 router.get("/details/:id", async function(req, res, next) {
   console.log("fetching lesson...");
   try {

@@ -14,7 +14,7 @@
               </p>
               <base-button
                 tag="a"
-                href="https://demos.creative-tim.com/argon-design-system/docs/components/alerts.html"
+                href="#"
                 class="mb-3 mb-sm-0 btn-green"
                 type="success"
               >Join the community</base-button>
@@ -91,11 +91,7 @@
       </div>
       <div class="container mt-2">
         <div class="row justify-content-center">
-          <base-button
-            tag="a"
-            href="https://demos.creative-tim.com/argon-design-system/docs/components/alerts.html"
-            class="mb-3 mb-sm-0 btn-white"
-          >SCHEDULE A CALL WITH US</base-button>
+          <base-button tag="a" href="#" class="mb-3 mb-sm-0 btn-white">SCHEDULE A CALL WITH US</base-button>
         </div>
       </div>
     </section>
