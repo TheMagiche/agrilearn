@@ -50,15 +50,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-if (process.env.NODE_ENV === 'production') {
-    // Statiic folder
-    app.use(express.static(__dirname + '/public/')); // Set up public folder
-    // Handle SPA
-    app.get(/.*/, (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'public/index.html'));
-    });
-}
-
 app.use('/api/users', require('./routes/users'));
 app.use('/api/classes', require('./routes/classes'));
 app.use('/api/students', require('./routes/students'));
@@ -70,5 +61,12 @@ app.use('/api/lessons', require('./routes/lessons'));
 app.get(/.*/, (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
-
+if (process.env.NODE_ENV === 'production') {
+    // Statiic folder
+    app.use(express.static(__dirname + '/public/')); // Set up public folder
+    // Handle SPA
+    app.get(/.*/, (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'public/index.html'));
+    });
+}
 module.exports = app;
