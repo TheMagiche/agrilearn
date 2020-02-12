@@ -58,9 +58,9 @@ app.use('/api/lessons', require('./routes/lessons'));
 
 // Handle SPA after all other API routes has been added to express route table. If this comes before
 // adding API routes, all requests will be forwarded to client side for routing and none of your routes will be called
-app.get(/.*/, (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
-});
+// app.get(/.*/, (req, res) => {
+//     res.sendFile(__dirname + '/public/index.html');
+// });
 if (process.env.NODE_ENV === 'production') {
     // Statiic folder
     app.use(express.static(__dirname + '/public/')); // Set up public folder
