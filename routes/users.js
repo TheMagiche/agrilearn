@@ -88,7 +88,7 @@ router.post('/register', async (req, res) => {
                     email: email,
                     username: username,
                 });
-                console.log(newUser);
+                console.log(newStudent);
                 // Save student in the user collection
                 User.saveStudent(newUser, newStudent, async function(err, user) {
                     console.log('Student created!');
@@ -101,7 +101,7 @@ router.post('/register', async (req, res) => {
                     email: email,
                     username: username,
                 });
-
+                console.log(newInstructor);
                 // Save instructor in the user collection
                 User.saveInstructor(newUser, newInstructor, async function(err, user) {
                     console.log('Instructor created!');
