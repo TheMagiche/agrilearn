@@ -127,61 +127,55 @@ router.post('/register', async (req, res) => {
  * Working
  */
 
-router.post(
-    '/login',
-    passport.authenticate('local', {
-        failureRedirect: '/login',
-    }),
-    function(req, res) {
-        User.findOne({
-            username: req.body.username,
-        }).then(user => {
-            if (!user) {
+router.post('/login', async function(req, res) {
+    await User.findOne({
+        username: req.body.username,
+    }).then(user => {
+        if (!user) {
+            return res.status(404).json({
+                msg: 'Username is not found.',
+                success: false,
+            });
+        }
+        // If there is user we are now going to compare the password
+        bcrypt.compare(req.body.password, user.password).then(isMatch => {
+            if (isMatch) {
+                // User's password is correct and we need to send the JSON Token for that user
+                const payload = {
+                    _id: user._id,
+                    username: user.username,
+                    type: user.type,
+                    email: user.email,
+                };
+                jwt.sign(
+                    payload,
+                    'agrilearn',
+                    {
+                        expiresIn: 604800,
+                    },
+                    (err, token) => {
+                        res.status(200).json({
+                            success: true,
+                            token: `Bearer ${token}`,
+                            user: {
+                                _id: user._id,
+                                username: user.username,
+                                type: user.type,
+                                email: user.email,
+                            },
+                            msg: 'Hurry! You are now logged in.',
+                        });
+                    }
+                );
+            } else {
                 return res.status(404).json({
-                    msg: 'Username is not found.',
+                    msg: 'Incorrect password.',
                     success: false,
                 });
             }
-            // If there is user we are now going to compare the password
-            bcrypt.compare(req.body.password, user.password).then(isMatch => {
-                if (isMatch) {
-                    // User's password is correct and we need to send the JSON Token for that user
-                    const payload = {
-                        _id: user._id,
-                        username: user.username,
-                        type: user.type,
-                        email: user.email,
-                    };
-                    jwt.sign(
-                        payload,
-                        'agrilearn',
-                        {
-                            expiresIn: 604800,
-                        },
-                        (err, token) => {
-                            res.status(200).json({
-                                success: true,
-                                token: `Bearer ${token}`,
-                                user: {
-                                    _id: user._id,
-                                    username: user.username,
-                                    type: user.type,
-                                    email: user.email,
-                                },
-                                msg: 'Hurry! You are now logged in.',
-                            });
-                        }
-                    );
-                } else {
-                    return res.status(404).json({
-                        msg: 'Incorrect password.',
-                        success: false,
-                    });
-                }
-            });
         });
-    }
-);
+    });
+});
 
 passport.use(
     new LocalStrategy(function(username, password, done) {
