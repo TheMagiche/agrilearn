@@ -1,58 +1,61 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "@smartweb/vue-flash-message": "^0.5.3",
-    "axios": "^0.19.0",
-    "bootstrap-vue": "^2.2.2",
-    "core-js": "^3.6.4",
-    "mutationobserver-shim": "^0.3.3",
-    "node-sass": "^4.13.1",
-    "rxjs": "^6.5.4",
-    "shards-vue": "^1.0.7",
-    "vue": "^2.6.10",
-    "vue-clipboard2": "^0.3.1",
-    "vue-cookies": "^1.6.1",
-    "vue-flatpickr-component": "^8.1.5",
-    "vue-lazyload": "^1.3.3",
-    "vue-router": "^3.1.5",
-    "vue2-transitions": "^0.3.0",
-    "vuex": "^3.1.2"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.1.0",
-    "@vue/cli-plugin-eslint": "^4.1.0",
-    "@vue/cli-service": "^4.1.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "sass": "^1.19.0",
-    "sass-loader": "^8.0.0",
-    "vue-cli-plugin-vuetify": "^2.0.3",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
+    "name": "client",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint"
     },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+    "dependencies": {
+        "@smartweb/vue-flash-message": "^0.5.3",
+        "axios": "^0.19.0",
+        "bootstrap-vue": "^2.2.2",
+        "core-js": "^3.6.4",
+        "mutationobserver-shim": "^0.3.3",
+        "node-sass": "^4.13.1",
+        "postcss-loader": "^3.0.0",
+        "raw-loader": "^0.5.1",
+        "rxjs": "^6.5.4",
+        "shards-vue": "^1.0.7",
+        "vue": "^2.6.10",
+        "vue-ckeditor2": "^2.1.5",
+        "vue-clipboard2": "^0.3.1",
+        "vue-cookies": "^1.6.1",
+        "vue-flatpickr-component": "^8.1.5",
+        "vue-lazyload": "^1.3.3",
+        "vue-router": "^3.1.5",
+        "vue2-transitions": "^0.3.0",
+        "vuex": "^3.1.2"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^4.1.0",
+        "@vue/cli-plugin-eslint": "^4.1.0",
+        "@vue/cli-service": "^4.1.0",
+        "babel-eslint": "^10.0.3",
+        "eslint": "^5.16.0",
+        "eslint-plugin-vue": "^5.0.0",
+        "sass": "^1.19.0",
+        "sass-loader": "^8.0.0",
+        "vue-cli-plugin-vuetify": "^2.0.3",
+        "vue-template-compiler": "^2.6.10"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/essential",
+            "eslint:recommended"
+        ],
+        "rules": {},
+        "parserOptions": {
+            "parser": "babel-eslint"
+        }
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions"
+    ]
 }
