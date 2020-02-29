@@ -7,7 +7,7 @@ const Instructor = require('../models/instructor');
  * @route POST api/instructors/classes/:id
  * @desc Get classes by instructor
  * @access Private
- * Not working
+ * Working
  */
 router.get('/classes/:id', async function(req, res, next) {
     console.log('Getting instructors classes...');

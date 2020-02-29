@@ -8,7 +8,7 @@ const Class = require('../models/class');
  * @route POST api/lessons/create/:classID
  * @desc Create lesson
  * @access Private
- * Untested
+ * Working
  */
 router.post('/create/:classID', async function(req, res, next) {
     console.log('Receiving lesson details...');
@@ -39,44 +39,42 @@ router.post('/create/:classID', async function(req, res, next) {
 });
 
 /**
- * @route POST api/lessons/update/:classID
+ * @route POST api/lessons/update/:id
  * @desc Update lesson
  * @access Private
- * Untested
+ * Working
  */
 router.put('/update/:id', function(req, res, next) {
-    Class.findByIdAndUpdate(req.params.id, req.body, function(err, myclass) {
+    Lesson.findByIdAndUpdate(req.params.id, req.body, function(err) {
         if (err) return next(err);
         return res.json({
             success: true,
-            msg: 'Successfully updated blog',
-            class: myclass,
+            msg: 'Successfully updated lesson',
         });
     });
 });
 
 /**
- * @route POST api/lessons/delete/:classID
+ * @route POST api/lessons/delete/:id
  * @desc Delete lesson
  * @access Private
- * Untested
+ * Working
  */
 router.delete('/delete/:id', function(req, res, next) {
-    Class.findByIdAndRemove(req.params.id, req.body, function(err, myclass) {
+    Lesson.findByIdAndRemove(req.params.id, req.body, function(err) {
         if (err) return next(err);
         return res.json({
             success: true,
-            msg: 'Successfully deleted blog',
-            class: myclass,
+            msg: 'Successfully deleted lesson',
         });
     });
 });
 
 /**
- * @route POST api/lessons/create/:classID
+ * @route POST api/lessons/details/:classID
  * @desc Get single lesson
  * @access Private
- * Untested
+ * Working
  */
 router.get('/details/:id', async function(req, res, next) {
     console.log('fetching lesson...');
