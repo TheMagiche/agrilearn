@@ -64,6 +64,21 @@
     padding: 0 1.7rem;
     width: 40%;
 }
+@media screen and (min-width: 480px) {
+    .Classcard {
+        width: 80%;
+    }
+}
+@media screen and (min-width: 767px) {
+    .Classcard {
+        width: 70%;
+    }
+}
+@media screen and (min-width: 959px) {
+    .Classcard {
+        width: 50%;
+    }
+}
 .Classcard .menu-content {
     margin: 0;
     padding: 0;
