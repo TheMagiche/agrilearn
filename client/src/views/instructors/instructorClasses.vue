@@ -62,23 +62,28 @@
 .Classcard {
     float: left;
     padding: 0 1.7rem;
-    width: 40%;
+    margin-bottom: 2em;
+    width: 50%;
 }
-@media screen and (min-width: 480px) {
+
+@media screen and (max-width: 480px) {
+    .Classcard {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .Classcard {
+        width: 90%;
+    }
+}
+
+/* @media screen and (max-width: 959px) {
     .Classcard {
         width: 80%;
     }
-}
-@media screen and (min-width: 767px) {
-    .Classcard {
-        width: 70%;
-    }
-}
-@media screen and (min-width: 959px) {
-    .Classcard {
-        width: 50%;
-    }
-}
+} */
+
 .Classcard .menu-content {
     margin: 0;
     padding: 0;
@@ -109,7 +114,7 @@
     transform: translate(-50%, 0);
 }
 .Classcard .wrapper {
-    background-color: #fff;
+    background-color: #20e434;
     min-height: 540px;
     position: relative;
     overflow: hidden;
@@ -121,6 +126,7 @@
 }
 .Classcard .data {
     position: absolute;
+
     bottom: 0;
     width: 100%;
     -webkit-transform: translateY(calc(70px + 1em));

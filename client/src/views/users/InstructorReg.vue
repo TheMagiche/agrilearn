@@ -1,27 +1,82 @@
 <template>
     <div id="InstructorRegister">
-        <section class="section section-lg">
+        <section class="section section-lg mb-5">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-5">
-                        <card type="secondary" shadow header-classes="bg-white pb-5" body-classes="px-lg-5 py-lg-5" class="border-0">
-                            <template>
-                                <div class="text-center text-muted mb-4">
-                                    <small class="smallTxt">Welcome to agrilearn</small>
+                    <div class="col-lg-8">
+                        <div class="container">
+                            <div class="form-container">
+                                <div class="text-center text-white mb-4">
+                                    <small class="smallTxt">Welcome to Agrilearn</small>
                                 </div>
                                 <form role="form">
-                                    <base-input alternative class="mb-3" placeholder="First Name" addon-left-icon="ni ni-hat-3" v-model.trim="first_name"></base-input>
-                                    <base-input alternative class="mb-3" placeholder="Last Name" addon-left-icon="ni ni-hat-3" v-model.trim="last_name"></base-input>
-                                    <base-input alternative class="mb-3" placeholder="Email" addon-left-icon="ni ni-email-83" v-model.trim="email"></base-input>
-                                    <base-input alternative class="mb-3" placeholder="Username" addon-left-icon="ni ni-hat-3" v-model.trim="username"></base-input>
-                                    <base-input alternative type="password" placeholder="Password" addon-left-icon="ni ni-lock-circle-open" v-model.trim="password"></base-input>
-                                    <base-input alternative type="password" placeholder="Confirm Password" addon-left-icon="ni ni-lock-circle-open" v-model.trim="password2"></base-input>
+                                    <div class="fields">
+                                        <h3 class="title-subheading">First Name</h3>
+                                        <base-input
+                                            alternative
+                                            class="mb-3"
+                                            placeholder="First Name"
+                                            v-model.trim="first_name"
+                                        ></base-input>
+                                    </div>
+                                    <div class="fields">
+                                        <h3 class="title-subheading">Last Name</h3>
+                                        <base-input
+                                            alternative
+                                            class="mb-3"
+                                            placeholder="Last Name"
+                                            v-model.trim="last_name"
+                                        ></base-input>
+                                    </div>
+                                    <div class="fields">
+                                        <h3 class="title-subheading">Email</h3>
+                                        <base-input
+                                            alternative
+                                            class="mb-3"
+                                            placeholder="Email"
+                                            v-model.trim="email"
+                                        ></base-input>
+                                    </div>
+                                    <div class="fields">
+                                        <h3 class="title-subheading">Username</h3>
+                                        <base-input
+                                            alternative
+                                            class="mb-3"
+                                            placeholder="Username"
+                                            v-model.trim="username"
+                                        ></base-input>
+                                    </div>
+                                    <div class="fields">
+                                        <h3 class="title-subheading">Password</h3>
+                                        <base-input
+                                            alternative
+                                            type="password"
+                                            placeholder="Password"
+                                            v-model.trim="password"
+                                        ></base-input>
+                                    </div>
+                                    <div class="fields">
+                                        <h3 class="title-subheading">Confirm Password</h3>
+                                        <base-input
+                                            alternative
+                                            type="password"
+                                            placeholder="Confirm Password"
+                                            v-model.trim="confirm_password"
+                                        ></base-input>
+                                    </div>
                                     <div class="text-center">
-                                        <base-button class="my-4 btn-green" type="success" @click="regSub">Create account</base-button>
+                                        <base-button
+                                            class="my-4 btn-green"
+                                            type="success"
+                                            @click="regSub"
+                                        >Create account</base-button>
                                     </div>
                                 </form>
-                            </template>
-                        </card>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <img :src="require('@/assets/images/instructor.svg')" class="reg-img" />
                     </div>
                 </div>
             </div>

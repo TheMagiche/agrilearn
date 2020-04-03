@@ -1,7 +1,7 @@
 <template>
     <div id="siteHeader">
         <header class="header-global">
-            <base-nav class="navbar-main" transparent type effect="dark" expand>
+            <base-nav class="navbar-main" type effect="dark" expand>
                 <router-link slot="brand" class="navbar-brand mr-lg-5" to="/">
                     <img :src="require('@/assets/images/logo.png')" alt="logo" />
                 </router-link>
@@ -31,7 +31,9 @@
                             role="button"
                         >
                             <i class="ni ni-ui-04 d-lg-none"></i>
-                            <span class="nav-link-inner--text black">{{ getUsername }} 's Dashboard</span>
+                            <span
+                                class="nav-link-inner--text username-text"
+                            >{{ getUsername }} 's Dashboard</span>
                         </a>
                         <div class="dropdown-menu-inner">
                             <router-link
@@ -114,17 +116,17 @@
                     </li>-->
                     <li class="nav-item">
                         <router-link to="/classes" class="nav-link">
-                            <span class="nav-link-inner--text black">Classses</span>
+                            <span class="nav-link-inner--text navlink">Classses</span>
                         </router-link>
                     </li>
                     <li v-if="!isLoggedIn" class="nav-item">
                         <router-link to="/student-register" class="nav-link">
-                            <span class="nav-link-inner--text black">Register</span>
+                            <span class="nav-link-inner--text navlink">Register</span>
                         </router-link>
                     </li>
                     <li v-if="!isLoggedIn" class="nav-item">
                         <router-link to="/signup" class="nav-link">
-                            <span class="nav-link-inner--text black">Sign In</span>
+                            <span class="nav-link-inner--text navlink">Sign In</span>
                         </router-link>
                     </li>
                     <ul class="navbar-nav align-items-lg-center ml-lg-auto">
@@ -188,11 +190,14 @@
 </template>
 
 <style>
+#siteHeader {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 i {
     color: #fff;
 }
 i.social {
-    color: #000;
+    color: #07396a;
 }
 .aLog {
     font-size: 80%;
@@ -201,8 +206,8 @@ i.social {
 .green {
     color: #20e434;
 }
-.black {
-    color: black;
+.navlink {
+    color: #000;
     text-transform: uppercase;
 }
 .navbar-transparent .navbar-toggler-icon {
@@ -219,6 +224,9 @@ i.social {
     -webkit-box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.username-text {
+    color: #000;
 }
 </style>
 

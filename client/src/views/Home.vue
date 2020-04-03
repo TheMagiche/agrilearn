@@ -1,14 +1,14 @@
 <template>
     <div class="home">
-        <section class="section section-lg">
+        <section class="section section-lg mt--98">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-6 pt-5">
+                    <div class="col-lg-6">
                         <div class="container pt-lg-5">
-                            <h2 class="headings">Learn to grow your</h2>
-                            <h2 class="headings">agribusiness</h2>
+                            <h2 class="headings display-3">Learn to grow your</h2>
+                            <h2 class="headings display-3">agribusiness</h2>
 
-                            <p>
+                            <p class="subheading">
                                 Find the perfect tutorial to get started on your farming today,
                                 learn the latest trends and stay ahead of the curve
                             </p>
@@ -208,7 +208,13 @@
     background: #20e434;
 }
 .headings {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
     text-transform: uppercase;
+    color: #000;
+}
+.subheading {
+    margin-top: 3em;
 }
 .card {
     min-height: 10em;
@@ -235,6 +241,7 @@
     background: #ffffff;
 }
 .headings-inverse {
+    font-family: 'Work Sans', sans-serif;
     text-transform: uppercase;
     color: #ffffff;
 }

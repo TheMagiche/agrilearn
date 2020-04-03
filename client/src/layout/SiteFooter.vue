@@ -3,8 +3,10 @@
         <div class="container">
             <div class="row row-grid align-items-center my-md">
                 <div class="col-lg-6">
-                    <h3 class="text-green font-weight-light mb-2">Come join us!</h3>
-                    <h4 class="mb-0 font-weight-light">Learn today, Enjoy tommorow</h4>
+                    <h3
+                        class="text-green font-weight-light mb-2 display-3 footer-heading"
+                    >Come join us!</h3>
+                    <h4 class="mb-0 font-weight-light footer-subheading">Learn today, Enjoy tommorow</h4>
                 </div>
                 <div class="col-lg-6 text-lg-center btn-wrapper"></div>
             </div>
@@ -45,6 +47,12 @@
 }
 .text-green {
     color: #20e434;
+}
+.footer-heading {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.footer-subheading {
+    font-family: 'Roboto', sans-serif;
 }
 </style>
 

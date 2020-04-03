@@ -162,8 +162,9 @@ a {
     font-weight: 100;
 }
 
-.blog-summary p {
+.blog-summary {
     color: #4d4d4d;
+    width: 960px !important;
 }
 
 .blog-tags ul {
