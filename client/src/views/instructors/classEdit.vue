@@ -109,8 +109,8 @@ export default {
                 url: `/api/classes/${classID}/update`,
                 data: {
                     title: this.classTitle,
+                    imgUrl: this.classImageUrl,
                     description: this.classDescription.trim(),
-                    imageUrl: this.classImageUrl,
                 },
                 method: 'PUT',
             })
