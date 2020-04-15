@@ -37,6 +37,7 @@ router.post('/register', async (req, res) => {
         var password = req.body.password;
         var password2 = req.body.password2;
         var type = req.body.type;
+        var phoneNumber = req.body.phoneNumber;
 
         // Validation with Express Validator
         req.checkBody('first_name', 'First name required.').notEmpty();
@@ -45,6 +46,7 @@ router.post('/register', async (req, res) => {
         req.checkBody('email', 'It must be a valid email address.').isEmail();
         req.checkBody('username', 'Username required.').notEmpty();
         req.checkBody('password', 'Password field is required.').notEmpty();
+        req.checkBody('phoneNumber', 'PhoneNumber field is required.').notEmpty();
         req.checkBody('password2', 'Passwords do not match.').equals(req.body.password);
 
         errors = req.validationErrors();
@@ -77,6 +79,7 @@ router.post('/register', async (req, res) => {
                 username: username,
                 password: password,
                 type: type,
+                phoneNumber: phoneNumber,
             });
 
             // Check type instructor or student, create users
@@ -87,6 +90,7 @@ router.post('/register', async (req, res) => {
                     last_name: last_name,
                     email: email,
                     username: username,
+                    phoneNumber: phoneNumber,
                 });
                 console.log(newStudent);
                 // Save student in the user collection
