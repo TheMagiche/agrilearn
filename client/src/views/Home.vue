@@ -34,7 +34,7 @@
         <section class="section section-lg mt--300">
             <div class="container">
                 <div class="mb-2">
-                    <h3 class="display-4 pl-3 headings">How Agrilearn Works</h3>
+                    <h3 class="display-4 pl-3 headings">How AgriSkul Works</h3>
                     <div class="underline"></div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                     <div class="col-lg-4 pt-lg-1">
                         <div>
                             <b-card title="STEP 1" sub-title="REGISTER">
-                                <b-card-text>Create an account using your details.</b-card-text>
+                                <b-card-text class="sub-text">Create an account using your details.</b-card-text>
                                 <span></span>
                                 <!-- <b-card-text>A second paragraph of text in the card.</b-card-text> -->
                                 <!-- <a href="#" class="card-link">Card link</a> -->
@@ -54,7 +54,7 @@
                     <div class="col-lg-4 pt-lg-4">
                         <div class="pt-xs-3">
                             <b-card title="STEP 2" sub-title="LEARN">
-                                <b-card-text>
+                                <b-card-text class="sub-text">
                                     Gain knowledge from our large cllection of videos and articles from
                                     experienced instructors
                                 </b-card-text>
@@ -67,7 +67,9 @@
                     <div class="col-lg-4 pt-lg-5">
                         <div class="mt-xs-3">
                             <b-card title="STEP 3" sub-title="GROW">
-                                <b-card-text>Put your knowledge to use on your business and watch it grow.</b-card-text>
+                                <b-card-text
+                                    class="sub-text"
+                                >Put your knowledge to use on your business and watch it grow.</b-card-text>
                                 <span></span>
                                 <!-- <b-card-text>A second paragraph of text in the card.</b-card-text> -->
                                 <!-- <a href="#" class="card-link">Card link</a> -->
@@ -214,7 +216,9 @@
     color: #000;
 }
 .subheading {
-    margin-top: 3em;
+    margin-top: 1.5em;
+    margin-bottom: 3em;
+    text-transform: initial;
 }
 .card {
     min-height: 10em;
@@ -248,9 +252,13 @@
 .white-section-text {
     color: #ffffff;
     text-align: center;
+    text-transform: initial;
 }
 .btn-white {
     background: #ffffff;
+}
+.sub-text {
+    text-transform: initial;
 }
 </style>
 

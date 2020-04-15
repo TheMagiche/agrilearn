@@ -25,14 +25,14 @@
                                     <ul>
                                         <li>
                                             <a
-                                                v-if="checkInstructor"
+                                                v-if="checkisInstructor"
                                                 @click="deleteLesson"
                                                 class
                                             >Delete Lesson</a>
                                         </li>
                                         <li>
                                             <a
-                                                v-if="checkInstructor"
+                                                v-if="checkisInstructor"
                                                 @click="editLesson"
                                                 class
                                             >Edit lesson</a>

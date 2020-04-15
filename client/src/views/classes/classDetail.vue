@@ -27,21 +27,21 @@
                                     <ul>
                                         <li>
                                             <a
-                                                v-if="checkInstructor"
+                                                v-if="checkisInstructor"
                                                 @click="editClass(classID)"
                                                 class
                                             >Edit class</a>
                                         </li>
                                         <li>
                                             <a
-                                                v-if="checkInstructor"
+                                                v-if="checkisInstructor"
                                                 @click="deleteClass(classID)"
                                                 class
                                             >Delete class</a>
                                         </li>
                                         <li>
                                             <a
-                                                v-if="checkInstructor"
+                                                v-if="checkisInstructor"
                                                 @click="addLesson"
                                                 class
                                             >Add lesson</a>
@@ -85,21 +85,6 @@ a {
     box-shadow: rgba(0, 0, 0, 0.2) 0 4px 2px -2px;
     margin: 1em auto;
     width: 100%;
-}
-@media screen and (min-width: 480px) {
-    .blog-container {
-        width: 100%;
-    }
-}
-@media screen and (min-width: 767px) {
-    .blog-container {
-        width: 100%;
-    }
-}
-@media screen and (min-width: 959px) {
-    .blog-container {
-        width: 100%;
-    }
 }
 
 .blog-container a {
@@ -256,6 +241,33 @@ a {
 .icon-star:hover,
 .icon-bubble:hover {
     fill: #ff4d4d;
+}
+@media screen and (min-width: 300px) {
+    .blog-container {
+        width: 100%;
+    }
+    .blog-summary {
+        color: #4d4d4d;
+        width: 90% !important;
+    }
+}
+@media screen and (min-width: 767px) {
+    .blog-container {
+        width: 100%;
+    }
+    .blog-summary {
+        color: #4d4d4d;
+        width: 90% !important;
+    }
+}
+@media screen and (min-width: 959px) {
+    .blog-container {
+        width: 100%;
+    }
+    .blog-summary {
+        color: #4d4d4d;
+        width: 90% !important;
+    }
 }
 </style>
 

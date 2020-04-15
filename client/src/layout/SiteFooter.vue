@@ -20,7 +20,7 @@
                             href="#"
                             target="_blank"
                             rel="noopener"
-                        >AgriLearn</a>
+                        >AgriSkul</a>
                     </div>
                 </div>
                 <div class="col-md-6"></div>

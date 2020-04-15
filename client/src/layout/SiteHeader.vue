@@ -82,7 +82,9 @@
                             role="button"
                         >
                             <i class="ni ni-ui-04 d-lg-none"></i>
-                            <span class="nav-link-inner--text black">{{ getUsername }} 's Dashboard</span>
+                            <span
+                                class="nav-link-inner--text username-text"
+                            >{{ getUsername }} 's Dashboard</span>
                         </a>
                         <div class="dropdown-menu-inner">
                             <router-link
@@ -126,7 +128,7 @@
                     </li>
                     <li v-if="!isLoggedIn" class="nav-item">
                         <router-link to="/signup" class="nav-link">
-                            <span class="nav-link-inner--text navlink">Sign In</span>
+                            <span class="nav-link-inner--text navlink">Log In</span>
                         </router-link>
                     </li>
                     <ul class="navbar-nav align-items-lg-center ml-lg-auto">

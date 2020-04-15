@@ -11,6 +11,16 @@
                                 </div>
                                 <form role="form">
                                     <div class="fields">
+                                        <h3 class="title-subheading">Username</h3>
+                                        <base-input
+                                            alternative
+                                            class="mb-3"
+                                            placeholder="Username"
+                                            v-model.trim="username"
+                                        ></base-input>
+                                    </div>
+
+                                    <div class="fields">
                                         <h3 class="title-subheading">First Name</h3>
                                         <base-input
                                             alternative
@@ -38,12 +48,12 @@
                                         ></base-input>
                                     </div>
                                     <div class="fields">
-                                        <h3 class="title-subheading">Username</h3>
+                                        <h3 class="title-subheading">Phone Number</h3>
                                         <base-input
                                             alternative
                                             class="mb-3"
-                                            placeholder="Username"
-                                            v-model.trim="username"
+                                            placeholder="+2547---"
+                                            v-model.trim="phoneNumber"
                                         ></base-input>
                                     </div>
                                     <div class="fields">
@@ -123,8 +133,9 @@ export default {
             last_name: '',
             email: '',
             username: '',
+            phoneNumber: '',
             password: '',
-            password2: '',
+            confirm_password: '',
             type: 'student',
         };
     },
@@ -139,8 +150,9 @@ export default {
                 email: this.email,
                 username: this.username,
                 password: this.password,
-                password2: this.password2,
+                password2: this.confirm_password,
                 type: this.type,
+                phoneNumber: this.phoneNumber,
             };
 
             this.register(user).then(res => {
