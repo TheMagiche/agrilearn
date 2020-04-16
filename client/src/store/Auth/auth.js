@@ -38,44 +38,44 @@ const actions = {
   // Login Action
   async login({ commit }, user) {
     commit("auth_request");
-    try {
-      let res = await axios.post("/api/users/login", user);
-      if (res.data.success) {
-        const token = res.data.token;
-        const user = res.data.user;
-        const username = user.username;
-        const email = user.email;
-        const type = user.type;
-        const userID = user._id;
 
-        // Store the token into the localstorage
-        // eslint-disable-next-line no-console
-        // console.log(user);
-        localStorage.setItem("username", username);
-        localStorage.setItem("email", email);
-        localStorage.setItem("type", type);
-        localStorage.setItem("userID", userID);
-        localStorage.setItem("token", token);
-        // Set the axios defaults
-        axios.defaults.headers.common["Authorization"] = token;
-        commit("auth_success", token);
-      }
+    let res = await axios.post("/api/users/login", user);
+    if (res.data.success == true) {
+      const token = res.data.token;
+      const user = res.data.user;
+      const username = user.username;
+      const email = user.email;
+      const type = user.type;
+      const userID = user._id;
+
+      // Store the token into the localstorage
+      // eslint-disable-next-line no-console
+      // console.log(user);
+      localStorage.setItem("username", username);
+      localStorage.setItem("email", email);
+      localStorage.setItem("type", type);
+      localStorage.setItem("userID", userID);
+      localStorage.setItem("token", token);
+      // Set the axios defaults
+      axios.defaults.headers.common["Authorization"] = token;
+      commit("auth_success", token);
+
       return res;
-    } catch (err) {
-      commit("auth_error", err);
+    } else {
+      commit("register_error", res);
+      return res;
     }
   },
   // Register User
   async register({ commit }, userData) {
-    try {
-      commit("register_request");
-      let res = await axios.post("/api/users/register", userData);
-      if (res.data.success !== undefined) {
-        commit("register_success");
-      }
+    commit("register_request");
+    let res = await axios.post("/api/users/register", userData);
+    if (res.data.success == true) {
+      commit("register_success");
       return res;
-    } catch (err) {
-      commit("register_error", err);
+    } else {
+      commit("register_error", res);
+      return res;
     }
   },
   // Get the user Profile
@@ -124,8 +124,8 @@ const mutations = {
     state.error = null;
     state.status = "success";
   },
-  register_error(state, err) {
-    state.error = err.response.data.msg;
+  register_error(state, res) {
+    state.error = res.data.msg;
   },
   logout(state) {
     state.error = null;
