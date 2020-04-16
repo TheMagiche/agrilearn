@@ -22,8 +22,7 @@ var UserSchema = mongoose.Schema({
         type: String,
     },
 });
-
-var User = (module.exports = mongoose.model('User', UserSchema));
+ser = module.exports = mongoose.model('User', UserSchema);
 
 // Get a single user by id
 module.exports.getUserById = function(id, callback) {

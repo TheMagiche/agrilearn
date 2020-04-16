@@ -27,99 +27,95 @@ passport.deserializeUser(function(id, done) {
  * Working
  */
 
-router.post('/register', async (req, res) => {
-    try {
-        console.log('Receiving details ..');
-        var first_name = req.body.first_name;
-        var last_name = req.body.last_name;
-        var email = req.body.email;
-        var username = req.body.username;
-        var password = req.body.password;
-        var password2 = req.body.password2;
-        var type = req.body.type;
-        var phoneNumber = req.body.phoneNumber;
-
-        // Validation with Express Validator
-        req.checkBody('first_name', 'First name required.').notEmpty();
-        req.checkBody('last_name', 'Last name required.').notEmpty();
-        req.checkBody('email', 'Email required.').notEmpty();
-        req.checkBody('email', 'It must be a valid email address.').isEmail();
-        req.checkBody('username', 'Username required.').notEmpty();
-        req.checkBody('password', 'Password field is required.').notEmpty();
-        req.checkBody('phoneNumber', 'PhoneNumber field is required.').notEmpty();
-        req.checkBody('password2', 'Passwords do not match.').equals(req.body.password);
-
-        errors = req.validationErrors();
-        User.findOne({
-            username: username,
-        }).then(user => {
+router.post('/register', async (req, res, next) => {
+    console.log('Receiving details ..');
+    var first_name = req.body.first_name;
+    var last_name = req.body.last_name;
+    var email = req.body.email;
+    var username = req.body.username;
+    var password = req.body.password;
+    var type = req.body.type;
+    var phoneNumber = req.body.phoneNumber;
+    User.findOne({ $or: [{ username: username }, { email: email }, { phoneNumber: phoneNumber }] })
+        .then(user => {
+            //if user found.
             if (user) {
-                return res.json({
-                    msg: 'Username is already taken.',
-                });
-            }
-        });
-        User.findOne({
-            email: email,
-        }).then(user => {
-            if (user) {
-                return res.json({
-                    msg: 'Email is already registred. Did you forgot your password.',
-                });
-            }
-        });
-        if (errors) {
-            res.json({
-                errors: errors,
-            });
-        } else {
-            // Create a user
-            var newUser = new User({
-                email: email,
-                username: username,
-                password: password,
-                type: type,
-                phoneNumber: phoneNumber,
-            });
+                if (user.username == username) {
+                    console.log('Username already exists, username: ' + username);
+                    return res.json({
+                        msg: 'Username already exists',
+                        success: false,
+                        error: 'username',
+                    });
+                }
+                if (user.email == email) {
+                    console.log('EMAIL already exists, email: ' + email);
+                    return res.json({
+                        msg: 'Email already exists',
+                        success: false,
+                        error: 'email',
+                    });
+                }
+                if (user.phoneNumber == phoneNumber) {
+                    console.log('Phone number already exists, email: ' + phoneNumber);
+                    return res.json({
+                        msg: 'Phone number already exists',
+                        success: false,
+                        error: 'phone',
+                    });
+                } else {
+                    var newUser = new User({
+                        email: email,
+                        username: username,
+                        password: password,
+                        type: type,
+                        phoneNumber: phoneNumber,
+                    });
 
-            // Check type instructor or student, create users
-            if (type == 'student') {
-                console.log('Registering as student...');
-                var newStudent = new Student({
-                    first_name: first_name,
-                    last_name: last_name,
-                    email: email,
-                    username: username,
-                    phoneNumber: phoneNumber,
-                });
-                console.log(newStudent);
-                // Save student in the user collection
-                User.saveStudent(newUser, newStudent, async function(err, user) {
-                    console.log('Student created!');
-                });
-            } else {
-                console.log('Registering as instructor...');
-                var newInstructor = new Instructor({
-                    first_name: first_name,
-                    last_name: last_name,
-                    email: email,
-                    username: username,
-                });
-                console.log(newInstructor);
-                // Save instructor in the user collection
-                User.saveInstructor(newUser, newInstructor, async function(err, user) {
-                    console.log('Instructor created!');
-                });
+                    // Check type instructor or student, create users
+                    if (type == 'student') {
+                        console.log('Registering as student...');
+                        var newStudent = new Student({
+                            first_name: first_name,
+                            last_name: last_name,
+                            email: email,
+                            username: username,
+                            phoneNumber: phoneNumber,
+                        });
+                        console.log(newStudent);
+                        // Save student in the user collection
+                        User.saveStudent(newUser, newStudent, async function(err, user) {
+                            console.log('Student created!');
+                        });
+                    } else {
+                        console.log('Registering as instructor...');
+                        var newInstructor = new Instructor({
+                            first_name: first_name,
+                            last_name: last_name,
+                            email: email,
+                            username: username,
+                        });
+                        console.log(newInstructor);
+                        // Save instructor in the user collection
+                        User.saveInstructor(newUser, newInstructor, async function(err, user) {
+                            console.log('Instructor created!');
+                        });
+                    }
+                    return res.status(200).json({
+                        username: username,
+                        success: true,
+                        msg: 'Hurry! User is now registered.',
+                    });
+                }
             }
-            res.json({
-                username: username,
-                success: true,
-                msg: 'Hurry! User is now registered.',
+        })
+        .catch(err => {
+            res.status(500).send({
+                msg: 'Something went wrong',
+                success: false,
             });
-        }
-    } catch (err) {
-        console.log(err);
-    }
+            console.log(err);
+        });
 });
 
 // Sign in
@@ -132,53 +128,61 @@ router.post('/register', async (req, res) => {
  */
 
 router.post('/login', async function(req, res) {
-    await User.findOne({
-        username: req.body.username,
-    }).then(user => {
-        if (!user) {
-            return res.status(404).json({
-                msg: 'Username is not found.',
-                success: false,
-            });
-        }
-        // If there is user we are now going to compare the password
-        bcrypt.compare(req.body.password, user.password).then(isMatch => {
-            if (isMatch) {
-                // User's password is correct and we need to send the JSON Token for that user
-                const payload = {
-                    _id: user._id,
-                    username: user.username,
-                    type: user.type,
-                    email: user.email,
-                };
-                jwt.sign(
-                    payload,
-                    'agrilearn',
-                    {
-                        expiresIn: 604800,
-                    },
-                    (err, token) => {
-                        res.status(200).json({
-                            success: true,
-                            token: `Bearer ${token}`,
-                            user: {
-                                _id: user._id,
-                                username: user.username,
-                                type: user.type,
-                                email: user.email,
-                            },
-                            msg: 'Hurry! You are now logged in.',
-                        });
-                    }
-                );
-            } else {
-                return res.status(404).json({
-                    msg: 'Incorrect password.',
+    try {
+        await User.findOne({
+            $or: [{ username: req.body.detail }, { email: req.body.detail }],
+        }).then(user => {
+            if (!user) {
+                return res.json({
+                    msg: 'Account does not exist.',
                     success: false,
                 });
             }
+            // If there is user we are now going to compare the password
+            bcrypt.compare(req.body.password, user.password).then(isMatch => {
+                if (isMatch) {
+                    // User's password is correct and we need to send the JSON Token for that user
+                    const payload = {
+                        _id: user._id,
+                        username: user.username,
+                        type: user.type,
+                        email: user.email,
+                    };
+                    jwt.sign(
+                        payload,
+                        'agrilearn',
+                        {
+                            expiresIn: 604800,
+                        },
+                        (err, token) => {
+                            res.status(200).json({
+                                success: true,
+                                token: `Bearer ${token}`,
+                                user: {
+                                    _id: user._id,
+                                    username: user.username,
+                                    type: user.type,
+                                    email: user.email,
+                                },
+                                msg: 'Hurry! You are now logged in.',
+                            });
+                        }
+                    );
+                } else {
+                    return res.json({
+                        msg: 'Incorrect password.',
+                        success: false,
+                    });
+                }
+            });
         });
-    });
+    } catch (error) {
+        res.status(500).send({
+            msg: 'Something went wrong',
+            success: false,
+        });
+        console.log(err);
+    }
 });
 
 passport.use(
