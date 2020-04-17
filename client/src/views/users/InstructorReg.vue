@@ -6,21 +6,19 @@
           <div class="col-lg-8">
             <div class="container">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" dismissible="true">{{
+                <base-alert v-if="error" type="danger" dismissible="true">
+                  {{
                   message
-                }}</base-alert>
+                  }}
+                </base-alert>
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Welcome to AgriSkul</small>
                 </div>
                 <form role="form">
                   <div class="fields">
                     <h3 class="title-subheading">Username</h3>
-                    <span v-if="submitted && !$v.username.required"
-                      >Username is required</span
-                    >
-                    <span v-if="!$v.username.maxLength"
-                      >Username is too long</span
-                    >
+                    <span v-if="submitted && !$v.username.required">Username is required</span>
+                    <span v-if="!$v.username.maxLength">Username is too long</span>
                     <base-input
                       alternative
                       class="mb-3"
@@ -34,12 +32,8 @@
 
                   <div class="fields">
                     <h3 class="title-subheading">First name</h3>
-                    <span v-if="submitted && !$v.first_name.required"
-                      >First name is required</span
-                    >
-                    <span v-if="!$v.first_name.maxLength"
-                      >Name is too long</span
-                    >
+                    <span v-if="submitted && !$v.first_name.required">First name is required</span>
+                    <span v-if="!$v.first_name.maxLength">Name is too long</span>
                     <base-input
                       alternative
                       class="mb-3"
@@ -53,9 +47,7 @@
 
                   <div class="fields">
                     <h3 class="title-subheading">Last name</h3>
-                    <span v-if="submitted && !$v.last_name.required"
-                      >Last name is required</span
-                    >
+                    <span v-if="submitted && !$v.last_name.required">Last name is required</span>
                     <span v-if="!$v.last_name.maxLength">name is too long</span>
                     <base-input
                       alternative
@@ -69,12 +61,8 @@
                   </div>
                   <div class="fields">
                     <h3 class="title-subheading">Email</h3>
-                    <span v-if="submitted && !$v.email.required"
-                      >Email is required</span
-                    >
-                    <span v-if="!$v.email.maxLength"
-                      >please enter valid email</span
-                    >
+                    <span v-if="submitted && !$v.email.required">Email is required</span>
+                    <span v-if="!$v.email.maxLength">please enter valid email</span>
                     <span v-if="!$v.email.email">Email is invalid</span>
                     <base-input
                       alternative
@@ -88,15 +76,9 @@
                   </div>
                   <div class="fields">
                     <h3 class="title-subheading">Phone number</h3>
-                    <span v-if="submitted && !$v.phoneNumber.required"
-                      >Phone number is required</span
-                    >
-                    <span v-if="!$v.phoneNumber.minLength"
-                      >Enter correct phone number</span
-                    >
-                    <span v-if="!$v.phoneNumber.maxLength"
-                      >please enter valid phone number</span
-                    >
+                    <span v-if="submitted && !$v.phoneNumber.required">Phone number is required</span>
+                    <span v-if="!$v.phoneNumber.minLength">Enter correct phone number</span>
+                    <span v-if="!$v.phoneNumber.maxLength">please enter valid phone number</span>
                     <base-input
                       alternative
                       class="mb-3"
@@ -109,12 +91,8 @@
                   </div>
                   <div class="fields">
                     <h3 class="title-subheading">Password</h3>
-                    <span v-if="submitted && !$v.password.required"
-                      >Password is required</span
-                    >
-                    <span v-if="!$v.password.minLength"
-                      >Password must be at least 6 characters</span
-                    >
+                    <span v-if="submitted && !$v.password.required">Password is required</span>
+                    <span v-if="!$v.password.minLength">Password must be at least 6 characters</span>
                     <span v-if="!$v.password.maxLength">password too long</span>
                     <base-input
                       alternative
@@ -125,12 +103,10 @@
                   </div>
                   <div class="fields">
                     <h3 class="title-subheading">Confirm password</h3>
-                    <span v-if="submitted && !$v.confirm_password.required"
-                      >Confirm Password is required</span
-                    >
-                    <span v-else-if="!$v.confirm_password.sameAsPassword"
-                      >Passwords must match</span
-                    >
+                    <span
+                      v-if="submitted && !$v.confirm_password.required"
+                    >Confirm Password is required</span>
+                    <span v-else-if="!$v.confirm_password.sameAsPassword">Passwords must match</span>
                     <base-input
                       alternative
                       type="password"
@@ -143,18 +119,14 @@
                       class="my-4 btn-green"
                       type="success"
                       @click="regSub"
-                      >Create account</base-button
-                    >
+                    >Create account</base-button>
                   </div>
                 </form>
               </div>
             </div>
           </div>
           <div class="col-lg-4">
-            <img
-              :src="require('@/assets/images/instructor.svg')"
-              class="reg-img"
-            />
+            <img :src="require('@/assets/images/instructor.svg')" class="reg-img" />
           </div>
         </div>
       </div>
@@ -188,10 +160,10 @@ export default {
     };
   },
   validations: {
-    username: { required, maxLength: maxLength(18) },
-    first_name: { required, maxLength: maxLength(13) },
-    last_name: { required, maxLength: maxLength(13) },
-    email: { required, email, maxLength: maxLength(20) },
+    username: { required, maxLength: maxLength(25) },
+    first_name: { required, maxLength: maxLength(25) },
+    last_name: { required, maxLength: maxLength(25) },
+    email: { required, email, maxLength: maxLength(100) },
     phoneNumber: {
       required,
       minLength: minLength(13),

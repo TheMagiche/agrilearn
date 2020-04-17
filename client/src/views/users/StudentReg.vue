@@ -189,10 +189,10 @@ export default {
     };
   },
   validations: {
-    username: { required, maxLength: maxLength(18) },
-    first_name: { required, maxLength: maxLength(13) },
-    last_name: { required, maxLength: maxLength(13) },
-    email: { required, email, maxLength: maxLength(20) },
+    username: { required, maxLength: maxLength(25) },
+    first_name: { required, maxLength: maxLength(25) },
+    last_name: { required, maxLength: maxLength(25) },
+    email: { required, email, maxLength: maxLength(100) },
     phoneNumber: {
       required,
       minLength: minLength(13),
