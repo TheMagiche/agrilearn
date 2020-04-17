@@ -63,50 +63,50 @@ router.post('/register', async (req, res, next) => {
                         success: false,
                         error: 'phone',
                     });
-                } else {
-                    var newUser = new User({
+                }
+            } else {
+                var newUser = new User({
+                    email: email,
+                    username: username,
+                    password: password,
+                    type: type,
+                    phoneNumber: phoneNumber,
+                });
+
+                // Check type instructor or student, create users
+                if (type == 'student') {
+                    console.log('Registering as student...');
+                    var newStudent = new Student({
+                        first_name: first_name,
+                        last_name: last_name,
                         email: email,
                         username: username,
-                        password: password,
-                        type: type,
                         phoneNumber: phoneNumber,
                     });
-
-                    // Check type instructor or student, create users
-                    if (type == 'student') {
-                        console.log('Registering as student...');
-                        var newStudent = new Student({
-                            first_name: first_name,
-                            last_name: last_name,
-                            email: email,
-                            username: username,
-                            phoneNumber: phoneNumber,
-                        });
-                        console.log(newStudent);
-                        // Save student in the user collection
-                        User.saveStudent(newUser, newStudent, async function(err, user) {
-                            console.log('Student created!');
-                        });
-                    } else {
-                        console.log('Registering as instructor...');
-                        var newInstructor = new Instructor({
-                            first_name: first_name,
-                            last_name: last_name,
-                            email: email,
-                            username: username,
-                        });
-                        console.log(newInstructor);
-                        // Save instructor in the user collection
-                        User.saveInstructor(newUser, newInstructor, async function(err, user) {
-                            console.log('Instructor created!');
-                        });
-                    }
-                    return res.status(200).json({
+                    console.log(newStudent);
+                    // Save student in the user collection
+                    User.saveStudent(newUser, newStudent, async function(err, user) {
+                        console.log('Student created!');
+                    });
+                } else {
+                    console.log('Registering as instructor...');
+                    var newInstructor = new Instructor({
+                        first_name: first_name,
+                        last_name: last_name,
+                        email: email,
                         username: username,
-                        success: true,
-                        msg: 'Hurry! User is now registered.',
+                    });
+                    console.log(newInstructor);
+                    // Save instructor in the user collection
+                    User.saveInstructor(newUser, newInstructor, async function(err, user) {
+                        console.log('Instructor created!');
                     });
                 }
+                return res.status(200).json({
+                    username: username,
+                    success: true,
+                    msg: 'Hurry! User is now registered.',
+                });
             }
         })
         .catch(err => {
