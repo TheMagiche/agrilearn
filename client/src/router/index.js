@@ -1,43 +1,64 @@
-import Vue from "vue";
-import Router from "vue-router";
-import store from "../store/index";
+import Vue from 'vue';
+import Router from 'vue-router';
+import store from '../store/index';
 
-import Home from "../views/Home.vue";
-import StudentReg from "../views/users/StudentReg";
-import InstructorReg from "../views/users/InstructorReg";
-import SiteHeader from "../layout/SiteHeader";
-import SiteFooter from "../layout/SiteFooter";
-import SiteLogin from "../views/users/SiteLogin";
+import Home from '../views/Home.vue';
+import StudentReg from '../views/users/StudentReg';
+import InstructorReg from '../views/users/InstructorReg';
+import SiteHeader from '../layout/SiteHeader';
+import SiteFooter from '../layout/SiteFooter';
+import SiteLogin from '../views/users/SiteLogin';
+import ForgotPassword from '../views/users/ForgotPassword';
+import PasswordReset from '../views/users/PasswordReset';
 
-import classDetail from "../views/classes/classDetail";
-import classIndex from "../views/classes/classIndex";
-import classLesson from "../views/classes/classLesson";
+import classDetail from '../views/classes/classDetail';
+import classIndex from '../views/classes/classIndex';
+import classLesson from '../views/classes/classLesson';
 
-import editLesson from "../views/instructors/editLesson";
-import instructorClasses from "../views/instructors/instructorClasses";
-import newLesson from "../views/instructors/newLesson";
-import classCreate from "../views/instructors/classCreate";
-import classEdit from "../views/instructors/classEdit";
+import editLesson from '../views/instructors/editLesson';
+import instructorClasses from '../views/instructors/instructorClasses';
+import newLesson from '../views/instructors/newLesson';
+import classCreate from '../views/instructors/classCreate';
+import classEdit from '../views/instructors/classEdit';
 
-import studentClasses from "../views/students/studentClasses";
-import studentLessons from "../views/students/studentLessons";
+import studentClasses from '../views/students/studentClasses';
+import studentLessons from '../views/students/studentLessons';
 
 Vue.use(Router);
 
 const router = new Router({
-  linkExactActiveClass: "active",
-  mode: "history",
+  linkExactActiveClass: 'active',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "*",
-      name: "NotFound",
+      path: '*',
+      name: 'NotFound',
       component: () =>
-        import(/* webpackChunkName: "about" */ "../views/NotFoundPage.vue")
+        import(/* webpackChunkName: "about" */ '../views/NotFoundPage.vue')
     },
     {
-      path: "/",
-      name: "home",
+      path: '/password-recovery',
+      name: 'forgot-password',
+      components: {
+        header: SiteHeader,
+        default: ForgotPassword,
+        footer: SiteFooter
+      }
+    },
+    {
+      path: '/reset/:token',
+      name: 'password-reset',
+
+      components: {
+        header: SiteHeader,
+        default: PasswordReset,
+        footer: SiteFooter
+      }
+    },
+    {
+      path: '/',
+      name: 'home',
       components: {
         header: SiteHeader,
         default: Home,
@@ -45,8 +66,8 @@ const router = new Router({
       }
     },
     {
-      path: "/student-register",
-      name: "student-register",
+      path: '/student-register',
+      name: 'student-register',
       components: {
         header: SiteHeader,
         default: StudentReg,
@@ -54,8 +75,8 @@ const router = new Router({
       }
     },
     {
-      path: "/instructor-register",
-      name: "instructor-register",
+      path: '/instructor-register',
+      name: 'instructor-register',
       components: {
         header: SiteHeader,
         default: InstructorReg,
@@ -63,8 +84,8 @@ const router = new Router({
       }
     },
     {
-      path: "/signup",
-      name: "SiteLogin",
+      path: '/signup',
+      name: 'SiteLogin',
       components: {
         header: SiteHeader,
         default: SiteLogin,
@@ -73,8 +94,8 @@ const router = new Router({
     },
 
     {
-      path: "/classes/",
-      name: "classIndex",
+      path: '/classes/',
+      name: 'classIndex',
       components: {
         header: SiteHeader,
         default: classIndex,
@@ -82,8 +103,8 @@ const router = new Router({
       }
     },
     {
-      path: "/classes/details/:id",
-      name: "classDetail",
+      path: '/classes/details/:id',
+      name: 'classDetail',
       components: {
         header: SiteHeader,
         default: classDetail,
@@ -94,8 +115,8 @@ const router = new Router({
       }
     },
     {
-      path: "/classes/lessons/:id",
-      name: "classLesson",
+      path: '/classes/lessons/:id',
+      name: 'classLesson',
       components: {
         header: SiteHeader,
         default: classLesson,
@@ -107,8 +128,8 @@ const router = new Router({
       }
     },
     {
-      path: "/classes/create",
-      name: "classCreate",
+      path: '/classes/create',
+      name: 'classCreate',
       components: {
         header: SiteHeader,
         default: classCreate,
@@ -119,8 +140,8 @@ const router = new Router({
       }
     },
     {
-      path: "/classes/:id/update",
-      name: "classEdit",
+      path: '/classes/:id/update',
+      name: 'classEdit',
       components: {
         header: SiteHeader,
         default: classEdit,
@@ -132,8 +153,8 @@ const router = new Router({
       }
     },
     {
-      path: "/instuctor/classes/",
-      name: "instructorClasses",
+      path: '/instuctor/classes/',
+      name: 'instructorClasses',
       components: {
         header: SiteHeader,
         default: instructorClasses,
@@ -145,8 +166,8 @@ const router = new Router({
     },
     {
       // path: "/instuctor/classes/:id/lessons/new",
-      path: "/instuctor/classes/:id/lessons/new",
-      name: "newLesson",
+      path: '/instuctor/classes/:id/lessons/new',
+      name: 'newLesson',
       components: {
         header: SiteHeader,
         default: newLesson,
@@ -158,8 +179,8 @@ const router = new Router({
       }
     },
     {
-      path: "/instuctor/classes/lesson/:id/edit",
-      name: "editLesson",
+      path: '/instuctor/classes/lesson/:id/edit',
+      name: 'editLesson',
       components: {
         header: SiteHeader,
         default: editLesson,
@@ -171,8 +192,8 @@ const router = new Router({
       }
     },
     {
-      path: "/student/classes/",
-      name: "studentClasses",
+      path: '/student/classes/',
+      name: 'studentClasses',
       components: {
         header: SiteHeader,
         default: studentClasses,
@@ -183,8 +204,8 @@ const router = new Router({
       }
     },
     {
-      path: "/student/classes/:id/lessons",
-      name: "studentLessons",
+      path: '/student/classes/:id/lessons',
+      name: 'studentLessons',
       components: {
         header: SiteHeader,
         default: studentLessons,
@@ -211,7 +232,7 @@ router.beforeEach((to, from, next) => {
       next();
       return;
     }
-    next("/signup");
+    next('/signup');
   } else {
     next();
   }

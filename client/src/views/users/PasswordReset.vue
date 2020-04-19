@@ -6,31 +6,18 @@
           <div class="col-lg-5">
             <div class="container pt-lg-5">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" v-add:dismissible="true">
+                <base-alert v-if="error" type="danger" :dismissible="true">
                   {{ message }}
                 </base-alert>
                 <base-alert v-if="success" type="success" :dismissible="true">
                   {{ message }}
                 </base-alert>
                 <div class="text-center text-white mb-4">
-                  <small class="smallTxt">Log in to continue</small>
+                  <small class="smallTxt">Reset Password</small>
                 </div>
                 <form role="form">
                   <div class="fields">
-                    <h3 class="title-subheading">Username or Email</h3>
-                    <base-input
-                      alternative
-                      class="mb-3"
-                      placeholder="Username"
-                      v-model.trim="detail"
-                    ></base-input>
-                    <span v-if="submitted && !$v.detail.required"
-                      >Details required</span
-                    >
-                    <span v-if="!$v.detail.maxLength">Don't try!</span>
-                  </div>
-                  <div class="fields">
-                    <h3 class="title-subheading">Password</h3>
+                    <h3 class="title-subheading">New password</h3>
                     <span v-if="submitted && !$v.password.required"
                       >Password is required</span
                     >
@@ -45,17 +32,27 @@
                       v-model.trim="password"
                     ></base-input>
                   </div>
-                  <p class="text-right forgot-txt">
-                    <router-link to="/password-recovery"
-                      >forgot password?</router-link
+                  <div class="fields">
+                    <h3 class="title-subheading">Confirm password</h3>
+                    <span v-if="submitted && !$v.confirm_password.required"
+                      >Confirm Password is required</span
                     >
-                  </p>
+                    <span v-else-if="!$v.confirm_password.sameAsPassword"
+                      >Passwords must match</span
+                    >
+                    <base-input
+                      alternative
+                      type="password"
+                      placeholder="Confirm Password"
+                      v-model.trim="confirm_password"
+                    ></base-input>
+                  </div>
                   <div class="text-center">
                     <base-button
                       class="my-4 btn-success"
                       type="success"
-                      @click="logSub"
-                      >Login</base-button
+                      @click="resetSub"
+                      >Reset</base-button
                     >
                   </div>
                 </form>
@@ -72,9 +69,6 @@
 .green {
   background: #20e434;
 }
-.forgot-txt {
-  font-size: 12px;
-}
 .smallTxt {
   text-transform: uppercase;
 }
@@ -84,25 +78,50 @@
 </style>
 
 <script>
-import { required, minLength, maxLength } from 'vuelidate/lib/validators';
-import { mapActions } from 'vuex';
+import {
+  required,
+  minLength,
+  maxLength,
+  sameAs
+} from 'vuelidate/lib/validators';
+import axios from 'axios';
 export default {
   data: function() {
     return {
       submitted: false,
       error: false,
+      success: false,
       message: '',
-      detail: '',
-      password: ''
+      password: '',
+      confirm_password: ''
     };
   },
   validations: {
-    detail: { required, maxLength: maxLength(30) },
+    confirm_password: { required, sameAsPassword: sameAs('password') },
     password: { required, minLength: minLength(6), maxLength: maxLength(13) }
   },
   methods: {
-    ...mapActions(['login']),
-    logSub: function(evt) {
+    checkToken: function() {
+      const token = this.$route.params.token;
+      axios({
+        url: `/api/users/reset/${token}`,
+        method: 'GET'
+      })
+        .then(res => {
+          if (res.data.success == false) {
+            this.error = true;
+            this.message = res.data.msg;
+          } else {
+            this.success = true;
+            this.message = res.data.msg;
+          }
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    },
+    resetSub: function(evt) {
       evt.preventDefault();
       this.submitted = true;
 
@@ -112,18 +131,23 @@ export default {
         return;
       }
 
-      let user = {
-        detail: this.detail,
-        password: this.password
-      };
-
-      this.login(user)
+      const token = this.$route.params.token;
+      axios({
+        url: `/api/users/reset/${token}`,
+        method: 'POST',
+        data: {
+          password: this.password
+        }
+      })
         .then(res => {
-          if (res.data.success) {
-            this.$router.push('/');
-          } else if (res.data.success == false) {
+          if (res.data.success == false) {
             this.error = true;
             this.message = res.data.msg;
+          } else {
+            this.success = true;
+            this.message = res.data.msg;
+            this.password = '';
+            this.confirm_password = '';
           }
         })
         .catch(err => {
@@ -131,6 +155,9 @@ export default {
           console.log(err);
         });
     }
+  },
+  mounted() {
+    this.checkToken();
   }
 };
 </script>
