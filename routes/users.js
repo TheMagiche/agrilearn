@@ -8,6 +8,8 @@ const Instructor = require('../models/instructor');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+var async = require('async');
+var crypto = require('crypto');
 // Serialize user for the session to determine which data will be saved
 passport.serializeUser(function(user, done) {
     done(null, user._id);
@@ -18,6 +20,19 @@ passport.deserializeUser(function(id, done) {
     User.getUserById(id, function(err, user) {
         done(err, user);
     });
+});
+
+const nodeMailer = require('nodemailer');
+let transporter = nodeMailer.createTransport({
+    pool: true,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        // should be replaced with real sender's account
+        user: 'agriskul@gmail.com',
+        pass: 'agriskul2020!',
+    },
 });
 
 /**
@@ -219,6 +234,147 @@ passport.use(
  */
 router.get('/logout', function(req, res) {
     req.logout();
+});
+/**
+ * @route POST api/users/reset-password
+ * @desc Reset users password
+ * @access Private
+ */
+
+router.post('/reset-password', function(req, res) {
+    console.log('getting details');
+    async.waterfall([
+        function(done) {
+            crypto.randomBytes(20, (err, buf) => {
+                var token = buf.toString('hex');
+                console.log(token);
+                done(err, token);
+            });
+        },
+        function(token, done) {
+            let email = req.body.email;
+            console.log(email);
+            User.findOne({ email: email }).then(user => {
+                if (user) {
+                    console.log('adding new user details');
+                    user.resetPasswordToken = token;
+                    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+                    user.save();
+                    console.log('sending email...');
+
+                    var email = {
+                        to: user.email,
+                        from: 'agriskul@gmail.com',
+                        subject: 'Password Reset',
+                        text: 'Learn today enjoy tommorow',
+                        html:
+                            'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                            'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                            '<a href="http://' +
+                            req.headers.host +
+                            '/reset/' +
+                            token +
+                            '">Reset Your Pasword</a>\n\n' +
+                            'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+                        //html: '<b>Click aboue plain text button' // html body
+                    };
+
+                    transporter.sendMail(email, (error, info) => {
+                        if (error) {
+                            return console.log(error);
+                        }
+                        console.log('Message %s sent: %s', info.messageId, info.response);
+                    });
+                    // res
+
+                    return res.status(200).json({
+                        msg: 'An e-mail has been sent to ' + user.email + ' with further instructions.',
+                        success: true,
+                    });
+                } else {
+                    console.log('not found');
+                    return res.json({
+                        msg: 'Account does not exist.',
+                        success: false,
+                    });
+                }
+            });
+        },
+    ]);
+});
+/**
+ * @route Get api/users/reset
+ * @desc Check reset
+ * @access Private
+ */
+router.get('/reset/:token', (req, res) => {
+    User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, (err, user) => {
+        if (!user) {
+            return res.status(401).json({
+                msg: 'Password reset token is invalid or has expired.',
+                success: false,
+            });
+        } else {
+            return res.status(200).json({
+                msg: 'Proceed to change passowrd',
+                success: true,
+            });
+        }
+    });
+});
+
+/**
+ * @route Get api/users/reset
+ * @desc Complete reset
+ * @access Private
+ */
+router.post('/reset/:token', (req, res) => {
+    console.log('resetting password');
+
+    async.waterfall([
+        function() {
+            let password = req.body.password;
+            User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }).then(user => {
+                if (!user) {
+                    return res.json({
+                        msg: 'Password reset token is invalid or has expired.',
+                        success: false,
+                    });
+                } else {
+                    bcrypt.hash(password, 10, function(err, hash) {
+                        if (err) {
+                            throw err;
+                        }
+                        // Hash password
+                        user.password = hash;
+                        user.resetPasswordToken = undefined;
+                        user.resetPasswordExpires = undefined;
+                        user.save();
+                    });
+
+                    var email = {
+                        to: user.email,
+                        from: 'agriskul@gmail.com',
+                        subject: 'Your password has been changed',
+                        text: 'Hello,\n\n' + 'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n',
+                        // html: '<b> varify your email?</b>'
+                    };
+                    transporter.sendMail(email, (error, info) => {
+                        if (error) {
+                            return console.log(error);
+                        }
+                        console.log('Message %s sent: %s', info.messageId, info.response);
+                    });
+                    return res.status(200).json({
+                        msg: 'Successfully changed password. Proceed to log in page',
+                        success: true,
+                    });
+                }
+            });
+        },
+        function(user, done) {},
+    ]);
 });
 
 /**

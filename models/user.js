@@ -21,6 +21,8 @@ var UserSchema = mongoose.Schema({
     phoneNumber: {
         type: String,
     },
+    resetPasswordToken: String, // used for after password reset is submitted
+    resetPasswordExpires: Date,
 });
 ser = module.exports = mongoose.model('User', UserSchema);
 
