@@ -4,24 +4,42 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="container pt-lg-5">
-            <h3>Classes</h3>
-            <div class="card-container">
-              <b-card
-                v-for="item in classes"
-                :key="item._id"
-                :img-src="item.imgUrl"
-                img-alt="Card image"
-                img-top
-                class="mb-3 ml-3 class-card"
-              >
-                <b-card-text>
-                  <h6>{{ item.title | capitalize }}</h6>
-                  <p>{{item.description | trim }} ...</p>
-                  <p>By: {{item.instructor.username }}</p>
-
-                  <a @click="viewClass(item._id)" class>View Class</a>
-                </b-card-text>
-              </b-card>
+            <h3 class="title-heading">Classes</h3>
+            <div v-for="item in classes" :key="item._id" class="example-2 Classcard">
+              <div class="wrapper" :style="{ backgroundImage: `url(${item.imgUrl})` }">
+                <div class="header">
+                  <!-- <div class="date">
+                                        <span class="day">1</span>
+                                        <span class="month">March</span>
+                                        <span class="year">2020</span>
+                  </div>-->
+                  <ul class="menu-content">
+                    <li>
+                      <a href="#" class="fa fa-bookmark-o"></a>
+                    </li>
+                    <li>
+                      <a href="#" class="fa fa-heart-o">
+                        <span>18</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="fa fa-comment-o">
+                        <span>3</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="data">
+                  <div class="content">
+                    <!-- <span class="author">By: {{ item.instructor.username }}</span> -->
+                    <h1 class="title">
+                      <a href="#">{{ item.title | capitalize }}</a>
+                    </h1>
+                    <p class="text" v-html="Texttrim(item.description)"></p>
+                    <a @click="viewClass(item._id)" class="button">Read more</a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -34,7 +52,7 @@
 </style>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -44,22 +62,27 @@ export default {
   computed: {},
   filters: {
     capitalize: function(value) {
-      if (!value) return "";
+      if (!value) return '';
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
     },
     trim: function(value) {
-      if (!value) return "";
+      if (!value) return '';
       value = value.toString();
       return value.slice(0, 100);
     }
   },
   methods: {
+    Texttrim: function(value) {
+      if (!value) return '';
+      value = value.toString();
+      return value.slice(0, 100);
+    },
     getClasses: function() {
       const userID = this.$store.getters.userID;
       axios({
         url: `/api/students/classes/${userID}`,
-        method: "GET"
+        method: 'GET'
       })
         .then(resp => {
           // eslint-disable-next-line no-console
@@ -76,7 +99,7 @@ export default {
     viewClass: function(val) {
       this.$router
         .push({
-          name: "classDetail",
+          name: 'classDetail',
           params: { id: val }
         })
         .then()

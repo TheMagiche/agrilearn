@@ -6,10 +6,7 @@
           <div class="container">
             <div class="blog-container">
               <div class="blog-header">
-                <div
-                  class="blog-cover"
-                  :style="{ backgroundImage: `url(${classImageUrl})` }"
-                >
+                <div class="blog-cover" :style="{ backgroundImage: `url(${classImageUrl})` }">
                   <div class="blog-author"></div>
                 </div>
               </div>
@@ -20,6 +17,8 @@
                 </div>
                 <h6>By: {{ classInstructorUsername }}</h6>
                 <h6>Email: {{ classInstructorEmail }}</h6>
+                <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
+                <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
                 <div class="blog-summary">
                   <p v-html="classDescription"></p>
                 </div>
@@ -30,29 +29,24 @@
                         v-if="checkisInstructor && checkInstructor"
                         @click="editClass(classID)"
                         class
-                        >Edit class</a
-                      >
+                      >Edit class</a>
                     </li>
                     <li>
                       <a
                         v-if="checkisInstructor && checkInstructor"
                         @click="deleteClass(classID)"
                         class
-                        >Delete class</a
-                      >
+                      >Delete class</a>
                     </li>
                     <li>
                       <a
                         v-if="checkisInstructor && checkInstructor"
                         @click="addLesson"
                         class
-                        >Add lesson</a
-                      >
+                      >Add lesson</a>
                     </li>
                     <li>
-                      <a v-if="checkisStudent" @click="regClass" class
-                        >Register For Class</a
-                      >
+                      <a v-if="checkisStudent" @click="regClass" class>Register For Class</a>
                     </li>
                   </ul>
                 </div>
@@ -77,17 +71,20 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 export default {
   data() {
     return {
-      classID: "",
-      classTitle: "",
-      classDescription: "",
-      classImageUrl: "",
-      classInstructorID: "",
-      classInstructorEmail: "",
-      classInstructorUsername: "",
+      success: false,
+      error: false,
+      message: '',
+      classID: '',
+      classTitle: '',
+      classDescription: '',
+      classImageUrl: '',
+      classInstructorID: '',
+      classInstructorEmail: '',
+      classInstructorUsername: '',
       classLessons: null
     };
   },
@@ -116,14 +113,14 @@ export default {
   },
   filters: {
     capitalize: function(value) {
-      if (!value) return "";
+      if (!value) return '';
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
     }
   },
   methods: {
     Texttrim: function(value) {
-      if (!value) return "";
+      if (!value) return '';
       value = value.toString();
       return value.slice(0, 100);
     },
@@ -131,7 +128,7 @@ export default {
       const classID = this.$route.params.id;
       axios({
         url: `/api/classes/details/${classID}`,
-        method: "GET"
+        method: 'GET'
       })
         .then(resp => {
           this.classID = resp.data.class._id;
@@ -157,14 +154,14 @@ export default {
         data: {
           instructorID: this.classInstructorID
         },
-        method: "DELETE"
+        method: 'DELETE'
       })
         .then(resp => {
           // eslint-disable-next-line no-console
           console.log(resp.data.msg);
           this.$router
             .push({
-              name: "instructorClasses"
+              name: 'instructorClasses'
             })
             .then()
             .catch(err => {
@@ -181,7 +178,7 @@ export default {
       const classID = this.$route.params.id;
       this.$router
         .push({
-          name: "classEdit",
+          name: 'classEdit',
           params: {
             id: classID
           }
@@ -197,20 +194,16 @@ export default {
       const userID = this.$store.getters.userID;
       axios({
         url: `/api/students/${userID}/class/${classID}/register`,
-        method: "POST"
+        method: 'POST'
       })
-        .then(resp => {
-          // eslint-disable-next-line no-console
-          console.log(resp.data.msg);
-          this.$router
-            .push({
-              name: "studentClasses"
-            })
-            .then()
-            .catch(err => {
-              // eslint-disable-next-line no-console
-              console.log(err);
-            });
+        .then(res => {
+          if (res.data.success == false) {
+            this.error = true;
+            this.message = res.data.msg;
+          } else {
+            this.success = true;
+            this.message = res.data.msg;
+          }
         })
         .catch(err => {
           // eslint-disable-next-line no-console
@@ -221,7 +214,7 @@ export default {
       const classID = this.$route.params.id;
       this.$router
         .push({
-          name: "newLesson",
+          name: 'newLesson',
           params: {
             id: classID
           }
@@ -236,7 +229,7 @@ export default {
     viewLesson: function(val) {
       this.$router
         .push({
-          name: "classLesson",
+          name: 'classLesson',
           params: {
             id: val
           }
@@ -296,7 +289,7 @@ a {
 .blog-author--no-cover h3::before {
   background-size: cover;
   border-radius: 50%;
-  content: " ";
+  content: ' ';
   display: inline-block;
   height: 32px;
   margin-right: 0.5rem;
