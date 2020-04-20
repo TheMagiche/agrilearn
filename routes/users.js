@@ -44,96 +44,163 @@ let transporter = nodeMailer.createTransport({
 
 router.post('/register', async (req, res, next) => {
     console.log('Receiving details ..');
-    var first_name = req.body.first_name;
-    var last_name = req.body.last_name;
-    var email = req.body.email;
-    var username = req.body.username;
-    var password = req.body.password;
-    var type = req.body.type;
-    var phoneNumber = req.body.phoneNumber;
-    User.findOne({ $or: [{ username: username }, { email: email }, { phoneNumber: phoneNumber }] })
-        .then(user => {
-            //if user found.
-            if (user) {
-                if (user.username == username) {
-                    console.log('Username already exists, username: ' + username);
-                    return res.json({
-                        msg: 'Username already exists',
-                        success: false,
-                        error: 'username',
-                    });
-                }
-                if (user.email == email) {
-                    console.log('EMAIL already exists, email: ' + email);
-                    return res.json({
-                        msg: 'Email already exists',
-                        success: false,
-                        error: 'email',
-                    });
-                }
-                if (user.phoneNumber == phoneNumber) {
-                    console.log('Phone number already exists, email: ' + phoneNumber);
-                    return res.json({
-                        msg: 'Phone number already exists',
-                        success: false,
-                        error: 'phone',
-                    });
-                }
-            } else {
-                var newUser = new User({
-                    email: email,
-                    username: username,
-                    password: password,
-                    type: type,
-                    phoneNumber: phoneNumber,
-                });
 
-                // Check type instructor or student, create users
-                if (type == 'student') {
-                    console.log('Registering as student...');
-                    var newStudent = new Student({
-                        first_name: first_name,
-                        last_name: last_name,
-                        email: email,
-                        username: username,
-                        phoneNumber: phoneNumber,
-                    });
-                    console.log(newStudent);
-                    // Save student in the user collection
-                    User.saveStudent(newUser, newStudent, async function(err, user) {
-                        console.log('Student created!');
-                    });
-                } else {
-                    console.log('Registering as instructor...');
-                    var newInstructor = new Instructor({
-                        first_name: first_name,
-                        last_name: last_name,
-                        email: email,
-                        username: username,
-                    });
-                    console.log(newInstructor);
-                    // Save instructor in the user collection
-                    User.saveInstructor(newUser, newInstructor, async function(err, user) {
-                        console.log('Instructor created!');
-                    });
-                }
-                return res.status(200).json({
-                    username: username,
-                    success: true,
-                    msg: 'Hurry! User is now registered.',
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                msg: 'Something went wrong',
-                success: false,
+    async.waterfall([
+        function(done) {
+            crypto.randomBytes(20, (err, buf) => {
+                var token = buf.toString('hex');
+                done(err, token);
             });
-            console.log(err);
-        });
+        },
+        function(token) {
+            var first_name = req.body.first_name;
+            var last_name = req.body.last_name;
+            var email = req.body.email;
+            var username = req.body.username;
+            var password = req.body.password;
+            var type = req.body.type;
+            var phoneNumber = req.body.phoneNumber;
+            User.findOne({ $or: [{ username: username }, { email: email }, { phoneNumber: phoneNumber }] })
+                .then(user => {
+                    //if user found.
+                    if (user) {
+                        if (user.username == username) {
+                            console.log('Username already exists, username: ' + username);
+                            return res.json({
+                                msg: 'Username already exists',
+                                success: false,
+                                error: 'username',
+                            });
+                        }
+                        if (user.email == email) {
+                            console.log('EMAIL already exists, email: ' + email);
+                            return res.json({
+                                msg: 'Email already exists',
+                                success: false,
+                                error: 'email',
+                            });
+                        }
+                        if (user.phoneNumber == phoneNumber) {
+                            console.log('Phone number already exists, email: ' + phoneNumber);
+                            return res.json({
+                                msg: 'Phone number already exists',
+                                success: false,
+                                error: 'phone',
+                            });
+                        }
+                    } else {
+                        var newUser = new User({
+                            email: email,
+                            username: username,
+                            password: password,
+                            type: type,
+                            phoneNumber: phoneNumber,
+                        });
+
+                        // Check type instructor or student, create users
+                        if (type == 'student') {
+                            console.log('Registering as student...');
+                            var newStudent = new Student({
+                                first_name: first_name,
+                                last_name: last_name,
+                                email: email,
+                                username: username,
+                                phoneNumber: phoneNumber,
+                            });
+                            console.log(newStudent);
+                            // Save student in the user collection
+                            User.saveStudent(newUser, newStudent, async function(err, user) {
+                                console.log('Student created!');
+                            });
+                        } else {
+                            console.log('Registering as instructor...');
+                            var newInstructor = new Instructor({
+                                first_name: first_name,
+                                last_name: last_name,
+                                email: email,
+                                username: username,
+                            });
+                            console.log(newInstructor);
+                            // Save instructor in the user collection
+                            User.saveInstructor(newUser, newInstructor, async function(err, user) {
+                                console.log('Instructor created!');
+                            });
+                        }
+                        User.verifyUser(newUser, token);
+                        var Nodeemail = {
+                            to: email,
+                            from: 'agriskul@gmail.com',
+                            subject: 'Signup Verification',
+                            html: 'Signup Verification.\n\n' + 'Please click on the following link, or paste this into your browser to complete the process:\n\n' + '<a href="http://' + req.headers.host + '/verify/' + token + '">Verify your Account</a>\n\n' + 'If you did not request this, please ignore this email.\n',
+                            // html: '<b> varify your email?</b>'
+                        };
+
+                        transporter.sendMail(Nodeemail, (error, info) => {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            console.log('Message %s sent: %s', info.messageId, info.response);
+                        });
+                        return res.status(200).json({
+                            username: username,
+                            success: true,
+                            msg: `Thank you for joining ${username}. Verification link sent to ${email}`,
+                        });
+                    }
+                })
+                .catch(err => {
+                    res.status(500).send({
+                        msg: 'Something went wrong',
+                        success: false,
+                    });
+                    console.log(err);
+                });
+        },
+    ]);
 });
 
-// Sign in
+/**
+ * @route GET api/users/verify
+ * @desc verifying a user
+ * @access Public
+ * Working
+ */
+router.get('/verify/:token', (req, res) => {
+    const token = req.params.token;
+    if (token) {
+        User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }).then(user => {
+            if (!user) {
+                return res.status(401).json({
+                    msg: 'Registration token is invalid or has expired.',
+                    success: false,
+                });
+            } else {
+                user.resetPasswordToken = undefined;
+                user.resetPasswordExpires = undefined;
+                user.verified = true;
+                user.save();
+                return res.status(200).json({
+                    msg: 'Verified account proceed to Login',
+                    success: true,
+                });
+            }
+        });
+    } else {
+        User.findOne({ verified: true }).then(user => {
+            if (!user) {
+                return res.status(401).json({
+                    msg: 'Account not verified',
+                    success: false,
+                });
+            } else {
+                return res.status(200).json({
+                    msg: 'Verified account proceed to Login',
+                    success: true,
+                });
+            }
+        });
+    }
+});
 
 /**
  * @route POST api/users/login
@@ -150,6 +217,12 @@ router.post('/login', async function(req, res) {
             if (!user) {
                 return res.json({
                     msg: 'Account does not exist.',
+                    success: false,
+                });
+            }
+            if (user.verified == false) {
+                return res.json({
+                    msg: 'Account not verified',
                     success: false,
                 });
             }

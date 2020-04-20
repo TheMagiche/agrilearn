@@ -21,8 +21,18 @@ var UserSchema = mongoose.Schema({
     phoneNumber: {
         type: String,
     },
-    resetPasswordToken: String, // used for after password reset is submitted
-    resetPasswordExpires: Date,
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+    resetPasswordToken: {
+        type: String,
+        default: '',
+    }, // used for after password reset is submitted
+    resetPasswordExpires: {
+        type: Date,
+        default: Date.now(),
+    },
 });
 ser = module.exports = mongoose.model('User', UserSchema);
 
@@ -72,5 +82,9 @@ module.exports.saveInstructor = function(newUser, newInstructor, callback) {
         async.parallel([newUser.save.bind(newUser), newInstructor.save.bind(newInstructor)], callback);
     });
 };
-
+module.exports.verifyUser = function(newUser, token) {
+    newUser.resetPasswordToken = token;
+    newUser.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    newUser.save();
+};
 UserSchema.plugin(passportLocalMongoose);
