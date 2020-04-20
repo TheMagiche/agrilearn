@@ -6,12 +6,8 @@
           <div class="col-lg-5">
             <div class="container pt-lg-5">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" v-add:dismissible="true">
-                  {{ message }}
-                </base-alert>
-                <base-alert v-if="success" type="success" :dismissible="true">
-                  {{ message }}
-                </base-alert>
+                <base-alert v-if="error" type="danger" v-add:dismissible="true">{{ message }}</base-alert>
+                <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Log in to continue</small>
                 </div>
@@ -24,19 +20,13 @@
                       placeholder="Username"
                       v-model.trim="detail"
                     ></base-input>
-                    <span v-if="submitted && !$v.detail.required"
-                      >Details required</span
-                    >
+                    <span v-if="submitted && !$v.detail.required">Details required</span>
                     <span v-if="!$v.detail.maxLength">Don't try!</span>
                   </div>
                   <div class="fields">
                     <h3 class="title-subheading">Password</h3>
-                    <span v-if="submitted && !$v.password.required"
-                      >Password is required</span
-                    >
-                    <span v-if="!$v.password.minLength"
-                      >Password must be at least 6 characters</span
-                    >
+                    <span v-if="submitted && !$v.password.required">Password is required</span>
+                    <span v-if="!$v.password.minLength">Password must be at least 6 characters</span>
                     <span v-if="!$v.password.maxLength">password too long</span>
                     <base-input
                       alternative
@@ -46,17 +36,10 @@
                     ></base-input>
                   </div>
                   <p class="text-right forgot-txt">
-                    <router-link to="/password-recovery"
-                      >forgot password?</router-link
-                    >
+                    <router-link to="/password-recovery">forgot password?</router-link>
                   </p>
                   <div class="text-center">
-                    <base-button
-                      class="my-4 btn-success"
-                      type="success"
-                      @click="logSub"
-                      >Login</base-button
-                    >
+                    <base-button class="my-4 btn-success" type="success" @click="logSub">Login</base-button>
                   </div>
                 </form>
               </div>

@@ -10,6 +10,7 @@ import SiteFooter from '../layout/SiteFooter';
 import SiteLogin from '../views/users/SiteLogin';
 import ForgotPassword from '../views/users/ForgotPassword';
 import PasswordReset from '../views/users/PasswordReset';
+import VerificationPage from '../views/users/VerificationPage.vue';
 
 import classDetail from '../views/classes/classDetail';
 import classIndex from '../views/classes/classIndex';
@@ -36,6 +37,15 @@ const router = new Router({
       name: 'NotFound',
       component: () =>
         import(/* webpackChunkName: "about" */ '../views/NotFoundPage.vue')
+    },
+    {
+      path: '/verify/:token',
+      name: 'verify',
+      components: {
+        header: SiteHeader,
+        default: VerificationPage,
+        footer: SiteFooter
+      }
     },
     {
       path: '/password-recovery',
@@ -232,7 +242,7 @@ router.beforeEach((to, from, next) => {
       next();
       return;
     }
-    next('/signup');
+    next('/student-register');
   } else {
     next();
   }
