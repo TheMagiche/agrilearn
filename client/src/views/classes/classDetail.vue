@@ -15,8 +15,8 @@
                 <div class="blog-title">
                   <h3>{{ classTitle | capitalize }}</h3>
                 </div>
-                <h6>By: {{ classInstructorUsername }}</h6>
-                <h6>Email: {{ classInstructorEmail }}</h6>
+                <h6 class="subClass-text">By: {{ classInstructorUsername }}</h6>
+                <h6 class="subClass-text">Email: {{ classInstructorEmail }}</h6>
                 <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
                 <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
                 <div class="blog-summary">
@@ -52,13 +52,13 @@
                 </div>
               </div>
 
-              <div class>
+              <div class="section-lesson">
                 <h3 class="title-heading">Lessons</h3>
                 <ol>
                   <li v-for="lesson in classLessons" :key="lesson._id">
                     <p>{{ lesson.title }}</p>
-                    <p v-html="Texttrim(lesson.body)"></p>
-                    <a @click="viewLesson(lesson._id)" class>View lesson</a>
+                    <p v-html="Texttrim(lesson.body)" class="lesson-line"></p>
+                    <a @click="viewLesson(lesson._id)" class="lessonAnchor text-right">View lesson</a>
                   </li>
                 </ol>
               </div>
@@ -247,6 +247,10 @@ export default {
 };
 </script>
 <style>
+.section-lesson {
+  background: #eee;
+  padding: 1em;
+}
 a {
   cursor: pointer;
 }
@@ -319,7 +323,8 @@ a {
 }
 
 .blog-summary {
-  color: #4d4d4d;
+  color: #000 !important;
+  text-transform: none !important;
   width: 960px !important;
 }
 
@@ -439,5 +444,23 @@ a {
     color: #4d4d4d;
     width: 90% !important;
   }
+}
+
+p.lesson-line {
+  text-transform: none !important;
+  color: #000;
+}
+.lessonAnchor {
+  text-transform: uppercase;
+  color: #20e434 !important;
+  padding-right: 1em;
+  font-size: 12px;
+  display: block;
+  margin-bottom: 1em;
+}
+
+.subClass-text {
+  font-size: 14px !important;
+  text-transform: initial;
 }
 </style>
