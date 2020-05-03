@@ -23,7 +23,6 @@ import classCreate from '../views/instructors/classCreate';
 import classEdit from '../views/instructors/classEdit';
 
 import studentClasses from '../views/students/studentClasses';
-import studentLessons from '../views/students/studentLessons';
 
 Vue.use(Router);
 
@@ -209,19 +208,6 @@ const router = new Router({
         default: studentClasses,
         footer: SiteFooter
       },
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/student/classes/:id/lessons',
-      name: 'studentLessons',
-      components: {
-        header: SiteHeader,
-        default: studentLessons,
-        footer: SiteFooter
-      },
-      props: true,
       meta: {
         requiresAuth: true
       }

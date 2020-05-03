@@ -6,26 +6,16 @@
           <div class="col-lg-5">
             <div class="container pt-lg-5">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" :dismissible="true">
-                  {{ message }}
-                </base-alert>
-                <base-alert v-if="success" type="success" :dismissible="true">
-                  {{ message }}
-                </base-alert>
+                <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
+                <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Password Recovery</small>
                 </div>
                 <form role="form">
                   <div class="fields">
-                    <h3 class="title-subheading">
-                      Enter your email to continue
-                    </h3>
-                    <span v-if="submitted && !$v.email.required"
-                      >Email is required</span
-                    >
-                    <span v-if="!$v.email.maxLength"
-                      >please enter valid email</span
-                    >
+                    <h3 class="title-subheading">Enter your email to continue</h3>
+                    <span v-if="submitted && !$v.email.required">Email is required</span>
+                    <span v-if="!$v.email.maxLength">please enter valid email</span>
                     <span v-if="!$v.email.email">Email is invalid</span>
                     <base-input
                       alternative
@@ -38,12 +28,7 @@
                     ></base-input>
                   </div>
                   <div class="text-center">
-                    <base-button
-                      class="my-4 btn-success"
-                      type="success"
-                      @click="fogSub"
-                      >Proceed</base-button
-                    >
+                    <base-button class="my-4 btn-success" type="success" @click="fogSub">Proceed</base-button>
                   </div>
                 </form>
               </div>
@@ -56,15 +41,6 @@
 </template>
 
 <style>
-.green {
-  background: #20e434;
-}
-.smallTxt {
-  text-transform: uppercase;
-}
-.btn-green {
-  background: #20e434;
-}
 </style>
 
 <script>

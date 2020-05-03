@@ -52,18 +52,6 @@
 </template>
 
 <style>
-.green {
-  background: #20e434;
-}
-.forgot-txt {
-  font-size: 12px;
-}
-.smallTxt {
-  text-transform: uppercase;
-}
-.btn-green {
-  background: #20e434;
-}
 </style>
 
 <script>

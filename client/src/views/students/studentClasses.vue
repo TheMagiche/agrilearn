@@ -8,11 +8,11 @@
             <div v-for="item in classes" :key="item._id" class="example-2 Classcard">
               <div class="wrapper" :style="{ backgroundImage: `url(${item.imgUrl})` }">
                 <div class="header">
-                  <!-- <div class="date">
-                                        <span class="day">1</span>
-                                        <span class="month">March</span>
-                                        <span class="year">2020</span>
-                  </div>-->
+                  <div class="date">
+                    <span class="day">1</span>
+                    <span class="month">March</span>
+                    <span class="year">2020</span>
+                  </div>
                   <ul class="menu-content">
                     <li>
                       <a href="#" class="fa fa-bookmark-o"></a>
@@ -33,7 +33,7 @@
                   <div class="content">
                     <!-- <span class="author">By: {{ item.instructor.username }}</span> -->
                     <h1 class="title">
-                      <a href="#">{{ item.title | capitalize }}</a>
+                      <a href="#">{{ item.title }}</a>
                     </h1>
                     <p class="text" v-html="Texttrim(item.description)"></p>
                     <a @click="viewClass(item._id)" class="button">Read more</a>

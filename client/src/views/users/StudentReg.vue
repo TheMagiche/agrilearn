@@ -224,40 +224,4 @@ export default {
 };
 </script>
 <style>
-.form-container {
-  padding-left: 1em;
-}
-.smallTxt {
-  font-family: 'Roboto', sans-serif !important;
-  font-size: 1em;
-  text-transform: uppercase;
-  color: #000;
-}
-.fields {
-  margin: 0em 1em;
-}
-.green {
-  background: #20e434;
-}
-.invalid-feedback,
-.is-invalid {
-  color: red;
-}
-.card {
-  height: 100%;
-}
-h3.title-subheading {
-  color: #20e434;
-}
-.btn-green {
-  background: #20e434;
-}
-form span {
-  font-size: 8px !important;
-  color: red;
-  padding-left: 1em;
-}
-.reg-img {
-  width: 25em;
-}
 </style>

@@ -4,65 +4,74 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="container">
-            <div class="blog-container">
-              <div class="blog-header">
-                <div class="blog-cover" :style="{ backgroundImage: `url(${classImageUrl})` }">
-                  <div class="blog-author"></div>
+            <div class="col-lg-9">
+              <div class="blog-container">
+                <div class="blog-header">
+                  <div class="blog-cover" :style="{ backgroundImage: `url(${classImageUrl})` }">
+                    <div class="blog-author"></div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="blog-body">
-                <div class="blog-title">
-                  <h3>{{ classTitle | capitalize }}</h3>
+                <div class="blog-body">
+                  <div class="blog-title">
+                    <h3>{{ classTitle | capitalize }}</h3>
+                  </div>
+                  <h6 class="subClass-text text-right">By: {{ classInstructorUsername }}</h6>
+                  <h6 class="subClass-text text-right">Email: {{ classInstructorEmail }}</h6>
+                  <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
+                  <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
+                  <div class="blog-summary">
+                    <p v-html="classDescription"></p>
+                  </div>
+                  <div class="blog-tags">
+                    <ul>
+                      <li>
+                        <a
+                          v-if="checkisInstructor && checkInstructor"
+                          @click="editClass(classID)"
+                          class
+                        >Edit class</a>
+                      </li>
+                      <li>
+                        <a
+                          v-if="checkisInstructor && checkInstructor"
+                          @click="deleteClass(classID)"
+                          class
+                        >Delete class</a>
+                      </li>
+                      <li>
+                        <a
+                          v-if="checkisInstructor && checkInstructor"
+                          @click="addLesson"
+                          class
+                        >Add lesson</a>
+                      </li>
+                      <li>
+                        <a v-if="checkisStudent" @click="regClass" class>Register For Class</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <h6 class="subClass-text">By: {{ classInstructorUsername }}</h6>
-                <h6 class="subClass-text">Email: {{ classInstructorEmail }}</h6>
-                <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
-                <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
-                <div class="blog-summary">
-                  <p v-html="classDescription"></p>
-                </div>
-                <div class="blog-tags">
-                  <ul>
-                    <li>
-                      <a
-                        v-if="checkisInstructor && checkInstructor"
-                        @click="editClass(classID)"
-                        class
-                      >Edit class</a>
-                    </li>
-                    <li>
-                      <a
-                        v-if="checkisInstructor && checkInstructor"
-                        @click="deleteClass(classID)"
-                        class
-                      >Delete class</a>
-                    </li>
-                    <li>
-                      <a
-                        v-if="checkisInstructor && checkInstructor"
-                        @click="addLesson"
-                        class
-                      >Add lesson</a>
-                    </li>
-                    <li>
-                      <a v-if="checkisStudent" @click="regClass" class>Register For Class</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
 
-              <div class="section-lesson">
-                <h3 class="title-heading">Lessons</h3>
-                <ol>
-                  <li v-for="lesson in classLessons" :key="lesson._id">
-                    <p>{{ lesson.title }}</p>
-                    <p v-html="Texttrim(lesson.body)" class="lesson-line"></p>
-                    <a @click="viewLesson(lesson._id)" class="lessonAnchor text-right">View lesson</a>
-                  </li>
-                </ol>
+                <div class="section-lesson">
+                  <h3 class="title-heading">Lessons</h3>
+                  <ol>
+                    <li v-for="lesson in classLessons" :key="lesson._id">
+                      <p class="lesson-title">{{ lesson.title }}</p>
+
+                      <div class="lesson-detail">
+                        <p v-html="Texttrim(lesson.body)" class="lesson-line"></p>
+                        <a
+                          @click="viewLesson(lesson._id)"
+                          class="lessonAnchor text-right"
+                        >View lesson</a>
+                      </div>
+                    </li>
+                  </ol>
+                </div>
               </div>
             </div>
+            <div class="col-lg-3"></div>
           </div>
         </div>
       </div>
@@ -122,7 +131,7 @@ export default {
     Texttrim: function(value) {
       if (!value) return '';
       value = value.toString();
-      return value.slice(0, 100);
+      return value.slice(0, 15);
     },
     getClass: function() {
       const classID = this.$route.params.id;
@@ -246,221 +255,3 @@ export default {
   }
 };
 </script>
-<style>
-.section-lesson {
-  background: #eee;
-  padding: 1em;
-}
-a {
-  cursor: pointer;
-}
-.blog-container {
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 4px 2px -2px;
-  margin: 1em auto;
-  width: 100%;
-}
-
-.blog-container a {
-  color: #20e434;
-  text-decoration: none;
-  -webkit-transition: 0.25s ease;
-  transition: 0.25s ease;
-}
-.blog-container a:hover {
-  border-color: #20e434;
-  color: #ff4d4d;
-}
-
-.blog-cover {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  border-radius: 5px 5px 0 0;
-  height: 25rem;
-  box-shadow: inset rgba(0, 0, 0, 0.2) 0 64px 64px 16px;
-}
-
-.blog-author,
-.blog-author--no-cover {
-  margin: 0 auto;
-  padding-top: 0.125rem;
-  width: 80%;
-}
-
-.blog-author h3::before,
-.blog-author--no-cover h3::before {
-  background-size: cover;
-  border-radius: 50%;
-  content: ' ';
-  display: inline-block;
-  height: 32px;
-  margin-right: 0.5rem;
-  position: relative;
-  top: 8px;
-  width: 32px;
-}
-
-.blog-author h3 {
-  color: #fff;
-  font-size: 18px;
-}
-
-.blog-author--no-cover h3 {
-  color: #999999;
-  font-weight: 100;
-}
-
-.blog-body {
-  margin: 0 auto;
-  width: 100%;
-}
-
-.blog-title {
-  color: #000;
-  font-weight: 100;
-}
-
-.blog-summary {
-  color: #000 !important;
-  text-transform: none !important;
-  width: 960px !important;
-}
-
-.blog-tags ul {
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  flex-direction: row;
-  flex-wrap: wrap;
-  list-style: none;
-  padding-left: 0;
-}
-
-.blog-tags li + li {
-  margin-left: 0.5rem;
-}
-
-.blog-tags a {
-  border: 1px solid #999999;
-  border-radius: 3px;
-  color: #999999;
-  font-size: 0.75rem;
-  height: 1.5rem;
-  line-height: 1.5rem;
-  letter-spacing: 1px;
-  padding: 0 0.5rem;
-  text-align: center;
-  text-transform: uppercase;
-  white-space: nowrap;
-  width: 5rem;
-}
-
-.blog-footer {
-  border-top: 1px solid #e6e6e6;
-  margin: 0 auto;
-  padding-bottom: 0.125rem;
-  width: 80%;
-}
-
-.blog-footer ol {
-  padding-left: 0;
-}
-
-.blog-footer li:first-child {
-  margin-right: auto;
-}
-
-.blog-footer li + li {
-  margin-left: 0.5rem;
-}
-
-.blog-footer li {
-  color: #999999;
-  font-size: 0.75rem;
-  height: 1.5rem;
-  letter-spacing: 1px;
-  line-height: 1.5rem;
-
-  text-transform: uppercase;
-}
-.blog-footer li a {
-  color: #999999;
-}
-
-.comments {
-  margin-right: 1rem;
-}
-
-.published-date {
-  border: 1px solid #999999;
-  border-radius: 3px;
-  padding: 0 0.5rem;
-}
-
-.numero {
-  position: relative;
-  top: -0.5rem;
-}
-
-.icon-star,
-.icon-bubble {
-  fill: #999999;
-  height: 24px;
-  margin-right: 0.5rem;
-  -webkit-transition: 0.25s ease;
-  transition: 0.25s ease;
-  width: 24px;
-}
-.icon-star:hover,
-.icon-bubble:hover {
-  fill: #ff4d4d;
-}
-@media screen and (min-width: 300px) {
-  .blog-container {
-    width: 100%;
-  }
-  .blog-summary {
-    color: #4d4d4d;
-    width: 90% !important;
-  }
-}
-@media screen and (min-width: 767px) {
-  .blog-container {
-    width: 100%;
-  }
-  .blog-summary {
-    color: #4d4d4d;
-    width: 90% !important;
-  }
-}
-@media screen and (min-width: 959px) {
-  .blog-container {
-    width: 100%;
-  }
-  .blog-summary {
-    color: #4d4d4d;
-    width: 90% !important;
-  }
-}
-
-p.lesson-line {
-  text-transform: none !important;
-  color: #000;
-}
-.lessonAnchor {
-  text-transform: uppercase;
-  color: #20e434 !important;
-  padding-right: 1em;
-  font-size: 12px;
-  display: block;
-  margin-bottom: 1em;
-}
-
-.subClass-text {
-  font-size: 14px !important;
-  text-transform: initial;
-}
-</style>

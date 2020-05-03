@@ -77,11 +77,6 @@
         </ul>
 
         <ul class="navbar-nav align-items-lg-center ml-lg-auto">
-          <!-- <li class="nav-item">
-            <router-link to="/landing" class="nav-link">
-              <span class="nav-link-inner--text black">How it works</span>
-            </router-link>
-          </li>-->
           <li class="nav-item">
             <router-link to="/classes" class="nav-link">
               <span class="nav-link-inner--text navlink">Classses</span>
@@ -153,50 +148,6 @@
 </template>
 
 <style>
-#siteHeader {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-i {
-  color: #fff;
-}
-i.social {
-  color: #07396a;
-}
-.aLog {
-  font-size: 80%;
-  cursor: pointer;
-}
-.green {
-  color: #20e434;
-}
-.navlink {
-  color: #000;
-  text-transform: uppercase;
-}
-
-@media screen and (max-width: 1024px) {
-  .navbar-dark .navbar-toggler {
-    color: rgba(255, 255, 255, 0.95);
-    border-color: transparent;
-    background: #20e434 !important;
-  }
-}
-
-.btn-success {
-  color: #fff;
-
-  background: #20e434 !important;
-
-  border-color: #20e434 !important;
-
-  -webkit-box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-    0 1px 3px rgba(0, 0, 0, 0.08);
-
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-.username-text {
-  color: #000;
-}
 </style>
 
 <script>

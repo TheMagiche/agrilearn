@@ -6,24 +6,16 @@
           <div class="col-lg-5">
             <div class="container pt-lg-5">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" :dismissible="true">
-                  {{ message }}
-                </base-alert>
-                <base-alert v-if="success" type="success" :dismissible="true">
-                  {{ message }}
-                </base-alert>
+                <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
+                <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Reset Password</small>
                 </div>
                 <form role="form">
                   <div class="fields">
                     <h3 class="title-subheading">New password</h3>
-                    <span v-if="submitted && !$v.password.required"
-                      >Password is required</span
-                    >
-                    <span v-if="!$v.password.minLength"
-                      >Password must be at least 6 characters</span
-                    >
+                    <span v-if="submitted && !$v.password.required">Password is required</span>
+                    <span v-if="!$v.password.minLength">Password must be at least 6 characters</span>
                     <span v-if="!$v.password.maxLength">password too long</span>
                     <base-input
                       alternative
@@ -34,12 +26,10 @@
                   </div>
                   <div class="fields">
                     <h3 class="title-subheading">Confirm password</h3>
-                    <span v-if="submitted && !$v.confirm_password.required"
-                      >Confirm Password is required</span
-                    >
-                    <span v-else-if="!$v.confirm_password.sameAsPassword"
-                      >Passwords must match</span
-                    >
+                    <span
+                      v-if="submitted && !$v.confirm_password.required"
+                    >Confirm Password is required</span>
+                    <span v-else-if="!$v.confirm_password.sameAsPassword">Passwords must match</span>
                     <base-input
                       alternative
                       type="password"
@@ -48,12 +38,7 @@
                     ></base-input>
                   </div>
                   <div class="text-center">
-                    <base-button
-                      class="my-4 btn-success"
-                      type="success"
-                      @click="resetSub"
-                      >Reset</base-button
-                    >
+                    <base-button class="my-4 btn-success" type="success" @click="resetSub">Reset</base-button>
                   </div>
                 </form>
               </div>
@@ -66,15 +51,6 @@
 </template>
 
 <style>
-.green {
-  background: #20e434;
-}
-.smallTxt {
-  text-transform: uppercase;
-}
-.btn-green {
-  background: #20e434;
-}
 </style>
 
 <script>
