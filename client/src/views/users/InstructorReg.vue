@@ -6,7 +6,7 @@
           <div class="col-lg-8">
             <div class="container">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" dismissible="true">
+                <base-alert v-if="error" type="danger" :dismissible="true">
                   {{
                   message
                   }}
@@ -141,22 +141,22 @@ import {
   minLength,
   sameAs,
   maxLength
-} from "vuelidate/lib/validators";
-import { mapActions } from "vuex";
+} from 'vuelidate/lib/validators';
+import { mapActions } from 'vuex';
 export default {
   data: function() {
     return {
       submitted: false,
       error: false,
-      message: "",
-      username: "",
-      first_name: "",
-      last_name: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      confirm_password: "",
-      type: "instructor"
+      message: '',
+      username: '',
+      first_name: '',
+      last_name: '',
+      email: '',
+      phoneNumber: '',
+      password: '',
+      confirm_password: '',
+      type: 'instructor'
     };
   },
   validations: {
@@ -170,10 +170,10 @@ export default {
       maxLength: maxLength(13)
     },
     password: { required, minLength: minLength(6), maxLength: maxLength(13) },
-    confirm_password: { required, sameAsPassword: sameAs("password") }
+    confirm_password: { required, sameAsPassword: sameAs('password') }
   },
   methods: {
-    ...mapActions(["register"]),
+    ...mapActions(['register']),
     regSub: function(evt) {
       evt.preventDefault();
 
@@ -198,7 +198,7 @@ export default {
 
       this.register(user).then(res => {
         if (res.data.success == true) {
-          this.$router.push({ name: "SiteLogin" });
+          this.$router.push({ name: 'SiteLogin' });
         } else if (res.data.success == false) {
           this.error = true;
           this.message = res.data.msg;

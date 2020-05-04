@@ -6,7 +6,7 @@
           <div class="col-lg-5">
             <div class="container pt-lg-5">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" v-add:dismissible="true">{{ message }}</base-alert>
+                <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
                 <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Log in to continue</small>

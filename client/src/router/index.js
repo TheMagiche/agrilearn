@@ -120,7 +120,7 @@ const router = new Router({
         footer: SiteFooter
       },
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {

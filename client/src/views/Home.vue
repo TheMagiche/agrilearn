@@ -12,12 +12,11 @@
                 Find the perfect tutorial to get started on your farming today,
                 learn the latest trends and stay ahead of the curve
               </p>
-              <base-button
-                tag="a"
-                href="#"
-                class="mb-3 mb-sm-0 btn-green"
-                type="success"
-              >Join the community</base-button>
+              <base-button tag="a" class="mb-3 mb-sm-0 btn-green" type="success">
+                <router-link to="student-register">
+                  <span class="text-white">Join the community</span>
+                </router-link>
+              </base-button>
             </div>
           </div>
           <div class="col-lg-6 d-none d-md-none d-lg-block">
@@ -37,7 +36,7 @@
       <div class="container pt-2">
         <div class="row justify-content-center">
           <div class="col-lg-4 pt-lg-1">
-            <div>
+            <div class="step-box">
               <b-card title="STEP 1" sub-title="REGISTER">
                 <b-card-text class="sub-text">Create an account using your details.</b-card-text>
                 <span></span>
@@ -48,11 +47,11 @@
             </div>
           </div>
           <div class="col-lg-4 pt-lg-4">
-            <div class="pt-xs-3">
+            <div class="pt-xs-3 step-box">
               <b-card title="STEP 2" sub-title="LEARN">
                 <b-card-text class="sub-text">
-                  Gain knowledge from our large cllection of videos and articles from
-                  experienced instructors
+                  Gain knowledge from our large cllection of videos and articles
+                  from experienced instructors
                 </b-card-text>
                 <!-- <b-card-text>A second paragraph of text in the card.</b-card-text> -->
                 <!-- <a href="#" class="card-link">Card link</a> -->
@@ -63,9 +62,10 @@
           <div class="col-lg-4 pt-lg-5">
             <div class="mt-xs-3">
               <b-card title="STEP 3" sub-title="GROW">
-                <b-card-text
-                  class="sub-text"
-                >Put your knowledge to use on your business and watch it grow.</b-card-text>
+                <b-card-text class="sub-text">
+                  Put your knowledge to use on your business and watch it
+                  grow.
+                </b-card-text>
                 <span></span>
                 <!-- <b-card-text>A second paragraph of text in the card.</b-card-text> -->
                 <!-- <a href="#" class="card-link">Card link</a> -->
@@ -86,14 +86,23 @@
       </div>
       <div class="container">
         <div class="row justify-content-center">
-          <p
-            class="white-section-text pt-3"
-          >Agrilearn aims to revolutionise the teaching and training of the Agri - Sciences by providing access to information in a blended learning environment, which combines online digital media with traditional classroom methods and experiential learning through practical sessions, with an element of student control over time, place and pace in an online learning environment.</p>
+          <p class="white-section-text pt-3">
+            Agrilearn aims to revolutionise the teaching and training of the
+            Agri - Sciences by providing access to information in a blended
+            learning environment, which combines online digital media with
+            traditional classroom methods and experiential learning through
+            practical sessions, with an element of student control over time,
+            place and pace in an online learning environment.
+          </p>
         </div>
       </div>
       <div class="container mt-2">
         <div class="row justify-content-center">
-          <base-button tag="a" href="#" class="mb-3 mb-sm-0 btn-white">SCHEDULE A CALL WITH US</base-button>
+          <base-button tag="a" class="mb-3 mb-sm-0 btn-white">
+            <router-link to="instructor-register">
+              <span class="text-back">BECOME AN INSTRUCTOR</span>
+            </router-link>
+          </base-button>
         </div>
       </div>
     </section>
@@ -104,89 +113,177 @@
           <div class="underline"></div>
         </div>
 
-        <div class="container pt-3">
-          <div class="container pt-2">
-            <div class="row justify-content-center">
-              <div class="col-lg-4">
-                <div>
-                  <b-card
-                    title
-                    sub-title
-                    img-src="https://images.pexels.com/photos/1769279/pexels-photo-1769279.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                    img-alt
-                    img-top
-                  >
-                    <b-card-text>Poulty Farming</b-card-text>
-                  </b-card>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="pt-xs-3">
-                  <b-card
-                    title
-                    sub-title
-                    img-src="https://images.pexels.com/photos/231062/pexels-photo-231062.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                    img-alt
-                    img-top
-                  >
-                    <b-card-text>Animal Husbandry</b-card-text>
-                  </b-card>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="mt-xs-3">
-                  <b-card
-                    title
-                    sub-title
-                    img-src="https://images.pexels.com/photos/3307282/pexels-photo-3307282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                    img-alt
-                    img-top
-                  >
-                    <b-card-text>Harvest & Storage</b-card-text>
-                  </b-card>
+        <div class="pt-3">
+          <div class="pt-2">
+            <div class="class-carousel owl-carousel owl-theme">
+              <div v-for="item in classes" :key="item._id" class="course homeCard">
+                <div class="wrapper" :style="{ backgroundImage: `url(${item.imgUrl})` }">
+                  <div class="data2">
+                    <div class="content">
+                      <span class="author">By: {{ item.instructor.username }}</span>
+                      <h1 class="title">
+                        <a href="#">{{ item.title }}</a>
+                      </h1>
+                      <p class="text"></p>
+
+                      <a @click="viewClass(item._id)" class="button">Read more</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="row justify-content-center pt-lg-3">
-              <div class="col-lg-4">
-                <div>
-                  <b-card
-                    title
-                    sub-title
-                    img-src="https://images.pexels.com/photos/96715/pexels-photo-96715.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                    img-alt
-                    img-top
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section section-lg">
+      <div class="container">
+        <div>
+          <h3 class="display-4 pl-3 headings">Testimonials</h3>
+          <div class="underline"></div>
+        </div>
+
+        <div class="pt-3">
+          <div class="pt-2">
+            <div class="testimonial-carousel owl-carousel owl-theme">
+              <div
+                class="testimonial-container"
+                v-for="testimonial in testimonials"
+                :key="testimonial.id"
+              >
+                <p class="testimonial-text">{{ testimonial.testimonial}}</p>
+                <p class="testimonial-name">{{testimonial.name}}</p>
+                <div class="socials">
+                  <a
+                    class="nav-link nav-link-icon"
+                    :href="testimonial.social.instagram"
+                    target="_blank"
+                    rel="noopener"
+                    data-toggle="tooltip"
+                    title="Follow on Instagram"
                   >
-                    <b-card-text>Crop Growing</b-card-text>
-                  </b-card>
+                    <i class="fa fa-instagram social-instagram"></i>
+                  </a>
+                  <a
+                    class="nav-link nav-link-icon"
+                    :href="testimonial.social.facebook"
+                    target="_blank"
+                    rel="noopener"
+                    data-toggle="tooltip"
+                    title="Follow on Facebook"
+                  >
+                    <i class="fa fa-facebook social-facebook"></i>
+                  </a>
+                  <a
+                    class="nav-link nav-link-icon"
+                    :href="testimonial.social.twitter"
+                    target="_blank"
+                    rel="noopener"
+                    data-toggle="tooltip"
+                    title="Follow on Twiter"
+                  >
+                    <i class="fa fa-twitter social-twitter"></i>
+                  </a>
                 </div>
               </div>
-              <div class="col-lg-4">
-                <div class="pt-xs-3">
-                  <b-card
-                    title
-                    sub-title
-                    img-src="https://images.pexels.com/photos/1508666/pexels-photo-1508666.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                    img-alt
-                    img-top
-                  >
-                    <b-card-text>Food Marketing</b-card-text>
-                  </b-card>
-                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="contact" class="section section-lg section-green">
+      <div class="container">
+        <div>
+          <h3 class="display-4 pl-3 headings-inverse">Contact Us</h3>
+          <div class="underline-inverse"></div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row justify-content-center"></div>
+      </div>
+      <div class="container mt-2">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 mt-5">
+            <card shadow body-classes="p-lg-5">
+              <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
+              <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
+              <h4 class="mb-1">Want to get in touch with us?</h4>
+              <p class="mt-0 contact-text">We want to hear from you.</p>
+
+              <div class="home-form">
+                <span v-if="submitted && !$v.name.required">Name is required</span>
+                <span v-if="!$v.name.maxLength">Too many characters</span>
+                <base-input
+                  class
+                  alternative
+                  placeholder="Your name"
+                  :class="{
+                        'is-invalid': submitted && $v.name.$error
+                      }"
+                  v-model.trim="name"
+                ></base-input>
               </div>
-              <div class="col-lg-4">
-                <div class="mt-xs-3">
-                  <b-card
-                    title
-                    sub-title
-                    img-src="https://images.pexels.com/photos/1542252/pexels-photo-1542252.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                    img-alt
-                    img-top
-                  >
-                    <b-card-text>Produce Delivery</b-card-text>
-                  </b-card>
-                </div>
+
+              <div class="home-form">
+                <span v-if="submitted && !$v.email.required">Email is required</span>
+                <span v-if="!$v.email.maxLength">please enter valid email</span>
+                <span v-if="!$v.email.email">Email is invalid</span>
+                <base-input
+                  alternative
+                  placeholder="Email address"
+                  :class="{
+                        'is-invalid': submitted && $v.email.$error
+                      }"
+                  v-model.trim="email"
+                ></base-input>
               </div>
+              <div class="home-form">
+                <span v-if="submitted && !$v.emailmessage.required">Name is required</span>
+                <span v-if="!$v.emailmessage.minLength">Too short..</span>
+                <span v-if="!$v.emailmessage.maxLength">Email message is too long</span>
+                <base-input class="mb-4">
+                  <textarea
+                    class="form-control form-control-alternative"
+                    name="name"
+                    rows="4"
+                    cols="80"
+                    :class="{
+                        'is-invalid': submitted && $v.emailmessage.$error
+                      }"
+                    pla
+                    placeholder="Type a message..."
+                    v-model.trim="emailmessage"
+                  ></textarea>
+                </base-input>
+              </div>
+
+              <div class="text-center">
+                <base-button
+                  tag="a"
+                  href="#"
+                  class="mb-3 mb-sm-0 btn-green"
+                  type="success"
+                  @click="sendEmail"
+                >SEND MESSAGE</base-button>
+              </div>
+            </card>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section section-lg">
+      <div class="container">
+        <div>
+          <h3 class="display-4 pl-3 headings">Partners</h3>
+          <div class="underline"></div>
+        </div>
+
+        <div class="pt-3">
+          <div class="pt-2">
+            <div class="partner-carousel owl-theme">
+              <center>
+                <p class="mt-5 coming-soon">Coming up soon</p>
+              </center>
             </div>
           </div>
         </div>
@@ -195,14 +292,216 @@
   </div>
 </template>
 
-<style>
-</style>
-
 <script>
-// @ is an alias to /src
+global.jQuery = require('jquery');
+import Vue from 'vue';
+var $ = global.jQuery;
+window.$ = $;
+import axios from 'axios';
+import {
+  required,
+  email,
+  minLength,
+  maxLength
+} from 'vuelidate/lib/validators';
 
 export default {
   name: 'home',
-  components: {}
+  data() {
+    return {
+      name: '',
+      sender: '',
+      email: '',
+      emailmessage: '',
+      error: false,
+      message: '',
+      submitted: false,
+      success: false,
+      classes: null,
+      testimonials: [
+        {
+          name: 'Jane Doe',
+          testimonial:
+            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          social: {
+            instagram: '',
+            facebook: '',
+            twitter: ''
+          }
+        },
+        {
+          name: 'John Doe',
+          testimonial:
+            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          social: {
+            instagram: '',
+            facebook: '',
+            twitter: ''
+          }
+        },
+        {
+          name: 'Mike Doe',
+          testimonial:
+            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          social: {
+            instagram: '',
+            facebook: '',
+            twitter: ''
+          }
+        },
+        {
+          name: 'Larry Doe',
+          testimonial:
+            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          social: {
+            instagram: '',
+            facebook: '',
+            twitter: ''
+          }
+        }
+      ]
+    };
+  },
+  validations: {
+    name: { required, maxLength: maxLength(20) },
+    email: { required, email, maxLength: maxLength(50) },
+    emailmessage: {
+      required,
+      minLength: minLength(10),
+      maxLength: maxLength(1000)
+    }
+  },
+  computed: {
+    Texttrim: function(value) {
+      if (!value) return '';
+      value = value.toString();
+      return value.slice(0, 10);
+    }
+  },
+  filters: {
+    trim: function(value) {
+      if (!value) return '';
+      value = value.toString();
+      return value.slice(0, 100);
+    }
+  },
+  methods: {
+    sendEmail: function(evt) {
+      evt.preventDefault();
+
+      this.submitted = true;
+
+      // stop here if form is invalid
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+      axios({
+        url: '/api/users/message',
+        method: 'POST',
+        data: {
+          name: this.name,
+          emai: this.email,
+          emailmessage: this.emailmessage
+        }
+      })
+        .then(res => {
+          if (res.data.success == false) {
+            this.error = true;
+            this.message = res.data.msg;
+          } else {
+            this.success = true;
+            this.message = res.data.msg;
+            this.name = '';
+            this.email = '';
+            this.emailmessage = '';
+          }
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    },
+    installOwlCarousel: function() {
+      if ($(window).width() > 1024) {
+        $('.class-carousel').owlCarousel({
+          items: 3,
+          loop: true,
+          autowidth: false,
+          autoplay: true,
+          autoplayTimeout: 3000,
+          autoplayHoverPause: true,
+          responsiveClass: true
+        });
+      }
+      if ($(window).width() > 600 && $(window).width() < 1024) {
+        $('.class-carousel').owlCarousel({
+          items: 2,
+          loop: true,
+          autowidth: false,
+          autoplay: true,
+          autoplayTimeout: 3000,
+          autoplayHoverPause: true,
+          responsiveClass: true
+        });
+      }
+      if ($(window).width() < 600) {
+        $('.class-carousel').owlCarousel({
+          items: 1,
+          loop: true,
+          autowidth: false,
+          autoplay: true,
+          autoplayTimeout: 3000,
+          autoplayHoverPause: true,
+          responsiveClass: true
+        });
+      }
+    },
+    getClasses: function() {
+      axios({
+        url: '/api/classes/',
+        method: 'GET'
+      })
+        .then(resp => {
+          this.classes = resp.data.classes;
+          Vue.nextTick(
+            function() {
+              this.installOwlCarousel();
+            }.bind(this)
+          );
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    },
+    viewClass: function(val) {
+      this.$router
+        .push({
+          name: 'classDetail',
+          params: { id: val }
+        })
+        .then()
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    }
+  },
+  mounted() {
+    this.getClasses();
+    $('.testimonial-carousel').owlCarousel({
+      items: 1,
+      loop: true,
+      autowidth: false,
+      autoplay: true,
+      autoplayTimeout: 8000,
+      autoplayHoverPause: true,
+      responsiveClass: true
+    });
+  }
 };
 </script>
+
+<style scoped>
+</style>

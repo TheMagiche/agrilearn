@@ -10,6 +10,8 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import VueCookies from 'vue-cookies';
 import './assets/css/style.css';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel';
 
 Vue.use(VueCookies);
 Vue.use(VueAxios, axios);

@@ -102,8 +102,8 @@
                 data-toggle="tooltip"
                 title="Follow us on Instagram"
               >
-                <i class="fa fa-instagram social"></i>
-                <span class="nav-link-inner--text d-lg-none">Instagram</span>
+                <i class="fa fa-instagram social-instagram"></i>
+                <span class="nav-link-inner--text d-lg-none social-text-instagram">Instagram</span>
               </a>
             </li>
             <li class="nav-item">
@@ -115,8 +115,8 @@
                 data-toggle="tooltip"
                 title="Follow us on Twitter"
               >
-                <i class="fa fa-twitter-square social"></i>
-                <span class="nav-link-inner--text d-lg-none">Twitter</span>
+                <i class="fa fa-twitter-square social-twitter"></i>
+                <span class="nav-link-inner--text d-lg-none social-text-twitter">Twitter</span>
               </a>
             </li>
             <li class="nav-item">
@@ -128,13 +128,26 @@
                 data-toggle="tooltip"
                 title="Follow on facebook"
               >
-                <i class="fa fa-facebook social"></i>
-                <span class="nav-link-inner--text d-lg-none">Facebook</span>
+                <i class="fa fa-facebook social-facebook"></i>
+                <span class="nav-link-inner--text d-lg-none social-text-facebook">Facebook</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link nav-link-icon"
+                href="#"
+                target="_blank"
+                rel="noopener"
+                data-toggle="tooltip"
+                title="Follow on Youtube"
+              >
+                <i class="fa fa-youtube social-youtube"></i>
+                <span class="nav-link-inner--text d-lg-none social-text-youtube">Youtube</span>
               </a>
             </li>
           </ul>
           <li class="nav-item d-none d-lg-block ml-lg-4">
-            <a href="#contact" target="_blank" rel="noopener" class="btn btn-success btn-icon">
+            <a href="#contact" class="btn btn-success btn-icon">
               <span class="btn-inner--icon">
                 <i class="fa fa-cloud-download mr-2"></i>
               </span>
@@ -147,8 +160,7 @@
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
 
 <script>
 import BaseNav from '@/components/BaseNav';

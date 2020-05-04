@@ -14,6 +14,7 @@
     "core-js": "^3.6.4",
     "mutationobserver-shim": "^0.3.3",
     "node-sass": "^4.13.1",
+    "owl.carousel": "^2.3.4",
     "postcss-loader": "^3.0.0",
     "raw-loader": "^0.5.1",
     "rxjs": "^6.5.4",
@@ -66,5 +67,4 @@
     "> 1%",
     "last 2 versions"
   ]
-  
 }
