@@ -449,6 +449,33 @@ router.post('/reset/:token', (req, res) => {
         function(user, done) {},
     ]);
 });
+/**
+ * @route POST api/users/message
+ * @desc Sent email from front page
+ * @access Public
+ */
+router.post('/message', async function(req, res) {
+    var email = {
+        to: 'wilsonmwangi692@gmail.com',
+        from: 'agriskul@gmail.com',
+        subject: 'Message from ' + req.body.name + ' Email: ' + req.body.email,
+        text: 'Hello,\n\n' + 'This is a message from agriskul.co.ke from: ' + req.body.email + ' \n\n' + req.body.emailmessage + '\n\n' + 'Thank you',
+        // html: '<b> varify your email?</b>'
+    };
+    transporter.sendMail(email, (error, info) => {
+        if (error) {
+            return res.json({
+                msg: 'Email could not be sent. Sorry.',
+                success: false,
+            });
+        }
+        console.log('Message %s sent: %s', info.messageId, info.response);
+    });
+    return res.status(200).json({
+        msg: 'Successfully sent email. Thank you for your feedback',
+        success: true,
+    });
+});
 
 /**
  * @route POST api/users/profile
