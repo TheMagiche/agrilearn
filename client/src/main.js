@@ -12,7 +12,10 @@ import VueCookies from 'vue-cookies';
 import './assets/css/style.css';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel';
+import StarRating from 'vue-star-rating'
 
+
+Vue.component('star-rating', StarRating);
 Vue.use(VueCookies);
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;

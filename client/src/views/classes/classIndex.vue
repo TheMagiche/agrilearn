@@ -8,26 +8,17 @@
             <div v-for="item in classes" :key="item._id" class="example-2 Classcard">
               <div class="wrapper" :style="{ backgroundImage: `url(${item.imgUrl})` }">
                 <div class="header">
-                  <div class="date">
-                    <span class="day">12</span>
-                    <span class="month">Aug</span>
-                    <span class="year">2016</span>
+                  <div class="ratings">
+                    <span>Class Rating</span>
+                    <star-rating
+                      v-bind:increment="0.5"
+                      v-bind:max-rating="5"
+                      inactive-color="#dddddd"
+                      active-color="#20e434"
+                      v-bind:star-size="20"
+                      v-model="item.rating"
+                    ></star-rating>
                   </div>
-                  <ul class="menu-content">
-                    <li>
-                      <a href="#" class="fa fa-bookmark-o"></a>
-                    </li>
-                    <li>
-                      <a href="#" class="fa fa-heart-o">
-                        <span></span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="fa fa-comment-o">
-                        <span></span>
-                      </a>
-                    </li>
-                  </ul>
                 </div>
                 <div class="data">
                   <div class="content">
@@ -75,7 +66,7 @@ export default {
 
     getClasses: function() {
       axios({
-        url: '/api/classes/',
+        url: '/api/classes/all',
         method: 'GET'
       })
         .then(resp => {

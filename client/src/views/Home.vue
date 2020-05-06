@@ -118,6 +118,16 @@
             <div class="class-carousel owl-carousel owl-theme">
               <div v-for="item in classes" :key="item._id" class="course homeCard">
                 <div class="wrapper" :style="{ backgroundImage: `url(${item.imgUrl})` }">
+                  <div class="header">
+                    <div class="ratings">
+                      <span>Class Rating</span>
+                      <star-rating
+                        active-color="#20e434"
+                        v-bind:star-size="20"
+                        v-model="item.rating"
+                      ></star-rating>
+                    </div>
+                  </div>
                   <div class="data2">
                     <div class="content">
                       <span class="author">By: {{ item.instructor.username }}</span>
@@ -151,40 +161,9 @@
                 v-for="testimonial in testimonials"
                 :key="testimonial.id"
               >
+                <div class="testimonialPic" :style="{ backgroundImage: `url(${testimonial.img})` }"></div>
                 <p class="testimonial-text">{{ testimonial.testimonial}}</p>
                 <p class="testimonial-name">{{testimonial.name}}</p>
-                <div class="socials">
-                  <a
-                    class="nav-link nav-link-icon"
-                    :href="testimonial.social.instagram"
-                    target="_blank"
-                    rel="noopener"
-                    data-toggle="tooltip"
-                    title="Follow on Instagram"
-                  >
-                    <i class="fa fa-instagram social-instagram"></i>
-                  </a>
-                  <a
-                    class="nav-link nav-link-icon"
-                    :href="testimonial.social.facebook"
-                    target="_blank"
-                    rel="noopener"
-                    data-toggle="tooltip"
-                    title="Follow on Facebook"
-                  >
-                    <i class="fa fa-facebook social-facebook"></i>
-                  </a>
-                  <a
-                    class="nav-link nav-link-icon"
-                    :href="testimonial.social.twitter"
-                    target="_blank"
-                    rel="noopener"
-                    data-toggle="tooltip"
-                    title="Follow on Twiter"
-                  >
-                    <i class="fa fa-twitter social-twitter"></i>
-                  </a>
-                </div>
               </div>
             </div>
           </div>
@@ -305,6 +284,9 @@ import {
   maxLength
 } from 'vuelidate/lib/validators';
 
+import fredimg from '@/assets/images/profile/fred.jpg';
+import vincentimg from '@/assets/images/profile/vincent.jpg';
+
 export default {
   name: 'home',
   data() {
@@ -320,44 +302,16 @@ export default {
       classes: null,
       testimonials: [
         {
-          name: 'Jane Doe',
+          name: 'Fred Ongwenya',
           testimonial:
-            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-          social: {
-            instagram: '',
-            facebook: '',
-            twitter: ''
-          }
+            "It's really amazing to browse Agriskul,pick a free course,register for it and learn from your phone. Every farmer should use Agriskul as their virtual guide and refer for anything",
+          img: fredimg
         },
         {
-          name: 'John Doe',
+          name: 'Vincent Ngatia',
           testimonial:
-            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-          social: {
-            instagram: '',
-            facebook: '',
-            twitter: ''
-          }
-        },
-        {
-          name: 'Mike Doe',
-          testimonial:
-            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-          social: {
-            instagram: '',
-            facebook: '',
-            twitter: ''
-          }
-        },
-        {
-          name: 'Larry Doe',
-          testimonial:
-            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-          social: {
-            instagram: '',
-            facebook: '',
-            twitter: ''
-          }
+            'Agriskul has very practical knowledge that any new farmer can follow while starting a farming venture.For me,their poultry  feeding  programs was  recommended by my vet. Agriskul will always be my e-learning of choice',
+          img: vincentimg
         }
       ]
     };

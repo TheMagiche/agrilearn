@@ -13,10 +13,16 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto',
+    sans-serif;
   background-color: #fffffe;
   scroll-behavior: smooth;
 }
+
+a {
+  font-family: 'Roboto', sans-serif;
+}
+
 /*
 
 ##########################################
@@ -29,43 +35,54 @@ Site header
 #siteHeader {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 i {
   color: #fff;
 }
+
 i.social-facebook {
   color: #07396a;
 }
+
 i.social-twitter {
   color: skyblue;
 }
+
 i.social-instagram {
   color: red;
 }
+
 i.social-youtube {
   color: rgb(179, 10, 10);
 }
+
 .aLog {
   font-size: 80%;
   cursor: pointer;
 }
+
 .green {
   color: #20e434;
 }
+
 .navlink {
   color: #000;
   text-transform: uppercase;
 }
+
 .social-text {
   text-transform: none !important;
   font-size: 10px;
   font-family: 'Open Sans';
 }
+
 @media screen and (max-width: 1024px) {
   .navbar-dark .navbar-toggler {
     color: rgba(255, 255, 255, 0.95);
     border-color: transparent;
     background: #20e434 !important;
   }
+
   .navbar-collapse .navbar-toggler span {
     display: block;
     position: absolute;
@@ -75,24 +92,28 @@ i.social-youtube {
     opacity: 1;
     background: #fff;
   }
+
   span.social-text-instagram {
     font-family: 'Open Sans';
     font-size: 12px;
     text-transform: none !important;
     color: red;
   }
+
   span.social-text-youtube {
     font-family: 'Open Sans';
     font-size: 12px;
     text-transform: none !important;
     color: rgb(179, 10, 10);
   }
+
   span.social-text-facebook {
     font-family: 'Open Sans';
     font-size: 12px;
     text-transform: none !important;
     color: #07396a;
   }
+
   span.social-text-twitter {
     font-family: 'Open Sans';
     font-size: 12px;
@@ -100,6 +121,7 @@ i.social-youtube {
     color: skyblue;
   }
 }
+
 .btn-success {
   color: #fff;
 
@@ -112,6 +134,7 @@ i.social-youtube {
 
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
+
 .username-text {
   color: #000;
   text-transform: uppercase !important;
@@ -135,20 +158,24 @@ Home page
 .text-back {
   color: #000;
 }
+
 .headings {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
   text-transform: uppercase;
   color: #000;
 }
+
 .subheading {
   margin-top: 1.5em;
   margin-bottom: 3em;
   text-transform: initial;
 }
+
 .step-box {
   position: relative;
 }
+
 @media screen and (min-width: 980px) {
   .step-box::after {
     content: '------';
@@ -163,16 +190,20 @@ Home page
   padding: 1em;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
 }
+
 .card-subtitle.text-muted {
   color: #20e434 !important;
 }
+
 .card-title {
   font-size: 14px;
 }
+
 .card-text {
   color: #000;
   font-size: 14px;
 }
+
 .section-green {
   background: #20e434;
 }
@@ -182,22 +213,27 @@ Home page
   height: 2px;
   background: #ffffff;
 }
+
 .headings-inverse {
   font-family: 'Work Sans', sans-serif;
   text-transform: uppercase;
   color: #ffffff;
 }
+
 .white-section-text {
   color: #ffffff;
   text-align: center;
   text-transform: initial;
 }
+
 .btn-white {
   background: #ffffff;
 }
+
 .sub-text {
   text-transform: initial;
 }
+
 .homeCard {
   padding: 0 1.7rem;
   margin-bottom: 2em;
@@ -210,10 +246,12 @@ Home page
   overflow: hidden;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.3), 0 15px 5px rgba(0, 0, 0, 0.2);
 }
+
 .homeCard .wrapper:hover .data2 {
   -webkit-transform: translateY(0);
   transform: translateY(0);
 }
+
 .homeCard .data2 {
   position: absolute;
 
@@ -226,15 +264,18 @@ Home page
   transition: transform 0.3s;
   transition: transform 0.3s, -webkit-transform 0.3s;
 }
+
 .homeCard .data2 .content {
   padding: 1em;
   position: relative;
   z-index: 1;
 }
+
 .homeCard .author {
   font-size: 9px;
   font-family: 'Open Sans';
 }
+
 .homeCard .title {
   margin-top: 2px;
   font-weight: 700;
@@ -246,6 +287,7 @@ Home page
   height: 70px;
   margin-bottom: 0.5em;
 }
+
 .course .wrapper {
   background-repeat: no-repeat;
   background-position: center;
@@ -253,9 +295,15 @@ Home page
 }
 
 .course .header {
-  color: #fff;
+  background-color: rgba(0, 0, 0, 0.2);
   padding: 1em;
+
 }
+
+/* .course .header .ratings {
+  background-color: red;
+  z-index: 2;
+} */
 
 .course .data2 {
   background-color: #ffffff;
@@ -269,6 +317,7 @@ Home page
   text-transform: uppercase;
   font-size: 15px;
 }
+
 .course .button {
   display: block;
   width: 100px;
@@ -280,6 +329,7 @@ Home page
   position: relative;
   font-weight: 700;
 }
+
 .course .button::after {
   content: '\2192';
   opacity: 0;
@@ -291,6 +341,7 @@ Home page
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
+
 .course .button:hover::after {
   -webkit-transform: translate(5px, -50%);
   transform: translate(5px, -50%);
@@ -301,31 +352,48 @@ Home page
   width: 50vw;
   margin: 2em auto 1em;
 }
+
+.testimonialPic {
+  width: 8em;
+  height: 8em;
+  margin: 1em auto;
+  background-color: green;
+  background-size: cover;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .testimonial-text {
   text-align: center;
   text-transform: none !important;
 }
+
 .testimonial-text::before {
   content: open-quote;
   font-size: 1.5em;
   color: #20e434;
 }
+
 .testimonial-text::after {
   content: close-quote;
   font-size: 1.5em;
   color: #20e434;
 }
+
 .testimonial-name {
   text-align: right;
   padding-right: 1em;
   font-family: 'Open Sans';
 }
+
 .socials {
   width: 15em;
   margin: 1.5em auto 0.5em;
   display: flex;
   align-items: center;
 }
+
 .socials a {
   flex: 1;
   align-items: center;
@@ -335,11 +403,13 @@ Home page
   font-family: 'Open Sans';
   text-transform: none !important;
 }
+
 .home-form span {
   color: red;
   text-transform: initial;
   font-size: 10px;
 }
+
 /*
 
 ##########################################
@@ -360,27 +430,33 @@ Site footer
   -webkit-transform: skew(0, -8deg);
   transform: skew(0, -8deg);
 }
+
 .footer .nav .nav-item .nav-link,
 .footer .footer-link {
   color: #fff !important;
 }
+
 .text-green {
   color: #20e434;
 }
+
 .footer-heading {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 36px;
+  font-size: 21px;
   text-transform: uppercase !important;
 }
+
 .footer-subheading {
   font-family: 'Roboto', sans-serif;
-  font-size: 24px;
+  font-size: 16px;
   color: #000;
   text-transform: uppercase !important;
 }
+
 .copyright {
   color: #ffffff !important;
 }
+
 /*
 
 ##########################################
@@ -403,36 +479,45 @@ Registration page { Student  & instructor
 .form-container {
   padding-left: 1em;
 }
+
 .smallTxt {
   font-family: 'Roboto', sans-serif !important;
   font-size: 1em;
   text-transform: uppercase;
   color: #000;
 }
+
 .fields {
   margin: 0em 1em;
 }
+
 .green {
   background: #20e434;
 }
+
 .invalid-feedback,
 .is-invalid {
   color: red;
 }
+
 .card {
   height: 100%;
 }
+
 h3.title-subheading {
   color: #20e434;
 }
+
 .btn-green {
   background: #20e434;
 }
+
 form span {
   font-size: 8px !important;
   color: red;
   padding-left: 1em;
 }
+
 .reg-img {
   width: 25em;
 }
@@ -449,12 +534,15 @@ Login Page
 .green {
   background: #20e434;
 }
+
 .forgot-txt {
   font-size: 12px;
 }
+
 .smallTxt {
   text-transform: uppercase;
 }
+
 .btn-green {
   background: #20e434;
 }
@@ -471,12 +559,15 @@ Verification page, Password Reset, Forgot password
 .green {
   background: #20e434;
 }
+
 .forgot-txt {
   font-size: 12px;
 }
+
 .smallTxt {
   text-transform: uppercase;
 }
+
 .btn-green {
   background: #20e434;
 }
@@ -513,10 +604,12 @@ Class index, classes { Student / Instructor }
   overflow: hidden;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.2);
 }
+
 .Classcard .wrapper:hover .data {
   -webkit-transform: translateY(0);
   transform: translateY(0);
 }
+
 .Classcard .data {
   position: absolute;
 
@@ -529,50 +622,62 @@ Class index, classes { Student / Instructor }
   transition: transform 0.3s;
   transition: transform 0.3s, -webkit-transform 0.3s;
 }
+
 .Classcard .data .content {
   padding: 1em;
   position: relative;
   z-index: 1;
 }
+
 .Classcard .author {
   font-size: 12px;
 }
+
 .Classcard .title {
   margin-top: 10px;
 }
+
 .Classcard .text {
   height: 70px;
   margin-bottom: 0.5em;
 }
+
 .Classcard input[type='checkbox'] {
   display: none;
 }
-.Classcard input[type='checkbox']:checked + .menu-content {
+
+.Classcard input[type='checkbox']:checked+.menu-content {
   -webkit-transform: translateY(-60px);
   transform: translateY(-60px);
 }
+
 .example-2 .wrapper {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 }
+
 .example-2 .wrapper:hover .menu-content span {
   -webkit-transform: translate(-50%, -10px);
   transform: translate(-50%, -10px);
   opacity: 1;
 }
+
 .example-2 .header {
-  color: #fff;
+  background-color: rgba(0, 0, 0, 0.2);
   padding: 1em;
 }
+
 .example-2 .header::before,
 .example-2 .header::after {
   content: '';
   display: table;
 }
+
 .example-2 .header::after {
   clear: both;
 }
+
 .example-2 .header .date {
   float: left;
   font-size: 12px;
@@ -590,6 +695,7 @@ Class index, classes { Student / Instructor }
   text-transform: uppercase;
   font-size: 28px;
 }
+
 .example-2 .button {
   display: block;
   width: 100px;
@@ -601,6 +707,7 @@ Class index, classes { Student / Instructor }
   position: relative;
   font-weight: 700;
 }
+
 .example-2 .button::after {
   content: '\2192';
   opacity: 0;
@@ -612,6 +719,7 @@ Class index, classes { Student / Instructor }
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
+
 .example-2 .button:hover::after {
   -webkit-transform: translate(5px, -50%);
   transform: translate(5px, -50%);
@@ -622,6 +730,7 @@ Class index, classes { Student / Instructor }
   .Classcard {
     width: 100%;
   }
+
   .Classcard .text {
     height: 100px;
     margin-bottom: 0.5em;
@@ -643,13 +752,11 @@ Class index, classes { Student / Instructor }
 ###########################################
 
 */
-.section-lesson {
-  background: #eee;
-  padding: 1em;
-}
+
 a {
   cursor: pointer;
 }
+
 .blog-container {
   background: #fff;
   border-radius: 5px;
@@ -664,6 +771,7 @@ a {
   -webkit-transition: 0.25s ease;
   transition: 0.25s ease;
 }
+
 .blog-container a:hover {
   border-color: #20e434;
   color: #ff4d4d;
@@ -737,7 +845,7 @@ a {
   padding-left: 0;
 }
 
-.blog-tags li + li {
+.blog-tags li+li {
   margin-left: 0.5rem;
 }
 
@@ -771,7 +879,7 @@ a {
   margin-right: auto;
 }
 
-.blog-footer li + li {
+.blog-footer li+li {
   margin-left: 0.5rem;
 }
 
@@ -784,8 +892,23 @@ a {
 
   text-transform: uppercase;
 }
+
 .blog-footer li a {
   color: #999999;
+}
+
+.blog-menu {
+  display: flex;
+
+}
+
+.submenu {
+  flex: 1;
+}
+
+.ratings span {
+  font-size: 10px;
+  color: yellow;
 }
 
 .comments {
@@ -812,32 +935,39 @@ a {
   transition: 0.25s ease;
   width: 24px;
 }
+
 .icon-star:hover,
 .icon-bubble:hover {
   fill: #ff4d4d;
 }
+
 @media screen and (min-width: 300px) {
   .blog-container {
     width: 100%;
   }
+
   .blog-summary {
     color: #4d4d4d;
     width: 90% !important;
   }
 }
+
 @media screen and (min-width: 767px) {
   .blog-container {
     width: 100%;
   }
+
   .blog-summary {
     color: #4d4d4d;
     width: 90% !important;
   }
 }
+
 @media screen and (min-width: 959px) {
   .blog-container {
     width: 100%;
   }
+
   .blog-summary {
     color: #4d4d4d;
     width: 90% !important;
@@ -847,16 +977,19 @@ a {
 .lesson-detail {
   display: flex;
 }
+
 p.lesson-line {
   flex: 1;
   text-transform: none !important;
   color: #000;
 }
+
 .lesson-title {
   text-transform: uppercase !important;
   font-family: 'Open Sans';
   color: #000;
 }
+
 .lessonAnchor {
   text-transform: uppercase;
   color: #20e434 !important;
@@ -866,10 +999,91 @@ p.lesson-line {
   margin-bottom: 1em;
 }
 
-.subClass-text {
-  font-size: 12px !important;
-  text-transform: initial;
-  font-family: 'Roboto', sans-serif;
+.section-lesson {
+  background: #fffafac7;
+  padding: 1em;
+  -webkit-box-shadow: 0px -5px 5px 1px rgba(221, 221, 221, 1);
+  -moz-box-shadow: 0px -5px 5px 1px rgba(221, 221, 221, 1);
+  box-shadow: 0px -5px 5px 1px rgba(221, 221, 221, 1);
+}
+
+.heading-section .title-heading {
+  padding-top: 1em;
+  font-family: 'Open Sans';
+  font-size: 14px;
+  font-weight: 200;
+}
+
+
+
+.lesson-ul {
+  width: 100%;
+  list-style: none;
+  counter-reset: counter-name;
+
+}
+
+.lesson-li {
+  margin: 2em auto;
+  padding-left: 2em;
+  width: 100%;
+  font-family: 'Work Sans';
+  position: relative;
+}
+
+.lesson-li::before {
+  counter-increment: counter-name;
+  content: counter(counter-name);
+  position: absolute;
+  left: -2em;
+  /* top: 30%; */
+  background-color: #fff;
+  border: 1px solid #20e434;
+  ;
+  width: 2em;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.class-sidebar {
+  width: 100%;
+  height: 100%;
+  padding: 1em;
+  background: #fffafac7;
+  -webkit-box-shadow: -6px -5px 5px -5px rgba(221, 221, 221, 1);
+  -moz-box-shadow: -6px -5px 5px -5px rgba(221, 221, 221, 1);
+  box-shadow: -6px -5px 5px -5px rgba(221, 221, 221, 1);
+}
+
+.sidebar-heading {
+  font-family: 'Roboto Sans'sans-serif;
+  font-family: 10px;
+  color: #000;
+}
+
+ul.classdetails {
+  list-style: none;
+  padding: 0;
+}
+
+li.listdetails {
+  margin: 1em auto;
+}
+
+li.listdetails span {
+  display: block;
+  text-transform: none;
+}
+
+span.spanheading {
+  font-family: 'Work Sans';
+}
+
+span.spandetails {
+  font-family: 'Open Sans';
   color: #000;
 }
 
@@ -885,9 +1099,11 @@ p.lesson-line {
 .form-container {
   padding-left: 1em;
 }
+
 .fields {
   margin: 0em 1em;
 }
+
 .title-subheading {
   text-align: left;
   padding-left: 1em;

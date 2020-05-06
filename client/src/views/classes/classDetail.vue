@@ -3,75 +3,150 @@
     <section class="section section-large">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="container">
-            <div class="col-lg-9">
-              <div class="blog-container">
-                <div class="blog-header">
-                  <div class="blog-cover" :style="{ backgroundImage: `url(${classImageUrl})` }">
-                    <div class="blog-author"></div>
+          <div class="col-lg-8">
+            <div class="blog-container">
+              <div class="blog-header">
+                <div class="blog-cover" :style="{ backgroundImage: `url(${classImageUrl})` }">
+                  <div class="blog-author"></div>
+                </div>
+              </div>
+
+              <div class="blog-body">
+                <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
+                <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
+                <div class="blog-title">
+                  <h3>{{ classTitle | capitalize }}</h3>
+                </div>
+                <div class="blog-menu">
+                  <div class="submenu">
+                    <div class="ratings">
+                      <span>Class Rating</span>
+                      <star-rating
+                        v-bind:increment="0.5"
+                        v-bind:max-rating="5"
+                        inactive-color="#dddddd"
+                        active-color="#20e434"
+                        v-bind:star-size="20"
+                        v-model="classRating"
+                      ></star-rating>
+                    </div>
                   </div>
+                  <div class="submenu"></div>
+                  <div class="submenu"></div>
                 </div>
 
-                <div class="blog-body">
-                  <div class="blog-title">
-                    <h3>{{ classTitle | capitalize }}</h3>
-                  </div>
-                  <h6 class="subClass-text text-right">By: {{ classInstructorUsername }}</h6>
-                  <h6 class="subClass-text text-right">Email: {{ classInstructorEmail }}</h6>
-                  <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
-                  <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
-                  <div class="blog-summary">
-                    <p v-html="classDescription"></p>
-                  </div>
-                  <div class="blog-tags">
-                    <ul>
-                      <li>
-                        <a
-                          v-if="checkisInstructor && checkInstructor"
-                          @click="editClass(classID)"
-                          class
-                        >Edit class</a>
-                      </li>
-                      <li>
-                        <a
-                          v-if="checkisInstructor && checkInstructor"
-                          @click="deleteClass(classID)"
-                          class
-                        >Delete class</a>
-                      </li>
-                      <li>
-                        <a
-                          v-if="checkisInstructor && checkInstructor"
-                          @click="addLesson"
-                          class
-                        >Add lesson</a>
-                      </li>
-                      <li>
-                        <a v-if="checkisStudent" @click="regClass" class>Register For Class</a>
-                      </li>
-                    </ul>
-                  </div>
+                <div class="blog-summary">
+                  <p v-html="classDescription"></p>
                 </div>
-
-                <div class="section-lesson">
-                  <h3 class="title-heading">Lessons</h3>
-                  <ol>
-                    <li v-for="lesson in classLessons" :key="lesson._id">
-                      <p class="lesson-title">{{ lesson.title }}</p>
-
-                      <div class="lesson-detail">
-                        <p v-html="Texttrim(lesson.body)" class="lesson-line"></p>
-                        <a
-                          @click="viewLesson(lesson._id)"
-                          class="lessonAnchor text-right"
-                        >View lesson</a>
-                      </div>
+                <div class="blog-tags">
+                  <ul>
+                    <li>
+                      <a
+                        v-if="checkisInstructor && checkInstructor"
+                        @click="editClass(classID)"
+                        class
+                      >Edit class</a>
                     </li>
-                  </ol>
+                    <li>
+                      <a
+                        v-if="checkisInstructor && checkInstructor"
+                        @click="deleteClass(classID)"
+                        class
+                      >Delete class</a>
+                    </li>
+                    <li>
+                      <a
+                        v-if="checkisInstructor && checkInstructor"
+                        @click="addLesson"
+                        class
+                      >Add lesson</a>
+                    </li>
+                    <li>
+                      <a v-if="checkisStudent" @click="regClass" class>Register For Class</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="section-lesson">
+                <div class="heading-section">
+                  <h3 class="title-heading">Lessons</h3>
+                </div>
+                <ul class="lesson-ul">
+                  <li class="lesson-li" v-for="lesson in classLessons" :key="lesson._id">
+                    <p class="lesson-title">{{ lesson.title }}</p>
+
+                    <div class="lesson-detail">
+                      <!-- <p v-html="Texttrim(lesson.body)" class="lesson-line"></p> -->
+                      <a @click="viewLesson(lesson._id)" class="lessonAnchor text-right">View lesson</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="class-sidebar">
+              <div class="sidebar-item">
+                <p class="sidebar-heading">Class Details</p>
+                <ul class="classdetails">
+                  <li class="listdetails">
+                    <span class="spanheading">By (Username)</span>
+                    <span class="spandetails">{{ classInstructorUsername }}</span>
+                  </li>
+                  <li class="listdetails">
+                    <span class="spanheading">Email</span>
+                    <span class="spandetails">{{ classInstructorEmail }}</span>
+                  </li>
+                  <li class="listdetails">
+                    <span class="spanheading">Number of students</span>
+                    <span class="spandetails">12</span>
+                  </li>
+                  <li class="listdetails">
+                    <span class="spanheading">Image credits</span>
+                    <span class="spandetails">pexels</span>
+                  </li>
+                  <li class="listdetails">
+                    <span class="spanheading">Number of lessons</span>
+                    <span class="spandetails">12 lessons</span>
+                  </li>
+                  <li class="listdetails">
+                    <span class="spanheading">Estimated time</span>
+                    <span class="spandetails">12 minutes</span>
+                  </li>
+                  <li class="listdetails">
+                    <span class="spanheading">Free or Pro</span>
+                    <span class="spandetails">Pro</span>
+                  </li>
+                </ul>
+              </div>
+              <hr />
+              <div class="sidebar-item">
+                <p class="sidebar-heading">Give this class a rating</p>
+
+                <div class="classRating">
+                  <span>Class Rating</span>
+                  <star-rating
+                    v-bind:increment="0.5"
+                    v-bind:max-rating="5"
+                    inactive-color="#dddddd"
+                    active-color="#20e434"
+                    v-bind:star-size="20"
+                    v-model="rate"
+                  ></star-rating>
+
+                  <span>Comment</span>
+                  <base-input alternative placeholder="Your view" v-model.trim="comment"></base-input>
+                  <base-button
+                    tag="a"
+                    href="#"
+                    class="mb-3 mb-sm-0 btn-green"
+                    type="success"
+                    @click="rateClass"
+                  >SEND</base-button>
                 </div>
               </div>
             </div>
-            <div class="col-lg-3"></div>
           </div>
         </div>
       </div>
@@ -81,9 +156,11 @@
 
 <script>
 import axios from 'axios';
+
 export default {
   data() {
     return {
+      classRating: 4.5,
       success: false,
       error: false,
       message: '',
@@ -94,9 +171,13 @@ export default {
       classInstructorID: '',
       classInstructorEmail: '',
       classInstructorUsername: '',
-      classLessons: null
+      classLessons: null,
+
+      rate: 0,
+      comment: ''
     };
   },
+
   computed: {
     checkInstructor: function() {
       if (this.$store.getters.username == this.classInstructorUsername) {
@@ -234,7 +315,6 @@ export default {
           console.log(err);
         });
     },
-
     viewLesson: function(val) {
       this.$router
         .push({
@@ -244,6 +324,36 @@ export default {
           }
         })
         .then()
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    },
+
+    rateClass: function() {
+      const classID = this.$route.params.id;
+      const userID = this.$store.getters.userID;
+      axios({
+        url: `/api/students/${userID}/class/${classID}/rate`,
+        method: 'POST',
+        data: {
+          rate: this.rate,
+          comment: this.comment
+        }
+      })
+        .then(res => {
+          if (res.data.success == false) {
+            this.error = true;
+            this.message = res.data.msg;
+            this.rate = 0;
+            this.comment = '';
+          } else {
+            this.success = true;
+            this.message = res.data.msg;
+            this.rate = 0;
+            this.comment = '';
+          }
+        })
         .catch(err => {
           // eslint-disable-next-line no-console
           console.log(err);

@@ -10,13 +10,28 @@
       </div>
       <hr />
       <div class="row align-items-center justify-content-md-between">
-        <div class="col-md-6">
+        <div class="col-xs-12 col-md-6">
           <div class="copyright">
             &copy; {{year}}
             <a class="text-white" href="#" target="_blank" rel="noopener">AgriSkul</a>
           </div>
         </div>
-        <div class="col-md-6"></div>
+        <div class="col-xs-12 mt-2 col-md-6 text-center">
+          <ul class="nav nav-footer justify-content-center">
+            <li class="nav-item">
+              <a href="#" class="nav-link" target="_blank">Youtube</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" target="_blank">Twitter</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" target="_blank">Facebook</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" target="_blank">Instagram</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </footer>

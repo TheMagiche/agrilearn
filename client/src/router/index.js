@@ -30,12 +30,11 @@ const router = new Router({
   linkExactActiveClass: 'active',
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
+  routes: [{
       path: '*',
       name: 'NotFound',
       component: () =>
-        import(/* webpackChunkName: "about" */ '../views/NotFoundPage.vue')
+        import( /* webpackChunkName: "about" */ '../views/NotFoundPage.vue')
     },
     {
       path: '/verify/:token',
@@ -213,12 +212,8 @@ const router = new Router({
       }
     }
   ],
-  scrollBehavior: to => {
-    if (to.hash) {
-      return { selector: to.hash };
-    } else {
-      return { x: 0, y: 0 };
-    }
+  scrollBehavior() {
+    document.getElementById('app').scrollIntoView();
   }
 });
 
