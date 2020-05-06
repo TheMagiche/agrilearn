@@ -4,23 +4,58 @@ var Class = require('../models/class');
 var Instructor = require('../models/instructor');
 var User = require('../models/user');
 var mongoose = require('mongoose');
+var RateClass = require('../models/classRating');
 
 /**
  * @route POST api/classes/
+ * @desc Get some classes
+ * @access Private
+ * Working
+ */
+router.get('/', function (req, res, next) {
+    try {
+        console.log('classes...');
+
+        RateClass.getClassRatings();
+
+        Class.getClasses(function (err, classes) {
+            if (err) {
+                throw err;
+            }
+
+            // console.log(classes)
+
+            res.status(200).json({
+                title: 'All Classes',
+                classes: classes
+            });
+
+        }, 10);
+
+
+    } catch (err) {
+        console.log(err);
+    }
+});
+/**
+ * @route POST api/classes/all
  * @desc Get all classes
  * @access Private
  * Working
  */
-router.get('/', function(req, res, next) {
+router.get('/all', function (req, res, next) {
     try {
         console.log('classes...');
-        Class.getClasses(function(err, classes) {
+        Class.getAllClasses(function (err, classes) {
             if (err) {
                 throw err;
             }
             // console.log(classes);
-            res.status(200).json({ title: 'All Classes', classes: classes });
-        }, 4);
+            res.status(200).json({
+                title: 'All Classes',
+                classes: classes
+            });
+        });
     } catch (err) {
         console.log(err);
     }
@@ -32,13 +67,17 @@ router.get('/', function(req, res, next) {
  * @access Private
  * Working
  */
-router.post('/create/:id', async function(req, res, next) {
+router.post('/create/:id', async function (req, res, next) {
     console.log('Receiving class details...');
 
     try {
         const id = req.params.id;
         // console.log(id);
-        const { title, description, imageUrl } = req.body;
+        const {
+            title,
+            description,
+            imageUrl
+        } = req.body;
 
         const myclass = await Class.create({
             title: title,
@@ -70,8 +109,8 @@ router.post('/create/:id', async function(req, res, next) {
  * @access Private
  * Working
  */
-router.put('/:id/update', function(req, res, next) {
-    Class.findByIdAndUpdate(req.params.id, req.body, function(err, myclass) {
+router.put('/:id/update', function (req, res, next) {
+    Class.findByIdAndUpdate(req.params.id, req.body, function (err, myclass) {
         if (err) return next(err);
         return res.json({
             success: true,
@@ -87,19 +126,22 @@ router.put('/:id/update', function(req, res, next) {
  * @access Private
  * Working
  */
-router.delete('/:id/delete', async function(req, res, next) {
-    await Instructor.update(
-        { _id: req.body.instructorID },
-        { $pull: { classes: mongoose.Schema.Types.ObjectId(req.params.id) } },
-        {
+router.delete('/:id/delete', async function (req, res, next) {
+    await Instructor.update({
+            _id: req.body.instructorID
+        }, {
+            $pull: {
+                classes: mongoose.Schema.Types.ObjectId(req.params.id)
+            }
+        }, {
             safe: true,
         },
-        function(err) {
+        function (err) {
             console.log(err);
         }
     );
 
-    Class.findById(req.params.id, function(err, myclass) {
+    Class.findById(req.params.id, function (err, myclass) {
         if (err) return next(err);
         myclass.remove();
         return res.json({
@@ -115,7 +157,7 @@ router.delete('/:id/delete', async function(req, res, next) {
  * @access Private
  * Working
  */
-router.get('/details/:id', async function(req, res) {
+router.get('/details/:id', async function (req, res) {
     console.log('fetching class...');
     try {
         const id = req.params.id;
@@ -129,7 +171,9 @@ router.get('/details/:id', async function(req, res) {
             });
         // console.log(classByID);
 
-        res.status(200).json({ class: classByID });
+        res.status(200).json({
+            class: classByID
+        });
     } catch (err) {
         console.log(err);
         res.status(400).json({
@@ -144,14 +188,22 @@ router.get('/details/:id', async function(req, res) {
  * @access Private
  * Working
  */
-router.post('/instructor/:id', async function(req, res, next) {
-    const { id } = req.params;
+router.post('/instructor/:id', async function (req, res, next) {
+    const {
+        id
+    } = req.params;
     const instructorByClass = await (await Class.findById(id)).populate('instructor');
-    res.status(200).json({ class: instructorByClass });
+    res.status(200).json({
+        class: instructorByClass
+    });
 });
 
+
+
 router.all('*', (req, res) => {
-    res.status(400).send({ error: 'undefined-route' });
+    res.status(400).send({
+        error: 'undefined-route'
+    });
 });
 
 module.exports = router;

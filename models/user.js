@@ -37,19 +37,21 @@ var UserSchema = mongoose.Schema({
 ser = module.exports = mongoose.model('User', UserSchema);
 
 // Get a single user by id
-module.exports.getUserById = function(id, callback) {
+module.exports.getUserById = function (id, callback) {
     User.findById(id, callback);
 };
 
 // Get user by username
-module.exports.getUserByUsername = function(username, callback) {
-    var query = { username: username };
+module.exports.getUserByUsername = function (username, callback) {
+    var query = {
+        username: username
+    };
     User.findOne(query, callback);
 };
 
 // Compare passwords
-module.exports.comparePassword = function(userPassword, hash, callback) {
-    bcrypt.compare(userPassword, hash, function(err, isMatch) {
+module.exports.comparePassword = function (userPassword, hash, callback) {
+    bcrypt.compare(userPassword, hash, function (err, isMatch) {
         if (err) {
             throw err;
         }
@@ -58,8 +60,8 @@ module.exports.comparePassword = function(userPassword, hash, callback) {
 };
 
 // Create user type student and hash password with bcrypt
-module.exports.saveStudent = function(newUser, newStudent, callback) {
-    bcrypt.hash(newUser.password, 10, function(err, hash) {
+module.exports.saveStudent = function (newUser, newStudent, callback) {
+    bcrypt.hash(newUser.password, 10, function (err, hash) {
         if (err) {
             throw err;
         }
@@ -71,8 +73,8 @@ module.exports.saveStudent = function(newUser, newStudent, callback) {
 };
 
 // Create user type instructor and hash password with bcrypt
-module.exports.saveInstructor = function(newUser, newInstructor, callback) {
-    bcrypt.hash(newUser.password, 10, function(err, hash) {
+module.exports.saveInstructor = function (newUser, newInstructor, callback) {
+    bcrypt.hash(newUser.password, 10, function (err, hash) {
         if (err) {
             throw err;
         }
@@ -82,7 +84,7 @@ module.exports.saveInstructor = function(newUser, newInstructor, callback) {
         async.parallel([newUser.save.bind(newUser), newInstructor.save.bind(newInstructor)], callback);
     });
 };
-module.exports.verifyUser = function(newUser, token) {
+module.exports.verifyUser = function (newUser, token) {
     newUser.resetPasswordToken = token;
     newUser.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     newUser.save();

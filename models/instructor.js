@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+var Schema = mongoose.Schema;
 var InstructorSchema = mongoose.Schema({
     first_name: {
         type: String,
@@ -13,35 +13,54 @@ var InstructorSchema = mongoose.Schema({
     email: {
         type: String,
     },
-    classes: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Class',
-        },
-    ],
+    classes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Class',
+    }, ],
+    ratings: [{
+        type: Schema.Types.ObjectId,
+        ref: 'RatingInstructor'
+    }],
+    rating: {
+        type: Number
+    }
 });
 
 var Instructor = (module.exports = mongoose.model('Instructor', InstructorSchema));
 
 // Get instructor by username
-module.exports.getInstructorByUsername = function(username, callback) {
-    var query = { username: username };
+module.exports.getInstructorByUsername = function (username, callback) {
+    var query = {
+        username: username
+    };
     Instructor.findOne(query, callback);
 };
 
 // Register an instructor for a class
-module.exports.register = function(info, callback) {
+module.exports.register = function (info, callback) {
     instructor_username = info['instructor_username'];
     class_id = info['class_id'];
     class_title = info['class_title'];
 
-    var query = { username: instructor_username };
+    var query = {
+        username: instructor_username
+    };
     Instructor.findOneAndUpdate(
         query,
         // Append the values to an array - push classes inside the instructor collection
-        { $push: { classes: { class_id: class_id, class_title: class_title } } },
+        {
+            $push: {
+                classes: {
+                    class_id: class_id,
+                    class_title: class_title
+                }
+            }
+        },
         // Creates a new document if no documents match the filter or update
-        { safe: true, upsert: true },
+        {
+            safe: true,
+            upsert: true
+        },
         callback
     );
 };
