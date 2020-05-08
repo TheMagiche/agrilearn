@@ -60,33 +60,37 @@ module.exports.comparePassword = function (userPassword, hash, callback) {
 };
 
 // Create user type student and hash password with bcrypt
-module.exports.saveStudent = function (newUser, newStudent, callback) {
+module.exports.saveStudent = function (newUser, newStudent, token, callback) {
     bcrypt.hash(newUser.password, 10, function (err, hash) {
         if (err) {
             throw err;
         }
         // Hash password
         newUser.password = hash;
+        newUser.resetPasswordToken = token;
+        newUser.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        newUser.save();
         // Save user in two different collections
         async.parallel([newUser.save.bind(newUser), newStudent.save.bind(newStudent)], callback);
     });
 };
 
 // Create user type instructor and hash password with bcrypt
-module.exports.saveInstructor = function (newUser, newInstructor, callback) {
+module.exports.saveInstructor = function (newUser, newInstructor, token, callback) {
     bcrypt.hash(newUser.password, 10, function (err, hash) {
         if (err) {
             throw err;
         }
         // Hash password
         newUser.password = hash;
+        newUser.resetPasswordToken = token;
+        newUser.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        newUser.save();
         // Save instructor in two different collections
         async.parallel([newUser.save.bind(newUser), newInstructor.save.bind(newInstructor)], callback);
     });
 };
 module.exports.verifyUser = function (newUser, token) {
-    newUser.resetPasswordToken = token;
-    newUser.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-    newUser.save();
+
 };
 UserSchema.plugin(passportLocalMongoose);

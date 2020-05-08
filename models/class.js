@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');
 var Lesson = require('./lesson');
 var Schema = mongoose.Schema;
-var RateClass = require('./classRating')
-
 
 var ClassSchema = mongoose.Schema({
     title: {
@@ -18,6 +16,10 @@ var ClassSchema = mongoose.Schema({
     imgUrl: {
         type: String,
     },
+    students: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     lessons: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Lesson',

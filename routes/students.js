@@ -6,7 +6,7 @@ const Class = require('../models/class');
 const RateClass = require('../models/classRating');
 const RateInstructor = require('../models/instructorRating');
 const Instructor = require('../models/instructor');
-
+const mongoose = require('mongoose');
 /**
  * @route POST api/student/classes/:id
  * @desc Get students classes
@@ -52,36 +52,48 @@ router.post('/:id/class/:classID/register', async function (req, res) {
 
         const studentByID = await User.findById(id);
         const classByID = await Class.findById(classID);
-        var query = {
-            username: studentByID.username
-        };
-        let studentByUsername = await Student.findOneAndUpdate(
-            query,
-            // Append the values to an array - push classes inside the instructor collection
-            {
-                $addToSet: {
-                    classes: classByID
-                }
-            },
-            // Creates a new document if no documents match the filter or update
-            {
-                safe: true,
-                upsert: true
-            },
-            function (err) {
-                if (err) {
-                    return res.json({
-                        msg: 'Already registered for class',
-                        success: false,
-                    });
-                } else {
-                    return res.status(200).json({
-                        msg: 'Registered class successfully',
-                        success: true,
-                    });
-                }
+
+        classByID.find({
+            "students.id": mongoose.Types.ObjectId(id)
+        }, async function (err, result) {
+            if (result) {
+                return res.json({
+                    msg: 'Already registered for class',
+                    success: false,
+                });
+            } else {
+                classByID.students.push(studentByID)
+                var query = {
+                    username: studentByID.username
+                };
+                let studentByUsername = await Student.findOneAndUpdate(
+                    query,
+                    // Append the values to an array - push classes inside the instructor collection
+                    {
+                        $addToSet: {
+                            classes: classByID
+                        }
+                    },
+                    // Creates a new document if no documents match the filter or update
+                    {
+                        safe: true,
+                        upsert: true
+                    },
+                    function (err) {
+                        if (err) {
+                            throw err;
+                        } else {
+                            return res.status(200).json({
+                                msg: 'Registered class successfully',
+                                success: true,
+                            });
+                        }
+                    }
+                );
             }
-        );
+        })
+
+
 
     } catch (err) {
         console.log(err);

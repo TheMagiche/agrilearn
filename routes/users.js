@@ -11,13 +11,13 @@ const bcrypt = require('bcryptjs');
 var async = require('async');
 var crypto = require('crypto');
 // Serialize user for the session to determine which data will be saved
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
     done(null, user._id);
 });
 
 // Deserialize user
-passport.deserializeUser(function(id, done) {
-    User.getUserById(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+    User.getUserById(id, function (err, user) {
         done(err, user);
     });
 });
@@ -46,13 +46,13 @@ router.post('/register', async (req, res, next) => {
     console.log('Receiving details ..');
 
     async.waterfall([
-        function(done) {
+        function (done) {
             crypto.randomBytes(20, (err, buf) => {
                 var token = buf.toString('hex');
                 done(err, token);
             });
         },
-        function(token) {
+        function (token) {
             var first_name = req.body.first_name;
             var last_name = req.body.last_name;
             var email = req.body.email;
@@ -60,7 +60,15 @@ router.post('/register', async (req, res, next) => {
             var password = req.body.password;
             var type = req.body.type;
             var phoneNumber = req.body.phoneNumber;
-            User.findOne({ $or: [{ username: username }, { email: email }, { phoneNumber: phoneNumber }] })
+            User.findOne({
+                    $or: [{
+                        username: username
+                    }, {
+                        email: email
+                    }, {
+                        phoneNumber: phoneNumber
+                    }]
+                })
                 .then(user => {
                     //if user found.
                     if (user) {
@@ -109,9 +117,10 @@ router.post('/register', async (req, res, next) => {
                             });
                             console.log(newStudent);
                             // Save student in the user collection
-                            User.saveStudent(newUser, newStudent, async function(err, user) {
+                            User.saveStudent(newUser, newStudent, token, async function (err, user) {
                                 console.log('Student created!');
                             });
+
                         } else {
                             console.log('Registering as instructor...');
                             var newInstructor = new Instructor({
@@ -122,11 +131,12 @@ router.post('/register', async (req, res, next) => {
                             });
                             console.log(newInstructor);
                             // Save instructor in the user collection
-                            User.saveInstructor(newUser, newInstructor, async function(err, user) {
+                            User.saveInstructor(newUser, newInstructor, token, async function (err, user) {
                                 console.log('Instructor created!');
                             });
+
                         }
-                        User.verifyUser(newUser, token);
+
                         var Nodeemail = {
                             to: email,
                             from: 'agriskul@gmail.com',
@@ -168,7 +178,12 @@ router.post('/register', async (req, res, next) => {
 router.get('/verify/:token', (req, res) => {
     const token = req.params.token;
     if (token) {
-        User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }).then(user => {
+        User.findOne({
+            resetPasswordToken: req.params.token,
+            resetPasswordExpires: {
+                $gt: Date.now()
+            }
+        }).then(user => {
             if (!user) {
                 return res.status(401).json({
                     msg: 'Registration token is invalid or has expired.',
@@ -186,7 +201,9 @@ router.get('/verify/:token', (req, res) => {
             }
         });
     } else {
-        User.findOne({ verified: true }).then(user => {
+        User.findOne({
+            verified: true
+        }).then(user => {
             if (!user) {
                 return res.status(401).json({
                     msg: 'Account not verified',
@@ -209,10 +226,14 @@ router.get('/verify/:token', (req, res) => {
  * Working
  */
 
-router.post('/login', async function(req, res) {
+router.post('/login', async function (req, res) {
     try {
         await User.findOne({
-            $or: [{ username: req.body.detail }, { email: req.body.detail }],
+            $or: [{
+                username: req.body.detail
+            }, {
+                email: req.body.detail
+            }],
         }).then(user => {
             if (!user) {
                 return res.json({
@@ -238,8 +259,7 @@ router.post('/login', async function(req, res) {
                     };
                     jwt.sign(
                         payload,
-                        'agrilearn',
-                        {
+                        'agrilearn', {
                             expiresIn: 604800,
                         },
                         (err, token) => {
@@ -274,8 +294,8 @@ router.post('/login', async function(req, res) {
 });
 
 passport.use(
-    new LocalStrategy(function(username, password, done) {
-        User.getUserByUsername(username, function(err, user) {
+    new LocalStrategy(function (username, password, done) {
+        User.getUserByUsername(username, function (err, user) {
             if (err) {
                 throw err;
             }
@@ -284,7 +304,7 @@ passport.use(
                     message: 'User' + ' ' + username + ' ' + 'is not registered.',
                 });
             }
-            User.comparePassword(password, user.password, function(err, isMatch) {
+            User.comparePassword(password, user.password, function (err, isMatch) {
                 if (err) {
                     return done(err);
                 }
@@ -292,7 +312,9 @@ passport.use(
                     return done(null, user);
                 } else {
                     console.log('wrong password');
-                    return done(null, false, { message: 'Invalid password.' });
+                    return done(null, false, {
+                        message: 'Invalid password.'
+                    });
                 }
             });
         });
@@ -305,7 +327,7 @@ passport.use(
  * @access Private
  * Working
  */
-router.get('/logout', function(req, res) {
+router.get('/logout', function (req, res) {
     req.logout();
 });
 /**
@@ -314,20 +336,22 @@ router.get('/logout', function(req, res) {
  * @access Private
  */
 
-router.post('/reset-password', function(req, res) {
+router.post('/reset-password', function (req, res) {
     console.log('getting details');
     async.waterfall([
-        function(done) {
+        function (done) {
             crypto.randomBytes(20, (err, buf) => {
                 var token = buf.toString('hex');
                 console.log(token);
                 done(err, token);
             });
         },
-        function(token, done) {
+        function (token, done) {
             let email = req.body.email;
             console.log(email);
-            User.findOne({ email: email }).then(user => {
+            User.findOne({
+                email: email
+            }).then(user => {
                 if (user) {
                     console.log('adding new user details');
                     user.resetPasswordToken = token;
@@ -341,8 +365,7 @@ router.post('/reset-password', function(req, res) {
                         from: 'agriskul@gmail.com',
                         subject: 'Password Reset',
                         text: 'Learn today enjoy tommorow',
-                        html:
-                            'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                        html: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
                             '<a href="http://' +
                             req.headers.host +
@@ -382,7 +405,12 @@ router.post('/reset-password', function(req, res) {
  * @access Private
  */
 router.get('/reset/:token', (req, res) => {
-    User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, (err, user) => {
+    User.findOne({
+        resetPasswordToken: req.params.token,
+        resetPasswordExpires: {
+            $gt: Date.now()
+        }
+    }, (err, user) => {
         if (!user) {
             return res.status(401).json({
                 msg: 'Password reset token is invalid or has expired.',
@@ -406,16 +434,21 @@ router.post('/reset/:token', (req, res) => {
     console.log('resetting password');
 
     async.waterfall([
-        function() {
+        function () {
             let password = req.body.password;
-            User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }).then(user => {
+            User.findOne({
+                resetPasswordToken: req.params.token,
+                resetPasswordExpires: {
+                    $gt: Date.now()
+                }
+            }).then(user => {
                 if (!user) {
                     return res.json({
                         msg: 'Password reset token is invalid or has expired.',
                         success: false,
                     });
                 } else {
-                    bcrypt.hash(password, 10, function(err, hash) {
+                    bcrypt.hash(password, 10, function (err, hash) {
                         if (err) {
                             throw err;
                         }
@@ -446,7 +479,7 @@ router.post('/reset/:token', (req, res) => {
                 }
             });
         },
-        function(user, done) {},
+        function (user, done) {},
     ]);
 });
 /**
@@ -454,7 +487,7 @@ router.post('/reset/:token', (req, res) => {
  * @desc Sent email from front page
  * @access Public
  */
-router.post('/message', async function(req, res) {
+router.post('/message', async function (req, res) {
     var email = {
         to: 'wilsonmwangi692@gmail.com',
         from: 'agriskul@gmail.com',
@@ -495,7 +528,9 @@ router.get(
 );
 
 router.all('*', (req, res) => {
-    res.status(400).send({ error: 'undefined-route' });
+    res.status(400).send({
+        error: 'undefined-route'
+    });
 });
 
 module.exports = router;
