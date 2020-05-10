@@ -53,46 +53,55 @@ router.post('/:id/class/:classID/register', async function (req, res) {
         const studentByID = await User.findById(id);
         const classByID = await Class.findById(classID);
 
-        classByID.find({
-            "students.id": mongoose.Types.ObjectId(id)
-        }, async function (err, result) {
-            if (result) {
-                return res.json({
-                    msg: 'Already registered for class',
-                    success: false,
-                });
-            } else {
-                classByID.students.push(studentByID)
-                var query = {
-                    username: studentByID.username
-                };
-                let studentByUsername = await Student.findOneAndUpdate(
-                    query,
-                    // Append the values to an array - push classes inside the instructor collection
-                    {
-                        $addToSet: {
-                            classes: classByID
-                        }
-                    },
-                    // Creates a new document if no documents match the filter or update
-                    {
-                        safe: true,
-                        upsert: true
-                    },
-                    function (err) {
-                        if (err) {
-                            throw err;
-                        } else {
-                            return res.status(200).json({
-                                msg: 'Registered class successfully',
-                                success: true,
-                            });
+        const exists = await Class.aggregate([{
+            $match: {
+                $and: [{
+                    _id: mongoose.Types.ObjectId(classID)
+                }, {
+                    students: {
+                        $elemMatch: {
+                            $eq: mongoose.Types.ObjectId(id)
                         }
                     }
-                );
+                }]
             }
-        })
+        }])
 
+        if (exists.length) {
+            return res.status(200).json({
+                msg: 'Already registered for class',
+                success: false,
+            });
+        }
+
+        classByID.students.push(studentByID);
+        classByID.save();
+
+        var query = {
+            username: studentByID.username
+        };
+
+        await Student.findOneAndUpdate(
+            query,
+            // Append the values to an array - push classes inside the instructor collection
+            {
+                $addToSet: {
+                    classes: classByID
+                }
+            },
+            // Creates a new document if no documents match the filter or update
+            {
+                safe: true,
+                upsert: true
+            },
+
+
+        );
+
+        return res.status(200).json({
+            msg: 'Registered class successfully',
+            success: true,
+        });
 
 
     } catch (err) {
@@ -114,18 +123,38 @@ router.post('/:id/class/:classID/rate', async function (req, res) {
             classID
         } = req.params;
 
-        let newRate = new RateClass({
+        const rate = await RateClass.findOne({
+            author: id,
+            class: classID
+        })
+
+        if (rate) {
+            await RateClass.updateOne({
+                author: id,
+                class: classID
+            }, {
+                $set: {
+                    rating: req.body.rate,
+                    comment: req.body.comment
+                }
+            }).exec()
+
+            return res.status(200).json({
+                msg: "Updated your response",
+                success: true
+            });
+        }
+
+        let newRate = await RateClass.create({
             author: id,
             comment: req.body.comment,
             class: classID,
             rating: req.body.rate
         });
 
-        newRate.save();
-
         const classByID = await Class.findById(classID)
         classByID.ratings.push(newRate);
-        classByID.save()
+        classByID.save();
 
         return res.status(200).json({
             msg: "Thank you for your feedback",

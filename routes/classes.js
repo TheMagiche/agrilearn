@@ -4,7 +4,6 @@ var Class = require('../models/class');
 var Instructor = require('../models/instructor');
 var User = require('../models/user');
 var mongoose = require('mongoose');
-var RateClass = require('../models/classRating');
 
 /**
  * @route POST api/classes/
@@ -15,8 +14,6 @@ var RateClass = require('../models/classRating');
 router.get('/', function (req, res, next) {
     try {
         console.log('classes...');
-
-        RateClass.getClassRatings();
 
         Class.getClasses(function (err, classes) {
             if (err) {
@@ -76,7 +73,9 @@ router.post('/create/:id', async function (req, res, next) {
         const {
             title,
             description,
-            imageUrl
+            imageUrl,
+            pro,
+            readTime
         } = req.body;
 
         const myclass = await Class.create({
@@ -84,6 +83,8 @@ router.post('/create/:id', async function (req, res, next) {
             description: description,
             imgUrl: imageUrl,
             instructor: id,
+            pro: pro,
+            readTime: readTime
         });
         await myclass.save();
 
