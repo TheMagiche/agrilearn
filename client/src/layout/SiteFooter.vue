@@ -18,17 +18,29 @@
         </div>
         <div class="col-xs-12 mt-2 col-md-6 text-center">
           <ul class="nav nav-footer justify-content-center">
-            <li class="nav-item">
-              <a href="#" class="nav-link" target="_blank">Youtube</a>
+            <li class="nav-item footer-links">
+              <a
+                href="https://www.youtube.com/channel/UC_Wdbx9QwsdmW3H78vPf7Gw"
+                class="nav-link"
+                target="_blank"
+              >Youtube</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link" target="_blank">Twitter</a>
+              <a href="https://twitter.com/@agriskul" class="nav-link" target="_blank">Twitter</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link" target="_blank">Facebook</a>
+            <li class="nav-item footer-links">
+              <a
+                href="https://www.facebook.com/agriskul.learning"
+                class="nav-link"
+                target="_blank"
+              >Facebook</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link" target="_blank">Instagram</a>
+            <li class="nav-item footer-links">
+              <a
+                href="https://www.instagram.com/agriskullearning/"
+                class="nav-link"
+                target="_blank"
+              >Instagram</a>
             </li>
           </ul>
         </div>

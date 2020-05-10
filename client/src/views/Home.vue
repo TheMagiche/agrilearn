@@ -5,8 +5,8 @@
         <div class="row justify-content-center">
           <div class="col-lg-6">
             <div class="container pt-lg-5">
-              <h2 class="headings display-3">Learn to grow your</h2>
-              <h2 class="headings display-3">agribusiness</h2>
+              <h1 class="headings display-1">Learn to grow your</h1>
+              <h1 class="headings display-1">agribusiness</h1>
 
               <p class="subheading">
                 Find the perfect tutorial to get started on your farming today,
@@ -122,9 +122,10 @@
                     <div class="ratings">
                       <span>Class Rating</span>
                       <star-rating
-                        active-color="#20e434"
+                        v-bind:increment="0.5"
                         v-bind:star-size="20"
                         v-model="item.rating"
+                        :read-only="true"
                       ></star-rating>
                     </div>
                   </div>
@@ -259,10 +260,12 @@
 
         <div class="pt-3">
           <div class="pt-2">
-            <div class="partner-carousel owl-theme">
-              <center>
-                <p class="mt-5 coming-soon">Coming up soon</p>
-              </center>
+            <div class="partner-carousel owl-carousel owl-theme">
+              <div v-for="company in partners" :key="company.id" class="company-card">
+                <div class="company-data" :style="{ backgroundImage: `url(${company.img})` }">
+                  <p class="company-name">{{company.name}}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -312,6 +315,23 @@ export default {
           testimonial:
             'Agriskul has very practical knowledge that any new farmer can follow while starting a farming venture.For me,their poultry  feeding  programs was  recommended by my vet. Agriskul will always be my e-learning of choice',
           img: vincentimg
+        }
+      ],
+      partners: [
+        {
+          img:
+            'https://images.pexels.com/photos/2534507/pexels-photo-2534507.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+          name: 'BambooKenya'
+        },
+        {
+          img:
+            'https://images.pexels.com/photos/929137/pexels-photo-929137.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+          name: 'Farmers Choice'
+        },
+        {
+          img:
+            'https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+          name: 'Cheese hut'
         }
       ]
     };
@@ -387,6 +407,12 @@ export default {
           autoplayHoverPause: true,
           responsiveClass: true
         });
+        $('.partner-carousel').owlCarousel({
+          items: 3,
+          loop: true,
+          autowidth: true,
+          responsiveClass: true
+        });
       }
       if ($(window).width() > 600 && $(window).width() < 1024) {
         $('.class-carousel').owlCarousel({
@@ -398,6 +424,12 @@ export default {
           autoplayHoverPause: true,
           responsiveClass: true
         });
+        $('.partner-carousel').owlCarousel({
+          items: 2,
+          loop: true,
+          autowidth: true,
+          responsiveClass: true
+        });
       }
       if ($(window).width() < 600) {
         $('.class-carousel').owlCarousel({
@@ -407,6 +439,12 @@ export default {
           autoplay: true,
           autoplayTimeout: 3000,
           autoplayHoverPause: true,
+          responsiveClass: true
+        });
+        $('.partner-carousel').owlCarousel({
+          items: 1,
+          loop: true,
+          autowidth: true,
           responsiveClass: true
         });
       }

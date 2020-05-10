@@ -19,12 +19,12 @@
                 </div>
                 <div class="blog-menu">
                   <div class="submenu">
-                    <div class="ratings">
+                    <div class="class-ratings">
                       <span>Class Rating</span>
                       <star-rating
                         v-bind:increment="0.5"
                         v-bind:max-rating="5"
-                        inactive-color="#dddddd"
+                        inactive-color="#ddd"
                         active-color="#20e434"
                         v-bind:star-size="20"
                         v-model="classRating"
@@ -100,28 +100,24 @@
                   </li>
                   <li class="listdetails">
                     <span class="spanheading">Number of students</span>
-                    <span class="spandetails">12</span>
-                  </li>
-                  <li class="listdetails">
-                    <span class="spanheading">Image credits</span>
-                    <span class="spandetails">pexels</span>
+                    <span class="spandetails">{{classStudents.length}} students</span>
                   </li>
                   <li class="listdetails">
                     <span class="spanheading">Number of lessons</span>
-                    <span class="spandetails">12 lessons</span>
+                    <span class="spandetails">{{classLessons.length}} lessons</span>
                   </li>
                   <li class="listdetails">
                     <span class="spanheading">Estimated time</span>
-                    <span class="spandetails">12 minutes</span>
+                    <span class="spandetails">{{classReadTime}}</span>
                   </li>
                   <li class="listdetails">
                     <span class="spanheading">Free or Pro</span>
-                    <span class="spandetails">Pro</span>
+                    <span class="spandetails">{{classStatus}}</span>
                   </li>
                 </ul>
               </div>
               <hr />
-              <div class="sidebar-item">
+              <div v-if="checkisStudent" class="sidebar-item">
                 <p class="sidebar-heading">Give this class a rating</p>
 
                 <div class="classRating">
@@ -160,7 +156,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      classRating: 4.5,
+      classRating: 0,
       success: false,
       error: false,
       message: '',
@@ -171,8 +167,10 @@ export default {
       classInstructorID: '',
       classInstructorEmail: '',
       classInstructorUsername: '',
-      classLessons: null,
-
+      classLessons: [],
+      classStudents: [],
+      classReadTime: '',
+      classStatus: '',
       rate: 0,
       comment: ''
     };
@@ -229,6 +227,14 @@ export default {
           this.classInstructorEmail = resp.data.class.instructor.email;
           this.classInstructorUsername = resp.data.class.instructor.username;
           this.classLessons = resp.data.class.lessons;
+          this.classStudents = resp.data.class.students;
+          this.classReadTime = resp.data.class.readTime;
+          this.classRating = parseInt(resp.data.class.rating);
+          if (resp.data.class.pro == true) {
+            this.classStatus = 'Pro';
+          } else {
+            this.classStatus = 'Free';
+          }
           // eslint-disable-next-line no-console
           // console.log(this.classLessons);
         })

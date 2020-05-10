@@ -8,39 +8,66 @@
             <div class="container pt-lg-5">
               <div class="form-container">
                 <form>
-                  <div class="fields">
-                    <h3 class="title-subheading">Class Title</h3>
-                    <base-input
-                      class="input-group-alternative mb-3"
-                      placeholder="Class Title"
-                      addon-left-icon="ni ni-email-83"
-                      v-model.trim="classTitle"
-                    ></base-input>
-                  </div>
-                  <div class="fields">
-                    <h3 class="title-subheading">Class Image</h3>
-                    <base-input
-                      class="input-group-alternative mt-3"
-                      placeholder="Image Url"
-                      addon-left-icon="ni ni-email-83"
-                      v-model.trim="classImageUrl"
-                    ></base-input>
-                  </div>
-                  <div class="fields">
-                    <vue-ckeditor
-                      v-model="classDescription"
-                      :config="config"
-                      @blur="onBlur($event)"
-                      @focus="onFocus($event)"
-                      @contentDom="onContentDom($event)"
-                      @dialogDefinition="onDialogDefinition($event)"
-                      @fileUploadRequest="onFileUploadRequest($event)"
-                      @fileUploadResponse="onFileUploadResponse($event)"
-                    />
-                  </div>
+                  <div class="form-card">
+                    <div class="row">
+                      <div class="col-lg-9">
+                        <div class="fields">
+                          <h3 class="title-subheading">Class Title</h3>
+                          <base-input
+                            class="input-group-alternative mb-3"
+                            placeholder="Class Title"
+                            addon-left-icon="ni ni-email-83"
+                            v-model.trim="classTitle"
+                          ></base-input>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="fields">
+                          <h3 class="title-subheading">Pro ?</h3>
+                          <base-switch :v-model="pro"></base-switch>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-9">
+                        <div class="fields">
+                          <h3 class="title-subheading">Class Image</h3>
+                          <base-input
+                            class="input-group-alternative mt-3"
+                            placeholder="Image Url"
+                            addon-left-icon="ni ni-email-83"
+                            v-model.trim="classImageUrl"
+                          ></base-input>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="fields">
+                          <h3 class="title-subheading">Study Time</h3>
+                          <base-input
+                            class="input-group-alternative mb-3"
+                            placeholder="10 minutes"
+                            v-model.trim="readTime"
+                          ></base-input>
+                        </div>
+                      </div>
+                    </div>
 
-                  <div class="text-center">
-                    <base-button class="my-4 btn-success" @click="updateClass">Submit</base-button>
+                    <div class="fields">
+                      <vue-ckeditor
+                        v-model="classDescription"
+                        :config="config"
+                        @blur="onBlur($event)"
+                        @focus="onFocus($event)"
+                        @contentDom="onContentDom($event)"
+                        @dialogDefinition="onDialogDefinition($event)"
+                        @fileUploadRequest="onFileUploadRequest($event)"
+                        @fileUploadResponse="onFileUploadResponse($event)"
+                      />
+                    </div>
+
+                    <div class="text-center">
+                      <base-button class="my-4 btn-success" @click="updateClass">Submit</base-button>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -66,6 +93,8 @@ export default {
       classTitle: '',
       classDescription: '',
       classImageUrl: '',
+      pro: false,
+      readTime: '',
       config: {
         toolbar: [
           'Format',
@@ -95,6 +124,8 @@ export default {
           this.classTitle = resp.data.class.title;
           this.classDescription = resp.data.class.description;
           this.classImageUrl = resp.data.class.imgUrl;
+          this.pro = resp.data.class.pro;
+          this.readTime = resp.data.class.readTime;
           // eslint-disable-next-line no-console
           // console.log(this.classLessons);
         })
@@ -110,7 +141,9 @@ export default {
         data: {
           title: this.classTitle,
           imgUrl: this.classImageUrl,
-          description: this.classDescription.trim()
+          description: this.classDescription.trim(),
+          pro: this.pro,
+          readTime: this.readTime
         },
         method: 'PUT'
       })

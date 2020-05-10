@@ -4,44 +4,73 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="container pt-lg-5">
-            <h3 class="title-heading">New Class</h3>
+            <h3 class="title-heading">Class Create</h3>
             <div class="container pt-lg-5">
               <div class="form-container">
                 <form>
-                  <div class="fields">
-                    <h3 class="title-subheading">Class Title</h3>
-                    <base-input
-                      class="input-group-alternative mb-3"
-                      placeholder="Class Title"
-                      addon-left-icon="ni ni-email-83"
-                      v-model.trim="title"
-                    ></base-input>
-                  </div>
-                  <div class="fields">
-                    <h3 class="title-subheading">Class Image</h3>
-                    <base-input
-                      class="input-group-alternative mt-3"
-                      placeholder="Image Url"
-                      addon-left-icon="ni ni-email-83"
-                      v-model.trim="imageUrl"
-                    ></base-input>
-                  </div>
-                  <div class="fields">
-                    <h3 class="title-subheading">Class Body</h3>
-                    <vue-ckeditor
-                      :config="config"
-                      @blur="onBlur($event)"
-                      @focus="onFocus($event)"
-                      @contentDom="onContentDom($event)"
-                      @dialogDefinition="onDialogDefinition($event)"
-                      @fileUploadRequest="onFileUploadRequest($event)"
-                      @fileUploadResponse="onFileUploadResponse($event)"
-                      v-model="description"
-                    />
-                  </div>
+                  <div class="form-card">
+                    <div class="row">
+                      <div class="col-lg-9">
+                        <div class="fields">
+                          <h3 class="title-subheading">Class Title</h3>
+                          <base-input
+                            class="input-group-alternative mb-3"
+                            placeholder="Class Title"
+                            v-model.trim="title"
+                          ></base-input>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="fields">
+                          <h3 class="title-subheading">Pro ?</h3>
+                          <base-switch :v-model="pro"></base-switch>
+                        </div>
+                      </div>
+                    </div>
 
-                  <div class="text-center">
-                    <base-button class="my-4 btn-secondary btn-success" @click="submitClass">Submit</base-button>
+                    <div class="row">
+                      <div class="col-lg-9">
+                        <div class="fields">
+                          <h3 class="title-subheading">Class Image</h3>
+                          <base-input
+                            class="input-group-alternative mt-3"
+                            placeholder="Image Url"
+                            v-model.trim="imageUrl"
+                          ></base-input>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="fields">
+                          <h3 class="title-subheading">Study Time</h3>
+                          <base-input
+                            class="input-group-alternative mb-3"
+                            placeholder="10 minutes"
+                            v-model.trim="estTime"
+                          ></base-input>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="fields">
+                      <h3 class="title-subheading">Class Body</h3>
+                      <vue-ckeditor
+                        :config="config"
+                        @blur="onBlur($event)"
+                        @focus="onFocus($event)"
+                        @contentDom="onContentDom($event)"
+                        @dialogDefinition="onDialogDefinition($event)"
+                        @fileUploadRequest="onFileUploadRequest($event)"
+                        @fileUploadResponse="onFileUploadResponse($event)"
+                        v-model="description"
+                      />
+                    </div>
+
+                    <div class="text-center">
+                      <base-button
+                        class="my-4 btn-secondary btn-success"
+                        @click="submitClass"
+                      >Submit</base-button>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -67,7 +96,8 @@ export default {
       title: '',
       description: '',
       imageUrl: '',
-
+      pro: false,
+      estTime: '',
       config: {
         toolbar: [
           'Format',
@@ -102,7 +132,9 @@ export default {
         data: {
           title: this.title,
           description: this.description.trim(),
-          imageUrl: this.imageUrl
+          imageUrl: this.imageUrl,
+          pro: this.pro,
+          readTime: this.estTime
         },
         method: 'POST'
       })

@@ -32,20 +32,20 @@
                 :to="{ name: 'instructorClasses' }"
                 class="media d-flex align-items-center"
               >
-                <div class="icon icon-shape bg-gradient-primary rounded-circle text-white">
-                  <i class="ni ni-spaceship"></i>
+                <div class="icon icon-shape bg-gradient-success rounded-circle text-white">
+                  <i class="ni ni-book-bookmark"></i>
                 </div>
                 <div class="media-body ml-3">
-                  <h6 class="heading text-primary mb-md-1">My classes</h6>
+                  <h6 class="heading text-green mb-md-1">My classes</h6>
                   <p class="description d-none d-md-inline-block mb-0">View your classes</p>
                 </div>
               </router-link>
               <router-link :to="{ name: 'classCreate' }" class="media d-flex align-items-center">
-                <div class="icon icon-shape bg-gradient-warning rounded-circle text-white">
-                  <i class="ni ni-ui-04"></i>
+                <div class="icon icon-shape bg-gradient-success rounded-circle text-white">
+                  <i class="ni ni-curved-next"></i>
                 </div>
                 <div class="media-body ml-3">
-                  <h5 class="heading text-warning mb-md-1">New Class</h5>
+                  <h5 class="heading text-green mb-md-1">New Class</h5>
                   <p class="description d-none d-md-inline-block mb-0">Create new class</p>
                 </div>
               </router-link>
@@ -61,11 +61,11 @@
             </a>
             <div class="dropdown-menu-inner">
               <router-link :to="{ name: 'studentClasses' }" class="media d-flex align-items-center">
-                <div class="icon icon-shape bg-gradient-warning rounded-circle text-white">
-                  <i class="ni ni-ui-04"></i>
+                <div class="icon icon-shape bg-gradient-success rounded-circle text-white">
+                  <i class="ni ni-book-bookmark"></i>
                 </div>
                 <div class="media-body ml-3">
-                  <h5 class="heading text-warning mb-md-1">Classes</h5>
+                  <h5 class="heading text-green mb-md-1">Classes</h5>
                   <p class="description d-none d-md-inline-block mb-0">View your Classes</p>
                 </div>
               </router-link>
@@ -96,7 +96,7 @@
             <li class="nav-item">
               <a
                 class="nav-link nav-link-icon"
-                href="#"
+                href="https://www.instagram.com/agriskullearning/"
                 target="_blank"
                 rel="noopener"
                 data-toggle="tooltip"
@@ -109,7 +109,7 @@
             <li class="nav-item">
               <a
                 class="nav-link nav-link-icon"
-                href="#"
+                href="https://twitter.com/@agriskul"
                 target="_blank"
                 rel="noopener"
                 data-toggle="tooltip"
@@ -122,7 +122,7 @@
             <li class="nav-item">
               <a
                 class="nav-link nav-link-icon"
-                href="#"
+                href="https://www.facebook.com/agriskul.learning"
                 target="_blank"
                 rel="noopener"
                 data-toggle="tooltip"
@@ -135,7 +135,7 @@
             <li class="nav-item">
               <a
                 class="nav-link nav-link-icon"
-                href="#"
+                href="https://www.youtube.com/channel/UC_Wdbx9QwsdmW3H78vPf7Gw"
                 target="_blank"
                 rel="noopener"
                 data-toggle="tooltip"
@@ -225,7 +225,7 @@ export default {
     logout: function() {
       this.$cookies.remove('connect.sid');
       this.$store.dispatch('logout').then(() => {
-        this.$router.push({ name: 'home' });
+        this.$router.push({ name: 'SiteLogin' });
       });
     },
     checkOudatedToken: function() {

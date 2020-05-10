@@ -12,11 +12,9 @@
                     <span>Class Rating</span>
                     <star-rating
                       v-bind:increment="0.5"
-                      v-bind:max-rating="5"
-                      inactive-color="#dddddd"
-                      active-color="#20e434"
                       v-bind:star-size="20"
                       v-model="item.rating"
+                      :read-only="true"
                     ></star-rating>
                   </div>
                 </div>
