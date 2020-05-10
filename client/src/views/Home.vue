@@ -289,7 +289,8 @@ import {
 
 import fredimg from '@/assets/images/profile/fred.jpg';
 import vincentimg from '@/assets/images/profile/vincent.jpg';
-
+import claireimg from '@/assets/images/profile/claire.jpg';
+import obadiahimg from '@/assets/images/profile/obadiah.jpg';
 export default {
   name: 'home',
   data() {
@@ -315,6 +316,18 @@ export default {
           testimonial:
             'Agriskul has very practical knowledge that any new farmer can follow while starting a farming venture.For me,their poultry  feeding  programs was  recommended by my vet. Agriskul will always be my e-learning of choice',
           img: vincentimg
+        },
+        {
+          name: 'Obadiah Bunyi',
+          testimonial:
+            'Have you been searching for a premium learning site for knowledge to boost your way of farming? Agriskul is a top rated site that covers all edges in farming, from poultry farming to fish farming',
+          img: claireimg
+        },
+        {
+          name: 'Claire Onyinkwa',
+          testimonial:
+            'Are you looking for a free online course whose technical classes are just explained in simple English you can understand?Look no further,Agriskul has resourceful courses that equip you with the right farming knowledge',
+          img: obadiahimg
         }
       ],
       partners: [
