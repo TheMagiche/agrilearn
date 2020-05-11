@@ -49,12 +49,20 @@
                   <p class="description d-none d-md-inline-block mb-0">Create new class</p>
                 </div>
               </router-link>
-              <li class="nav-items">
-                <a @click="logout" class="nav-log-link aLog">Logout</a>
+              <hr />
+              <li class="nav-items logout icon">
+                <a @click="logout" class="nav-log-link aLog">
+                  <i class="ni ni-button-power"></i>Logout
+                </a>
               </li>
             </div>
           </base-dropdown>
-          <base-dropdown v-if="isLoggedIn && isStudent" tag="li" class="nav-item">
+          <base-dropdown
+            v-if="isLoggedIn && isStudent"
+            tag="li"
+            class="nav-item"
+            menu-classes="dropdown-menu-xl"
+          >
             <a slot="title" href="#" class="nav-link" data-toggle="dropdown" role="button">
               <i class="ni ni-ui-04 d-lg-none"></i>
               <span class="nav-link-inner--text username-text">{{ getUsername }} 's Dashboard</span>
@@ -69,14 +77,17 @@
                   <p class="description d-none d-md-inline-block mb-0">View your Classes</p>
                 </div>
               </router-link>
-              <li class="nav-items">
-                <a @click="logout" class="nav-log-link aLog">Logout</a>
+              <hr />
+              <li class="nav-items logout icon">
+                <a @click="logout" class="nav-log-link aLog">
+                  <i class="ni ni-button-power"></i>Logout
+                </a>
               </li>
             </div>
           </base-dropdown>
         </ul>
 
-        <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+        <ul class="navbar-nav align-items-lg-center ml-lg-auto navUl">
           <li class="nav-item">
             <router-link to="/classes" class="nav-link">
               <span class="nav-link-inner--text navlink">Classses</span>
@@ -89,14 +100,14 @@
           </li>
           <li v-if="!isLoggedIn" class="nav-item">
             <router-link to="/signup" class="nav-link">
-              <span class="nav-link-inner--text navlink">Log In</span>
+              <span class="nav-link-inner--text navlink">Login</span>
             </router-link>
           </li>
           <ul class="navbar-nav align-items-lg-center ml-lg-auto">
             <li class="nav-item">
               <a
                 class="nav-link nav-link-icon"
-                href="https://www.instagram.com/agriskullearning/"
+                href="https://www.instagram.com/agriskul/"
                 target="_blank"
                 rel="noopener"
                 data-toggle="tooltip"
@@ -122,7 +133,7 @@
             <li class="nav-item">
               <a
                 class="nav-link nav-link-icon"
-                href="https://www.facebook.com/agriskul.learning"
+                href="https://facebook.com/Agriskul-E-Learning-107826230930848/"
                 target="_blank"
                 rel="noopener"
                 data-toggle="tooltip"
@@ -135,7 +146,7 @@
             <li class="nav-item">
               <a
                 class="nav-link nav-link-icon"
-                href="https://www.youtube.com/channel/UC_Wdbx9QwsdmW3H78vPf7Gw"
+                href="https://youtube.com/channel/UC_Wdbx9QwsdmW3H78vPf7Gw"
                 target="_blank"
                 rel="noopener"
                 data-toggle="tooltip"

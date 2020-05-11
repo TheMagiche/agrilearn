@@ -27,6 +27,7 @@
                         inactive-color="#ddd"
                         active-color="#20e434"
                         v-bind:star-size="20"
+                        :read-only="true"
                         v-model="classRating"
                       ></star-rating>
                     </div>
@@ -62,7 +63,18 @@
                       >Add lesson</a>
                     </li>
                     <li>
-                      <a v-if="checkisStudent" @click="regClass" class>Register For Class</a>
+                      <a
+                        v-if="checkisStudent && registered==false"
+                        @click="regClass"
+                        class
+                      >Register For Class</a>
+                    </li>
+                    <li>
+                      <a
+                        v-if="checkisStudent && registered"
+                        @click="deRegClass"
+                        class="deReg"
+                      >Deregister Class</a>
                     </li>
                   </ul>
                 </div>
@@ -117,29 +129,45 @@
                 </ul>
               </div>
               <hr />
-              <div v-if="checkisStudent" class="sidebar-item">
+              <div v-if="checkisStudent && registered" class="sidebar-item">
                 <p class="sidebar-heading">Give this class a rating</p>
 
                 <div class="classRating">
-                  <span>Class Rating</span>
-                  <star-rating
-                    v-bind:increment="0.5"
-                    v-bind:max-rating="5"
-                    inactive-color="#dddddd"
-                    active-color="#20e434"
-                    v-bind:star-size="20"
-                    v-model="rate"
-                  ></star-rating>
+                  <div class="ratingfields">
+                    <span style="display:block; color:red" v-if="!$v.rate.required">Rate is required</span>
+                    <span>Class Rating</span>
+                    <star-rating
+                      v-bind:increment="0.5"
+                      v-bind:max-rating="5"
+                      inactive-color="#dddddd"
+                      active-color="#20e434"
+                      v-bind:star-size="20"
+                      v-model="rate"
+                    ></star-rating>
+                  </div>
 
-                  <span>Comment</span>
-                  <base-input alternative placeholder="Your view" v-model.trim="comment"></base-input>
-                  <base-button
-                    tag="a"
-                    href="#"
-                    class="mb-3 mb-sm-0 btn-green"
-                    type="success"
-                    @click="rateClass"
-                  >SEND</base-button>
+                  <div class="ratingfields">
+                    <span
+                      style="display:block; color:red"
+                      v-if="submitted && !$v.comment.required"
+                    >Comment is required</span>
+                    <span style="display:block; color:red" v-if="!$v.comment.minLength">Too short..</span>
+                    <span
+                      style="display:block; color:red"
+                      v-if="!$v.comment.maxLength"
+                    >Comment is too long</span>
+                    <span>Comment</span>
+                    <base-input alternative placeholder="Your view" v-model.trim="comment"></base-input>
+                  </div>
+                  <div class="text-center">
+                    <base-button
+                      tag="a"
+                      href="#"
+                      class="mb-3 mb-sm-0 btn-green btn-sm"
+                      type="success"
+                      @click="rateClass"
+                    >SEND</base-button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -152,6 +180,8 @@
 
 <script>
 import axios from 'axios';
+
+import { required, minLength, maxLength } from 'vuelidate/lib/validators';
 
 export default {
   data() {
@@ -171,11 +201,16 @@ export default {
       classStudents: [],
       classReadTime: '',
       classStatus: '',
+      submitted: false,
       rate: 0,
-      comment: ''
+      comment: '',
+      registered: false
     };
   },
-
+  validations: {
+    rate: { required },
+    comment: { required, maxLength: maxLength(50), minLength: minLength(5) }
+  },
   computed: {
     checkInstructor: function() {
       if (this.$store.getters.username == this.classInstructorUsername) {
@@ -285,6 +320,21 @@ export default {
           console.log(err);
         });
     },
+    checkReg: function() {
+      const classID = this.$route.params.id;
+      const userID = this.$store.getters.userID;
+      axios({
+        url: `/api/students/${userID}/class/${classID}/checkReg`,
+        method: 'GET'
+      })
+        .then(res => {
+          this.registered = res.data.registered;
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    },
     regClass: function() {
       const classID = this.$route.params.id;
       const userID = this.$store.getters.userID;
@@ -293,6 +343,7 @@ export default {
         method: 'POST'
       })
         .then(res => {
+          window.location.reload();
           if (res.data.success == false) {
             this.error = true;
             this.message = res.data.msg;
@@ -300,6 +351,29 @@ export default {
             this.success = true;
             this.message = res.data.msg;
           }
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    },
+    deRegClass: function() {
+      const classID = this.$route.params.id;
+      const userID = this.$store.getters.userID;
+      axios({
+        url: `/api/students/${userID}/class/${classID}/deregister`,
+        method: 'POST'
+      })
+        .then(() => {
+          this.$router
+            .push({
+              name: 'studentClasses'
+            })
+            .then()
+            .catch(err => {
+              // eslint-disable-next-line no-console
+              console.log(err);
+            });
         })
         .catch(err => {
           // eslint-disable-next-line no-console
@@ -336,7 +410,16 @@ export default {
         });
     },
 
-    rateClass: function() {
+    rateClass: function(evt) {
+      evt.preventDefault();
+
+      this.submitted = true;
+
+      // stop here if form is invalid
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       const classID = this.$route.params.id;
       const userID = this.$store.getters.userID;
       axios({
@@ -368,6 +451,7 @@ export default {
   },
   mounted() {
     this.getClass();
+    this.checkReg();
   }
 };
 </script>

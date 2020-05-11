@@ -38,6 +38,10 @@ Site header
 ###########################################
 
 */
+.navUl span {
+  font-family: 'Quicksand', sans-serif;
+  text-transform: capitalize !important;
+}
 
 i {
   color: #fff;
@@ -62,6 +66,15 @@ i.social-youtube {
 .aLog {
   font-size: 80%;
   cursor: pointer;
+  position: relative;
+}
+
+.logout i {
+  color: #000000;
+  font-size: 15px;
+  display: inline;
+  padding-right: 5px;
+
 }
 
 .green {
@@ -107,7 +120,8 @@ i.social-youtube {
   }
 
   span.social-text-facebook {
-    font-family: 'Open Sans';
+    font-family: 'Squada One',
+      cursive;
     font-size: 12px;
     text-transform: none !important;
     color: #07396a;
@@ -160,9 +174,8 @@ Home page
 }
 
 .headings {
-  font-family: 'Squada One',
-    cursive;
-
+  font-family: 'Quicksand',
+    sans-serif;
   text-transform: uppercase;
   color: #000;
 }
@@ -179,7 +192,7 @@ Home page
 
 @media screen and (min-width: 980px) {
   .step-box::after {
-    content: '------';
+    content: '-----';
     position: absolute;
     right: -28px;
     top: 50%;
@@ -216,8 +229,8 @@ Home page
 }
 
 .headings-inverse {
-  font-family: 'Squada One',
-    cursive;
+  font-family: 'Quicksand',
+    sans-serif;
   text-transform: uppercase;
   color: #ffffff;
 }
@@ -484,12 +497,6 @@ Site footer
   color: #ffffff !important;
 }
 
-.footer-links {
-  font-family: 'Squada One',
-    cursive;
-
-  text-transform: capitalize;
-}
 
 /*
 
@@ -899,6 +906,10 @@ a {
   width: 5rem;
 }
 
+a.deReg:hover {
+  border-color: red;
+}
+
 .blog-footer {
   border-top: 1px solid #e6e6e6;
   margin: 0 auto;
@@ -1133,6 +1144,16 @@ span.spandetails {
   text-transform: uppercase;
   font-size: 10px;
 
+}
+
+.classRating span {
+  font-size: 12px;
+
+}
+
+.ratingfields {
+
+  margin-bottom: 1em;
 }
 
 /*

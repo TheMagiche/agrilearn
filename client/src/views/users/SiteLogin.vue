@@ -61,6 +61,7 @@ export default {
   data: function() {
     return {
       submitted: false,
+      success: false,
       error: false,
       message: '',
       detail: '',

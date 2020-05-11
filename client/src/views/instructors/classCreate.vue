@@ -23,7 +23,7 @@
                       <div class="col-lg-3">
                         <div class="fields">
                           <h3 class="title-subheading">Pro ?</h3>
-                          <base-switch :v-model="pro"></base-switch>
+                          <switches :label="isPro" v-model="pro" theme="default" color="green"></switches>
                         </div>
                       </div>
                     </div>
@@ -88,9 +88,9 @@
 <script>
 import axios from 'axios';
 import VueCkeditor from 'vue-ckeditor2';
-
+import Switches from 'vue-switches';
 export default {
-  components: { VueCkeditor },
+  components: { VueCkeditor, Switches },
   data() {
     return {
       title: '',
@@ -115,13 +115,11 @@ export default {
     };
   },
   computed: {
-    getUsername: function() {
-      let username = this.$store.getters.username;
-      if (username == localStorage.getItem('username')) {
-        return username;
-      } else {
-        return 'Guest';
+    isPro: function() {
+      if (this.pro) {
+        return 'Pro';
       }
+      return 'Free';
     }
   },
   methods: {

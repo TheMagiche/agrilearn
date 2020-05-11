@@ -24,7 +24,7 @@
                       <div class="col-lg-3">
                         <div class="fields">
                           <h3 class="title-subheading">Pro ?</h3>
-                          <base-switch :v-model="pro"></base-switch>
+                          <switches :label="isPro" v-model="pro" theme="default" color="green"></switches>
                         </div>
                       </div>
                     </div>
@@ -79,21 +79,19 @@
   </div>
 </template>
 
-<style>
-</style>
-
 <script>
 import axios from 'axios';
 import VueCkeditor from 'vue-ckeditor2';
-
+import Switches from 'vue-switches';
 export default {
-  components: { VueCkeditor },
+  components: { VueCkeditor, Switches },
   data() {
     return {
       classTitle: '',
       classDescription: '',
       classImageUrl: '',
       pro: false,
+
       readTime: '',
       config: {
         toolbar: [
@@ -111,7 +109,14 @@ export default {
       }
     };
   },
-  computed: {},
+  computed: {
+    isPro: function() {
+      if (this.pro) {
+        return 'Pro';
+      }
+      return 'Free';
+    }
+  },
   methods: {
     getClass: function() {
       const classID = this.$route.params.id;
@@ -157,30 +162,12 @@ export default {
           console.log(err);
         });
     },
-    onBlur(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    },
-    onFocus(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    },
-    onContentDom(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    },
-    onDialogDefinition(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    },
-    onFileUploadRequest(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    },
-    onFileUploadResponse(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    }
+    onBlur() {},
+    onFocus() {},
+    onContentDom() {},
+    onDialogDefinition() {},
+    onFileUploadRequest() {},
+    onFileUploadResponse() {}
   },
   mounted() {
     this.getClass();

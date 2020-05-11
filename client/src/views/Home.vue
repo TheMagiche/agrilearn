@@ -5,8 +5,8 @@
         <div class="row justify-content-center">
           <div class="col-lg-6">
             <div class="container pt-lg-5">
-              <h1 class="headings display-1">Learn to grow your</h1>
-              <h1 class="headings display-1">agribusiness</h1>
+              <h1 class="headings display-3">Learn to grow your</h1>
+              <h1 class="headings display-3">agribusiness</h1>
 
               <p class="subheading">
                 Find the perfect tutorial to get started on your farming today,
@@ -321,13 +321,14 @@ export default {
           name: 'Obadiah Bunyi',
           testimonial:
             'Have you been searching for a premium learning site for knowledge to boost your way of farming? Agriskul is a top rated site that covers all edges in farming, from poultry farming to fish farming',
-          img: claireimg
+          img: obadiahimg
         },
         {
           name: 'Claire Onyinkwa',
           testimonial:
             'Are you looking for a free online course whose technical classes are just explained in simple English you can understand?Look no further,Agriskul has resourceful courses that equip you with the right farming knowledge',
-          img: obadiahimg
+
+          img: claireimg
         }
       ],
       partners: [
@@ -457,7 +458,7 @@ export default {
         $('.partner-carousel').owlCarousel({
           items: 1,
           loop: true,
-          autowidth: true,
+          autowidth: false,
           responsiveClass: true
         });
       }
