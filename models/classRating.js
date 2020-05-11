@@ -20,18 +20,16 @@ var ratingClassSchema = new Schema({
     }
 });
 
-ratingClassSchema.pre('save', async function (next) {
+ratingClassSchema.post('save', async function (res) {
     const averageRating = await mongoose.model("ClassRatings", ratingClassSchema).aggregate([{
         $match: {
             class: this.class
         }
     }, {
-        "$group": {
+        $group: {
             "_id": "$class",
             "ratingAvg": {
-                "$avg": {
-                    "$ifNull": ["$rating", 3.5]
-                }
+                $avg: "$rating"
             }
         }
     }])
@@ -45,9 +43,7 @@ ratingClassSchema.pre('save', async function (next) {
             }
         }).exec()
     }
-
-    next()
-})
+});
 
 ratingClassSchema.post(/updateOne/, async function (res) {
     const averageRating = await mongoose.model("ClassRatings", ratingClassSchema).aggregate([{
@@ -55,12 +51,10 @@ ratingClassSchema.post(/updateOne/, async function (res) {
             class: mongoose.Types.ObjectId(this._conditions.class)
         }
     }, {
-        "$group": {
+        $group: {
             "_id": "$class",
             "ratingAvg": {
-                "$avg": {
-                    "$ifNull": ["$rating", 3.5]
-                }
+                $avg: "$rating"
             }
         }
     }])

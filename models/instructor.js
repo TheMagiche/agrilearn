@@ -17,13 +17,6 @@ var InstructorSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class',
     }, ],
-    ratings: [{
-        type: Schema.Types.ObjectId,
-        ref: 'RatingInstructor'
-    }],
-    rating: {
-        type: Number
-    }
 });
 
 var Instructor = (module.exports = mongoose.model('Instructor', InstructorSchema));
