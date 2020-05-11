@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view name="header"></router-view>
-    <main>
+    <main id="main">
       <fade-transition origin="center" mode="out-in" :duration="250">
         <router-view />
       </fade-transition>
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style>
-/* #app {
-  
-} */
+#main {
+  min-height: 100vh !important;
+}
 </style>

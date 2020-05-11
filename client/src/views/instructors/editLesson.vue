@@ -121,30 +121,12 @@ export default {
           console.log(err);
         });
     },
-    onBlur(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    },
-    onFocus(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    },
-    onContentDom(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    },
-    onDialogDefinition(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    },
-    onFileUploadRequest(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    },
-    onFileUploadResponse(evt) {
-      // eslint-disable-next-line no-console
-      console.log(evt);
-    }
+    onBlur() {},
+    onFocus() {},
+    onContentDom() {},
+    onDialogDefinition() {},
+    onFileUploadRequest() {},
+    onFileUploadResponse() {}
   },
   mounted() {
     this.getLesson();

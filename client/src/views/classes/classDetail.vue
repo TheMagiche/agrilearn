@@ -170,6 +170,22 @@
                   </div>
                 </div>
               </div>
+              <div v-if="checkisInstructor && checkInstructor" class="sidebar-item">
+                <p class="sidebar-heading">Class reviews</p>
+                <div v-for="review in classReviews" :key="review.id" class="class-reviews">
+                  <star-rating
+                    v-bind:increment="0.5"
+                    v-bind:max-rating="5"
+                    inactive-color="#ddd"
+                    active-color="#20e434"
+                    v-bind:star-size="20"
+                    :read-only="true"
+                    v-model="review.rating"
+                  ></star-rating>
+                  <p>"{{review.comment}}"</p>
+                  <p>{{review.author.username}} ~ {{review.author.email}}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -199,6 +215,7 @@ export default {
       classInstructorUsername: '',
       classLessons: [],
       classStudents: [],
+      classReviews: [],
       classReadTime: '',
       classStatus: '',
       submitted: false,
@@ -262,6 +279,7 @@ export default {
           this.classInstructorEmail = resp.data.class.instructor.email;
           this.classInstructorUsername = resp.data.class.instructor.username;
           this.classLessons = resp.data.class.lessons;
+          this.classReviews = resp.data.class.ratings;
           this.classStudents = resp.data.class.students;
           this.classReadTime = resp.data.class.readTime;
           this.classRating = parseInt(resp.data.class.rating);
@@ -436,6 +454,7 @@ export default {
             this.message = res.data.msg;
             this.rate = 0;
             this.comment = '';
+            window.location.reload();
           } else {
             this.success = true;
             this.message = res.data.msg;
