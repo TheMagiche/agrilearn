@@ -1,6 +1,8 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const Class = require('./class');
 
-var LessonSchema = new mongoose.Schema({
+const LessonSchema = Schema({
   title: {
     type: String
   },
@@ -9,6 +11,10 @@ var LessonSchema = new mongoose.Schema({
   },
   number: {
     type: String
+  },
+  class: {
+    type: mongoose.Schema.Types.ObjectId,
+      ref: "Class"
   }
 });
 

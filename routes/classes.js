@@ -4,7 +4,7 @@ var Class = require('../models/class');
 var Instructor = require('../models/instructor');
 var User = require('../models/user');
 var mongoose = require('mongoose');
-
+var RatingClass = require('../models/classRating')
 /**
  * @route POST api/classes/
  * @desc Get some classes
@@ -132,7 +132,7 @@ router.delete('/:id/delete', async function (req, res, next) {
             _id: req.body.instructorID
         }, {
             $pull: {
-                classes: mongoose.Schema.Types.ObjectId(req.params.id)
+                classes: mongoose.Types.ObjectId(req.params.id)
             }
         }, {
             safe: true,
@@ -165,10 +165,19 @@ router.get('/details/:id', async function (req, res) {
         const classByID = await Class.findById(id)
             .populate({
                 path: 'instructor',
-                select: ['email', 'username', 'id'],
+                select: ['email', 'username'],
             })
             .populate({
                 path: 'lessons',
+                select: ['title', '_id'],
+            })
+            .populate({
+                path: 'ratings',
+                select: ['author', 'comment', 'rating'],
+                populate: {
+                    path: 'author',
+                    select: ['username', 'email']
+                }
             });
         // console.log(classByID);
 

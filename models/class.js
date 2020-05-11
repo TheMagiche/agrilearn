@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Lesson = require('./lesson');
+var ClassRatings = require('./classRating');
 var Schema = mongoose.Schema;
 
 var ClassSchema = mongoose.Schema({
@@ -34,7 +35,7 @@ var ClassSchema = mongoose.Schema({
     },
     ratings: [{
         type: Schema.Types.ObjectId,
-        ref: "RatingClass"
+        ref: "ClassRatings"
     }],
     rating: {
         type: Number,
@@ -44,11 +45,18 @@ var ClassSchema = mongoose.Schema({
 
 ClassSchema.pre('remove', async function (next) {
     try {
+        console.log("removing lessons....")
         await Lesson.remove({
             _id: {
                 $in: this.lessons,
             },
         });
+        console.log("removing ratings....")
+        await ClassRatings.remove({
+            _id: {
+                $in: this.ratings,
+            },
+        })
         next();
     } catch (error) {
         next(error);

@@ -10,23 +10,29 @@ const Class = require('../models/class');
  * @access Private
  * Working
  */
-router.post('/create/:classID', async function(req, res, next) {
+router.post('/create/:classID', async function (req, res, next) {
     console.log('Receiving lesson details...');
 
     try {
         const id = req.params.classID;
         // console.log(id);
-        var { title, body, number } = req.body;
+        var {
+            title,
+            body,
+            number,
+            myclass
+        } = req.body;
 
         var mylesson = await Lesson.create({
             title: title,
             body: body,
             number: number,
+            class: myclass
         });
         await mylesson.save();
 
         var classByID = await Class.findById(id);
-        console.log(classByID);
+        // console.log(classByID);
         classByID.lessons.push(mylesson);
 
         await classByID.save();
@@ -44,8 +50,8 @@ router.post('/create/:classID', async function(req, res, next) {
  * @access Private
  * Working
  */
-router.put('/update/:id', function(req, res, next) {
-    Lesson.findByIdAndUpdate(req.params.id, req.body, function(err) {
+router.put('/update/:id', function (req, res, next) {
+    Lesson.findByIdAndUpdate(req.params.id, req.body, function (err) {
         if (err) return next(err);
         return res.json({
             success: true,
@@ -60,9 +66,19 @@ router.put('/update/:id', function(req, res, next) {
  * @access Private
  * Working
  */
-router.delete('/delete/:id', function(req, res, next) {
-    Lesson.findByIdAndRemove(req.params.id, req.body, function(err) {
+router.delete('/delete/:id', function (req, res, next) {
+    Lesson.findOneAndDelete(req.params.id, req.body, async function (err, lesson) {
         if (err) return next(err);
+        console.log("removing doc....")
+        await Class.updateOne({
+            _id: lesson.class
+        }, {
+            $pull: {
+                lessons: {
+                    $in: lesson._id
+                }
+            }
+        }, );
         return res.json({
             success: true,
             msg: 'Successfully deleted lesson',
@@ -76,13 +92,15 @@ router.delete('/delete/:id', function(req, res, next) {
  * @access Private
  * Working
  */
-router.get('/details/:id', async function(req, res, next) {
+router.get('/details/:id', async function (req, res, next) {
     console.log('fetching lesson...');
     try {
         const id = req.params.id;
         const lessonByID = await Lesson.findById(id);
 
-        res.status(200).json({ lesson: lessonByID });
+        res.status(200).json({
+            lesson: lessonByID
+        });
     } catch (err) {
         res.status(400).json({
             err: err,
@@ -91,7 +109,9 @@ router.get('/details/:id', async function(req, res, next) {
 });
 
 router.all('*', (req, res) => {
-    res.status(400).send({ error: 'undefined-route' });
+    res.status(400).send({
+        error: 'undefined-route'
+    });
 });
 
 module.exports = router;
