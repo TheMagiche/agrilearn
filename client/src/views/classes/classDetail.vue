@@ -90,7 +90,7 @@
 
                     <div class="lesson-detail">
                       <!-- <p v-html="Texttrim(lesson.body)" class="lesson-line"></p> -->
-                      <a @click="viewLesson(lesson._id)" class="lessonAnchor text-right">View lesson</a>
+                      <a v-if="registered" @click="viewLesson(lesson._id)" class="lessonAnchor text-right">View lesson</a>
                     </div>
                   </li>
                 </ul>
@@ -213,7 +213,7 @@ import { required, minLength, maxLength } from 'vuelidate/lib/validators';
 export default {
   data() {
     return {
-      classRating: 0,
+      classRating: 0.0,
       success: false,
       error: false,
       message: '',
