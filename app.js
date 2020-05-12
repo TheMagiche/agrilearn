@@ -3,7 +3,6 @@ const path = require('path');
 const logger = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const expressValidator = require('express-validator');
 const session = require('express-session');
 const passport = require('passport');
 const DB = require('./DB');
@@ -25,25 +24,6 @@ app.use(
         saveUninitialized: true,
         resave: true,
         maxAge: 24 * 60 * 60 * 1000, // 24
-    })
-);
-
-app.use(
-    expressValidator({
-        errorFormatter: function(param, msg, value) {
-            var namespace = param.split('.'),
-                root = namespace.shift(),
-                formParam = root;
-
-            while (namespace.length) {
-                formParam += '[' + namespace.shift() + ']';
-            }
-            return {
-                param: formParam,
-                msg: msg,
-                value: value,
-            };
-        },
     })
 );
 
