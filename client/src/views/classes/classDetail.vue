@@ -172,18 +172,29 @@
               </div>
               <div v-if="checkisInstructor && checkInstructor" class="sidebar-item">
                 <p class="sidebar-heading">Class reviews</p>
-                <div v-for="review in classReviews" :key="review.id" class="class-reviews">
-                  <star-rating
-                    v-bind:increment="0.5"
-                    v-bind:max-rating="5"
-                    inactive-color="#ddd"
-                    active-color="#20e434"
-                    v-bind:star-size="20"
-                    :read-only="true"
-                    v-model="review.rating"
-                  ></star-rating>
-                  <p>"{{review.comment}}"</p>
-                  <p>{{review.author.username}} ~ {{review.author.email}}</p>
+                <a
+                  @click="getReviews"
+                  v-if="classReviews.length == 0"
+                  class="getReviews"
+                >{{reviewText}}</a>
+                <div v-if="classReviews.length != 0" class="reviews">
+                  <div v-for="review in classReviews" :key="review.id" class="class-reviews">
+                    <star-rating
+                      v-bind:increment="0.5"
+                      v-bind:max-rating="5"
+                      inactive-color="#ddd"
+                      active-color="#20e434"
+                      v-bind:star-size="20"
+                      :read-only="true"
+                      v-model="review.rating"
+                    ></star-rating>
+                    <p>"{{review.comment}}"</p>
+                    <p>{{review.author.username}} ~ {{review.author.email}}</p>
+                  </div>
+                  <div class="pagination-container">
+                    <base-pagination size="sm" :pageCount="totalPages" v-model="page"></base-pagination>
+                  </div>
+                  <a @click="removeReviews" class="removeReviews">Remove reviews</a>
                 </div>
               </div>
             </div>
@@ -221,7 +232,12 @@ export default {
       submitted: false,
       rate: 0,
       comment: '',
-      registered: false
+      currentPage: 1,
+      totalPages: 1,
+      page: 1,
+      limit: 5,
+      registered: false,
+      reviewText: 'See reviews'
     };
   },
   validations: {
@@ -258,11 +274,59 @@ export default {
       return value.charAt(0).toUpperCase() + value.slice(1);
     }
   },
+  watch: {
+    page: {
+      immediate: true,
+      handler(page) {
+        const classID = this.classID;
+        page = parseInt(this.page) || 1;
+        if (page !== this.currentPage) {
+          axios({
+            url: `/api/classes/ratings/${classID}`,
+            method: 'POST',
+            data: { page: this.page, limit: this.limit }
+          })
+            .then(resp => {
+              this.classReviews = resp.data.ratings;
+              this.totalPages = resp.data.totalPages;
+              this.currentPage = resp.data.currentPage;
+            })
+            .catch(err => {
+              // eslint-disable-next-line no-console
+              console.log(err);
+            });
+        }
+      }
+    }
+  },
   methods: {
     Texttrim: function(value) {
       if (!value) return '';
       value = value.toString();
       return value.slice(0, 15);
+    },
+    getReviews: function() {
+      const classID = this.classID;
+      axios({
+        url: `/api/classes/ratings/${classID}`,
+        method: 'POST',
+        data: { page: this.page, limit: this.limit }
+      })
+        .then(resp => {
+          this.classReviews = resp.data.ratings;
+          this.totalPages = resp.data.totalPages;
+          this.currentPage = resp.data.currentPage;
+          if (this.classReviews.length == 0) {
+            this.reviewText = 'No reviews yet';
+          }
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    },
+    removeReviews: function() {
+      this.classReviews = [];
     },
     getClass: function() {
       const classID = this.$route.params.id;
@@ -279,7 +343,7 @@ export default {
           this.classInstructorEmail = resp.data.class.instructor.email;
           this.classInstructorUsername = resp.data.class.instructor.username;
           this.classLessons = resp.data.class.lessons;
-          this.classReviews = resp.data.class.ratings;
+
           this.classStudents = resp.data.class.students;
           this.classReadTime = resp.data.class.readTime;
           this.classRating = parseInt(resp.data.class.rating);
@@ -450,11 +514,11 @@ export default {
       })
         .then(res => {
           if (res.data.success == false) {
+            window.location.reload();
             this.error = true;
             this.message = res.data.msg;
             this.rate = 0;
             this.comment = '';
-            window.location.reload();
           } else {
             this.success = true;
             this.message = res.data.msg;

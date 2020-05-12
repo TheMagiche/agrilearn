@@ -29,6 +29,17 @@ a {
     sans-serif;
 }
 
+.pagination-container {
+  margin: 2em auto 0;
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #20e343;
+  border-color: #20e343;
+}
+
 /*
 
 ##########################################
@@ -1148,12 +1159,56 @@ span.spandetails {
 
 .classRating span {
   font-size: 12px;
-
 }
 
 .ratingfields {
-
   margin-bottom: 1em;
+}
+
+.reviews {
+  counter-reset: counter-name-2;
+  padding-left: 1.5em;
+}
+
+.class-reviews {
+  position: relative;
+}
+
+.class-reviews::before {
+  counter-increment: counter-name-2;
+  content: counter(counter-name-2);
+  position: absolute;
+  top: .5em;
+  left: -2em;
+  /* top: 30%; */
+  background-color: #fff;
+  border: 1px solid #20e434;
+  ;
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+
+a.getReviews {
+  font-family: 'Squada One',
+    cursive;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 2em;
+}
+
+a.removeReviews {
+  font-family: 'Squada One',
+    cursive;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 2em;
 }
 
 /*

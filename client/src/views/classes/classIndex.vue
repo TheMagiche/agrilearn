@@ -31,20 +31,28 @@
               </div>
             </div>
           </div>
+          <div class="pagination-container">
+            <base-pagination :pageCount="totalPages" v-model="page"></base-pagination>
+          </div>
         </div>
       </div>
     </section>
   </div>
 </template>
 
-<style></style>
+<style>
+</style>
 
 <script>
 import axios from 'axios';
 export default {
   data() {
     return {
-      classes: null
+      classes: null,
+      currentPage: 1,
+      totalPages: 1,
+      page: 1,
+      limit: 2
     };
   },
   computed: {},
@@ -53,6 +61,34 @@ export default {
       if (!value) return '';
       value = value.toString();
       return value.slice(0, 100);
+    }
+  },
+  watch: {
+    page: {
+      immediate: true,
+      handler(page) {
+        page = parseInt(this.page) || 1;
+        if (page !== this.currentPage) {
+          axios({
+            url: '/api/classes/all',
+            method: 'POST',
+            data: { page: this.page, limit: this.limit }
+          })
+            .then(resp => {
+              // eslint-disable-next-line no-console
+              // console.log(resp.data.classes);
+              this.classes = resp.data.classes;
+              this.totalPages = resp.data.totalPages;
+              this.currentPage = resp.data.currentPage;
+              // // eslint-disable-next-line no-console
+              // console.log(this.classes);
+            })
+            .catch(err => {
+              // eslint-disable-next-line no-console
+              console.log(err);
+            });
+        }
+      }
     }
   },
   methods: {
@@ -65,12 +101,18 @@ export default {
     getClasses: function() {
       axios({
         url: '/api/classes/all',
-        method: 'GET'
+        method: 'POST',
+        data: {
+          page: this.page,
+          limit: this.limit
+        }
       })
         .then(resp => {
           // eslint-disable-next-line no-console
           // console.log(resp.data.classes);
           this.classes = resp.data.classes;
+          this.totalPages = resp.data.totalPages;
+          this.currentPage = resp.data.currentPage;
           // // eslint-disable-next-line no-console
           // console.log(this.classes);
         })
