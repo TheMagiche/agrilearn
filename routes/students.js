@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require('../models/user');
 const Student = require('../models/student');
 const Class = require('../models/class');
-const RateClass = require('../models/classRating');
+const ClassRatings = require('../models/classRating');
 const mongoose = require('mongoose');
 /**
  * @route POST api/student/classes/:id
@@ -22,6 +22,7 @@ router.get('/classes/:id', async function (req, res, next) {
             username: studentByID.username,
         }).populate({
             path: 'classes',
+            select: ['title', 'imgUrl', 'rating'],
         });
 
         // console.log(studentByUsername.classes);
@@ -176,13 +177,13 @@ router.post('/:id/class/:classID/rate', async function (req, res) {
             classID
         } = req.params;
 
-        const rate = await RateClass.findOne({
+        const rate = await ClassRatings.findOne({
             author: id,
             class: classID
         })
 
         if (rate) {
-            await RateClass.updateOne({
+            await ClassRatings.updateOne({
                 author: id,
                 class: classID
             }, {
@@ -198,7 +199,7 @@ router.post('/:id/class/:classID/rate', async function (req, res) {
             });
         }
 
-        let newRate = await RateClass.create({
+        let newRate = await ClassRatings.create({
             author: id,
             comment: req.body.comment,
             class: classID,

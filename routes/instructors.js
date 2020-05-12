@@ -21,13 +21,14 @@ router.get('/classes/:id', async function (req, res, next) {
             username: instructorByID.username,
         }).populate({
             path: 'classes',
+            select: ['title', 'imgUrl', 'rating'],
             populate: {
                 path: 'instructor',
                 select: ['email', 'username', 'id'],
             },
         });
-        // console.log(instructorByUsername.classes);
 
+        // console.log(instructorByUsername.classes)
         res.status(200).json({
             classes: instructorByUsername.classes
         });

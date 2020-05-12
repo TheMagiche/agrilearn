@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-var Class = require('./class');
 
-var ratingClassSchema = new Schema({
+var ratingClassSchema = mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
@@ -21,6 +19,7 @@ var ratingClassSchema = new Schema({
 });
 
 ratingClassSchema.post('save', async function (res) {
+    console.log("Post hook save");
     const averageRating = await mongoose.model("ClassRatings", ratingClassSchema).aggregate([{
         $match: {
             class: this.class
@@ -35,7 +34,8 @@ ratingClassSchema.post('save', async function (res) {
     }])
 
     if (averageRating.length) {
-        await Class.updateOne({
+
+        await mongoose.model('Class').updateOne({
             _id: this.class
         }, {
             $set: {
@@ -43,9 +43,11 @@ ratingClassSchema.post('save', async function (res) {
             }
         }).exec()
     }
+
 });
 
 ratingClassSchema.post(/updateOne/, async function (res) {
+    console.log("Post hook update");
     const averageRating = await mongoose.model("ClassRatings", ratingClassSchema).aggregate([{
         $match: {
             class: mongoose.Types.ObjectId(this._conditions.class)
@@ -60,14 +62,17 @@ ratingClassSchema.post(/updateOne/, async function (res) {
     }])
 
     if (averageRating.length) {
-        await Class.updateOne({
-            _id: mongoose.Types.ObjectId(this._conditions.class)
+
+        await mongoose.model('Class').updateOne({
+            _id: this.class
         }, {
             $set: {
                 rating: averageRating[0]['ratingAvg']
             }
         }).exec()
     }
-})
 
-var RateClass = (module.exports = mongoose.model("ClassRatings", ratingClassSchema));
+});
+
+
+module.exports = mongoose.model("ClassRatings", ratingClassSchema);

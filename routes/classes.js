@@ -1,34 +1,39 @@
-var express = require('express');
-var router = express.Router();
-var Class = require('../models/class');
-var Instructor = require('../models/instructor');
-var User = require('../models/user');
-var mongoose = require('mongoose');
-var RatingClass = require('../models/classRating')
+const express = require('express');
+const router = express.Router();
+const Class = require('../models/class');
+const Instructor = require('../models/instructor');
+const User = require('../models/user');
+const ClassRating = require('../models/classRating');
+const mongoose = require('mongoose');
+
+
 /**
  * @route POST api/classes/
  * @desc Get some classes
  * @access Private
  * Working
  */
-router.get('/', function (req, res, next) {
+router.get('/', async function (req, res) {
     try {
         console.log('classes...');
 
-        Class.getClasses(function (err, classes) {
-            if (err) {
-                throw err;
-            }
-
-            // console.log(classes)
-
-            res.status(200).json({
-                title: 'All Classes',
-                classes: classes
+        const classes = await Class.find()
+            .select({
+                "title": 1,
+                "instructor": 1,
+                "_id": 1,
+                "rating": 1,
+                "imgUrl": 1
+            })
+            .limit(10)
+            .populate({
+                path: 'instructor',
+                select: ['username']
             });
 
-        }, 10);
-
+        res.status(200).json({
+            classes: classes
+        });
 
     } catch (err) {
         console.log(err);
@@ -40,22 +45,34 @@ router.get('/', function (req, res, next) {
  * @access Private
  * Working
  */
-router.get('/all', function (req, res, next) {
-    try {
-        console.log('classes...');
-        Class.getAllClasses(function (err, classes) {
-            if (err) {
-                throw err;
-            }
-            // console.log(classes);
-            res.status(200).json({
-                title: 'All Classes',
-                classes: classes
-            });
+router.post('/all', async function (req, res) {
+    const {
+        page,
+        limit
+    } = req.body;
+
+    console.log('classes...');
+
+    const classes = await Class.find()
+        .select({
+            "title": 1,
+            "instructor": 1,
+            "_id": 1,
+            "rating": 1,
+            "imgUrl": 1
+        })
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .populate({
+            path: 'instructor',
+            select: ['username']
         });
-    } catch (err) {
-        console.log(err);
-    }
+    const count = await Class.countDocuments();
+    res.status(200).json({
+        classes: classes,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page
+    });
 });
 
 /**
@@ -163,6 +180,7 @@ router.get('/details/:id', async function (req, res) {
     try {
         const id = req.params.id;
         const classByID = await Class.findById(id)
+            .select('-ratings')
             .populate({
                 path: 'instructor',
                 select: ['email', 'username'],
@@ -198,7 +216,7 @@ router.get('/details/:id', async function (req, res) {
  * @access Private
  * Working
  */
-router.post('/instructor/:id', async function (req, res, next) {
+router.post('/instructor/:id', async function (req, res) {
     const {
         id
     } = req.params;
@@ -206,6 +224,44 @@ router.post('/instructor/:id', async function (req, res, next) {
     res.status(200).json({
         class: instructorByClass
     });
+});
+
+
+/**
+ * @route POST api/classes/ratings/:classID
+ * @desc Get class Ratings
+ * @access Private
+ * Working
+ */
+router.post('/ratings/:classID', async function (req, res) {
+    const {
+        classID,
+        page,
+        limit
+    } = req.params;
+
+    const ratings = await ClassRating.find()
+        .where('class').equals(mongoose.Types.ObjectId(classID))
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .populate({
+            path: 'author',
+            select: ['username', 'email'],
+        })
+
+    const count = ClassRating.countDocuments({
+        $where: {
+            class: {
+                $eq: mongoose.Types.ObjectId(classID)
+            }
+        }
+    });
+
+    return res.status(200).json({
+        ratings: ratings,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page
+    })
 });
 
 

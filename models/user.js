@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcryptjs');
-var async = require('async');
-var passportLocalMongoose = require('passport-local-mongoose');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const async = require('async');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 var UserSchema = mongoose.Schema({
     username: {
@@ -34,7 +34,8 @@ var UserSchema = mongoose.Schema({
         default: Date.now(),
     },
 });
-ser = module.exports = mongoose.model('User', UserSchema);
+
+var User = (module.exports = mongoose.model('User', UserSchema));
 
 // Get a single user by id
 module.exports.getUserById = function (id, callback) {

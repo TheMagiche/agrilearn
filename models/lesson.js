@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const Class = require('./class');
 
-const LessonSchema = Schema({
+var LessonSchema = mongoose.Schema({
   title: {
     type: String
   },

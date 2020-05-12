@@ -1,7 +1,4 @@
-var mongoose = require('mongoose');
-var Lesson = require('./lesson');
-var ClassRatings = require('./classRating');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
 var ClassSchema = mongoose.Schema({
     title: {
@@ -34,7 +31,7 @@ var ClassSchema = mongoose.Schema({
         default: false,
     },
     ratings: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "ClassRatings"
     }],
     rating: {
@@ -46,13 +43,13 @@ var ClassSchema = mongoose.Schema({
 ClassSchema.pre('remove', async function (next) {
     try {
         console.log("removing lessons....")
-        await Lesson.remove({
+        await mongoose.model('Lesson').remove({
             _id: {
                 $in: this.lessons,
             },
         });
         console.log("removing ratings....")
-        await ClassRatings.remove({
+        await mongoose.model('ClassRatings').remove({
             _id: {
                 $in: this.ratings,
             },
@@ -66,23 +63,4 @@ ClassSchema.pre('remove', async function (next) {
 
 
 
-var Class = (module.exports = mongoose.model('Class', ClassSchema));
-
-
-
-// Fetch all classes for home page
-module.exports.getClasses = function (callback, limit) {
-    Class.find(callback)
-        .limit(limit)
-        .populate('instructor');
-};
-
-// Fetch all classes
-module.exports.getAllClasses = function (callback) {
-    Class.find(callback).populate('instructor');
-};
-
-// Fetch a single class
-module.exports.getClassById = function (id, callback) {
-    Class.findById(id, callback);
-};
+module.exports = mongoose.model('Class', ClassSchema);
