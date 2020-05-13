@@ -64,7 +64,7 @@ ratingClassSchema.post(/updateOne/, async function (res) {
     if (averageRating.length) {
         // console.log(averageRating)
         await mongoose.model('Class').updateOne({
-            _id: this.class
+            _id: this._conditions.class
         }, {
             $set: {
                 rating: averageRating[0]['ratingAvg']
