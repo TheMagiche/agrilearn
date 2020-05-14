@@ -52,7 +52,7 @@
               <hr />
               <li class="nav-items logout icon">
                 <a @click="logout" class="nav-log-link aLog">
-                  <i class="ni ni-button-power"></i>Logout
+                  <i class="ni ni-button-power"></i><span>Logout</span>
                 </a>
               </li>
             </div>
@@ -158,7 +158,7 @@
             </li>
           </ul>
           <li class="nav-item d-none d-lg-block ml-lg-4">
-            <a href="#contact" class="btn btn-success btn-icon">
+            <a href="/#contact" class="btn btn-success btn-icon">
               <span class="btn-inner--icon">
                 <i class="fa fa-cloud-download mr-2"></i>
               </span>

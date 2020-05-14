@@ -179,7 +179,8 @@
         </div>
       </div>
       <div class="container">
-        <div class="row justify-content-center"></div>
+        <div class="row justify-content-center">
+        </div>
       </div>
       <div class="container mt-2">
         <div class="row justify-content-center">
