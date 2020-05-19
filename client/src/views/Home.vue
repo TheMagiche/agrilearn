@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <section class="section section-lg mt--98">
+    <section class="section section-lg showcase mt--98">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6">
@@ -26,7 +26,7 @@
       </div>
     </section>
 
-    <section class="section section-lg mt--300">
+    <section class="section section-lg">
       <div class="container">
         <div class="mb-2">
           <h3 class="display-4 pl-3 headings">How AgriSkul Works</h3>
@@ -414,53 +414,53 @@ export default {
     installOwlCarousel: function() {
       if ($(window).width() > 1024) {
         $('.class-carousel').owlCarousel({
-          items: 3,
-          loop: true,
-          autowidth: false,
-          autoplay: true,
-          autoplayTimeout: 3000,
-          autoplayHoverPause: true,
-          responsiveClass: true
+            items: 3,
+            loop: false,
+            autowidth: false,
+            autoplay: true,
+            autoplayTimeout: 8000,
+            autoplayHoverPause: true,
+            responsiveClass: true
         });
         $('.partner-carousel').owlCarousel({
-          items: 3,
-          loop: true,
-          autowidth: true,
-          responsiveClass: true
+            items: 3,
+            loop: true,
+            autowidth: true,
+            responsiveClass: true
         });
       }
       if ($(window).width() > 600 && $(window).width() < 1024) {
         $('.class-carousel').owlCarousel({
-          items: 2,
-          loop: true,
-          autowidth: false,
-          autoplay: true,
-          autoplayTimeout: 3000,
-          autoplayHoverPause: true,
-          responsiveClass: true
+            items: 2,
+            loop: false,
+            autowidth: false,
+            autoplay: true,
+            autoplayTimeout: 8000,
+            autoplayHoverPause: true,
+            responsiveClass: true
         });
         $('.partner-carousel').owlCarousel({
-          items: 2,
-          loop: true,
-          autowidth: true,
-          responsiveClass: true
+            items: 2,
+            loop: true,
+            autowidth: true,
+            responsiveClass: true
         });
       }
       if ($(window).width() < 600) {
         $('.class-carousel').owlCarousel({
-          items: 1,
-          loop: true,
-          autowidth: false,
-          autoplay: true,
-          autoplayTimeout: 3000,
-          autoplayHoverPause: true,
-          responsiveClass: true
+            items: 1,
+            loop: false,
+            autowidth: false,
+            autoplay: true,
+            autoplayTimeout: 8000,
+            autoplayHoverPause: true,
+            responsiveClass: true
         });
         $('.partner-carousel').owlCarousel({
-          items: 1,
-          loop: true,
-          autowidth: false,
-          responsiveClass: true
+            items: 1,
+            loop: true,
+            autowidth: false,
+            responsiveClass: true
         });
       }
     },

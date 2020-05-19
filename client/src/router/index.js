@@ -16,13 +16,15 @@ import classDetail from '../views/classes/classDetail';
 import classIndex from '../views/classes/classIndex';
 import classLesson from '../views/classes/classLesson';
 
-import editLesson from '../views/instructors/editLesson';
-import instructorClasses from '../views/instructors/instructorClasses';
-import newLesson from '../views/instructors/newLesson';
 import classCreate from '../views/instructors/classCreate';
 import classEdit from '../views/instructors/classEdit';
+import newLesson from '../views/instructors/newLesson';
+import editLesson from '../views/instructors/editLesson';
+import instructorClasses from '../views/instructors/instructorClasses';
+import instructorProfile from '../views/instructors/instructorProfile';
 
 import studentClasses from '../views/students/studentClasses';
+import studentProfile from '../views/students/studentProfile';
 
 Vue.use(Router);
 
@@ -173,6 +175,18 @@ const router = new Router({
       }
     },
     {
+      path: '/instuctor/profile/',
+      name: 'instructorProfile',
+      components: {
+        header: SiteHeader,
+        default: instructorProfile,
+        footer: SiteFooter
+      },
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       // path: "/instuctor/classes/:id/lessons/new",
       path: '/instuctor/classes/:id/lessons/new',
       name: 'newLesson',
@@ -205,6 +219,18 @@ const router = new Router({
       components: {
         header: SiteHeader,
         default: studentClasses,
+        footer: SiteFooter
+      },
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/student/profile/',
+      name: 'studentProfile',
+      components: {
+        header: SiteHeader,
+        default: studentProfile,
         footer: SiteFooter
       },
       meta: {

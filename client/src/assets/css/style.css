@@ -9,8 +9,7 @@ GLoabl variables
 */
 /* font-family: 'Squada One',
 cursive;
-font-family: 'Quicksand',
-sans-serif; */
+- */
 
 html,
 body {
@@ -20,9 +19,11 @@ body {
   padding: 0;
   font-family: 'Quicksand',
     sans-serif;
-  background-color: #fffffe;
+    color: #22292f;
+  background-color: #fdfdfd;
   scroll-behavior: smooth;
 }
+
 
 a {
   font-family: 'Quicksand',
@@ -186,6 +187,10 @@ Home page
 ###########################################
 
 */
+section.showcase{
+  max-height: 100vh;
+}
+
 .underline {
   width: 65px;
   height: 2px;
@@ -211,13 +216,15 @@ Home page
 
 .step-box {
   position: relative;
+  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
+
 }
 
 @media screen and (min-width: 980px) {
   .step-box::after {
     content: '-----';
     position: absolute;
-    right: -28px;
+    right: -30px;
     top: 50%;
   }
 }
@@ -225,7 +232,8 @@ Home page
 .card {
   min-height: 10em;
   padding: 1em;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
+  ;
 }
 
 .card-subtitle.text-muted {
@@ -278,11 +286,12 @@ Home page
 }
 
 .homeCard .wrapper {
-  background-color: #20e434;
+ 
   min-height: 20em;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.3), 0 15px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
 }
 
 .homeCard .wrapper:hover .data2 {
@@ -342,14 +351,14 @@ Home page
 
 
 .course .data2 {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #20e434;
+  color: #fff;
   -webkit-transform: translateY(calc(70px + 4em));
   transform: translateY(calc(70px + 4em));
 }
 
 .course .title a {
-  color: #000000;
+  color: #fff;
   text-transform: uppercase;
   font-size: 15px;
 }
@@ -360,7 +369,7 @@ Home page
   margin: 2em auto 1em;
   text-align: center;
   font-size: 10px;
-  color: #20e434 !important;
+  color: #fff !important;
   line-height: 1;
   position: relative;
   font-weight: 700;
@@ -441,7 +450,11 @@ Home page
     cursive;
   text-transform: none !important;
 }
-
+.home-form{
+  border-radius: 20px;
+  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
+  ;
+}
 .home-form span {
   color: red;
   text-transform: initial;
@@ -664,10 +677,12 @@ Class index, classes { Student / Instructor }
 
 .Classcard .wrapper {
   background-color: #20e434;
-  min-height: 540px;
+  min-height:450px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
+  ;
 }
 
 .Classcard .wrapper:hover .data {
@@ -749,14 +764,14 @@ Class index, classes { Student / Instructor }
 }
 
 .example-2 .data {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #20e434;
+  color: #fff;
   -webkit-transform: translateY(calc(70px + 4em));
   transform: translateY(calc(70px + 4em));
 }
 
 .example-2 .title a {
-  color: #000000;
+  color: #fff;
   text-transform: uppercase;
   font-size: 28px;
 }
@@ -767,7 +782,7 @@ Class index, classes { Student / Instructor }
   margin: 2em auto 1em;
   text-align: center;
   font-size: 12px;
-  color: #20e434 !important;
+  color: #fff !important;
   line-height: 1;
   position: relative;
   font-weight: 700;
@@ -1262,4 +1277,60 @@ a.removeReviews {
   -webkit-box-shadow: -1px -6px 18px -7px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: -1px -6px 18px -7px rgba(0, 0, 0, 0.75);
   box-shadow: -1px -6px 18px -7px rgba(0, 0, 0, 0.75);
+}
+
+/*
+
+##########################################
+
+Profile page
+
+###########################################
+
+*/
+
+.profile-heading{
+  font-family: 'Quicksand',sans-serif;
+  font-size: 25px;
+  margin: 1em 0;
+}
+.profile-heading span{
+  font-size: 15px;
+}
+.profile-subheading{
+  font-family: 'Squada One', cursive;
+  font-size: 15px;
+}
+.profile-avatar{
+  height: 12em;
+  margin: 1em auto;
+  width: 12em;
+  border-radius: 15px;
+  letter-spacing: -2px;
+  background-color: #20e343;
+  padding: 1em auto;
+}
+p.avatar-letter{
+  font-family: 'Squada One', cursive;
+  font-size: 110px;
+  width: 80%;
+  color: #fdfdfd;
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+
+.profile-details h2{
+  text-transform: capitalize;
+}
+
+.profile-details p.username{
+  font-family: 'Squada One', cursive;
+}
+
+.profile-subdetails span{
+  font-family: 'Squada One', cursive;
+}
+.profile-subdetails p{
+  text-transform: capitalize;
+ 
 }

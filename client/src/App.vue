@@ -22,9 +22,10 @@ export default {
     return {
       size: 50,
       backgroundColor: '#20e434',
-      maxWidth: 400
+      maxWidth: 400,
+     
     };
-  }
+  },
 };
 </script>
 

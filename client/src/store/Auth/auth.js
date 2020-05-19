@@ -6,14 +6,11 @@ const state = {
   email: localStorage.getItem('email') || null,
   type: localStorage.getItem('type') || null,
   userID: localStorage.getItem('userID') || null,
-  status: '',
-  error: null
+  verified: localStorage.getItem('verified') || null,
 };
 
 const getters = {
   isLoggedIn: state => !!state.token,
-  authState: state => state.status,
-  user: state => state.user,
   username: state => state.username,
   userID: state => state.userID,
   isStudent: state => {
@@ -30,13 +27,18 @@ const getters = {
       return false;
     }
   },
-  error: state => state.error
+  isVerified: state =>{
+    if (state.verified == false) {
+      return false
+    } else {
+      return true
+    }
+  }
 };
 
 const actions = {
   // Login Action
   async login({ commit }, user) {
-    commit('auth_request');
 
     let res = await axios.post('/api/users/login', user);
     if (res.data.success == true) {
@@ -46,7 +48,7 @@ const actions = {
       const email = user.email;
       const type = user.type;
       const userID = user._id;
-
+      const verified = user.verified;
       // Store the token into the localstorage
       // eslint-disable-next-line no-console
       // console.log(user);
@@ -55,35 +57,19 @@ const actions = {
       localStorage.setItem('type', type);
       localStorage.setItem('userID', userID);
       localStorage.setItem('token', token);
+      localStorage.setItem('verified', verified);
       // Set the axios defaults
       axios.defaults.headers.common['Authorization'] = token;
       commit('auth_success', token);
 
       return res;
     } else {
-      commit('register_error', res);
       return res;
     }
   },
   // Register User
-  async register({ commit }, userData) {
-    commit('register_request');
-    let res = await axios.post('/api/users/register', userData);
-    if (res.data.success == true) {
-      commit('register_success');
-      return res;
-    } else {
-      commit('register_error', res);
-      return res;
-    }
-  },
-  // Get the user Profile
-  async getProfile({ commit }) {
-    commit('profile_request');
-    let res = await axios.get('/api/users/profile');
-
-    commit('user_profile');
-    return res;
+  async register(userData) {
+    await axios.post('/api/users/register', userData);
   },
   // Logout the user
   async logout({ commit }) {
@@ -92,6 +78,7 @@ const actions = {
     await localStorage.removeItem('email');
     await localStorage.removeItem('type');
     await localStorage.removeItem('userID');
+    await localStorage.removeItem('verified');
     commit('logout');
     delete axios.defaults.headers.common['Authorization'];
 
@@ -100,31 +87,14 @@ const actions = {
 };
 
 const mutations = {
-  auth_request(state) {
-    state.error = null;
-    state.status = 'loading';
-  },
   auth_success(state, token) {
     state.token = token;
     state.username = localStorage.getItem('username');
     state.email = localStorage.getItem('email');
     state.type = localStorage.getItem('type');
     state.userID = localStorage.getItem('userID');
+    state.verified = localStorage.getItem('verified');
     state.error = null;
-  },
-  auth_error(state, err) {
-    state.error = err.response.data.msg;
-  },
-  register_request(state) {
-    state.error = null;
-    state.status = 'loading';
-  },
-  register_success(state) {
-    state.error = null;
-    state.status = 'success';
-  },
-  register_error(state, res) {
-    state.error = res.data.msg;
   },
   logout(state) {
     state.error = null;
@@ -133,17 +103,9 @@ const mutations = {
     state.username = null;
     state.email = null;
     state.type = null;
-    state.user_id = null;
+    state.userID = null;
+    state.verified = null;
   },
-  profile_request(state) {
-    state.status = 'loading';
-  },
-  user_profile(state) {
-    state.username = localStorage.getItem('username');
-    state.email = localStorage.getItem('email');
-    state.type = localStorage.getItem('type');
-    state.user_id = localStorage.getItem('userID');
-  }
 };
 
 export default {

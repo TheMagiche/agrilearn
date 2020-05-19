@@ -49,6 +49,15 @@
                   <p class="description d-none d-md-inline-block mb-0">Create new class</p>
                 </div>
               </router-link>
+               <router-link :to="{ name: 'instructorProfile' }" class="media d-flex align-items-center">
+                <div class="icon icon-shape bg-gradient-success rounded-circle text-white">
+                  <i class="ni ni-circle-08"></i>
+                </div>
+                <div class="media-body ml-3">
+                  <h5 class="heading text-green mb-md-1">Profile</h5>
+                  <p class="description d-none d-md-inline-block mb-0">View & manage your account</p>
+                </div>
+              </router-link>
               <hr />
               <li class="nav-items logout icon">
                 <a @click="logout" class="nav-log-link aLog">
@@ -75,6 +84,15 @@
                 <div class="media-body ml-3">
                   <h5 class="heading text-green mb-md-1">Classes</h5>
                   <p class="description d-none d-md-inline-block mb-0">View your Classes</p>
+                </div>
+              </router-link>
+              <router-link :to="{ name: 'studentProfile' }" class="media d-flex align-items-center">
+                <div class="icon icon-shape bg-gradient-success rounded-circle text-white">
+                  <i class="ni ni-circle-08"></i>
+                </div>
+                <div class="media-body ml-3">
+                  <h5 class="heading text-green mb-md-1">Profile</h5>
+                  <p class="description d-none d-md-inline-block mb-0">View & manage your account</p>
                 </div>
               </router-link>
               <hr />
