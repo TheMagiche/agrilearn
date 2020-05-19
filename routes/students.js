@@ -6,7 +6,7 @@ const Class = require('../models/class');
 const ClassRatings = require('../models/classRating');
 const mongoose = require('mongoose');
 /**
- * @route POST api/student/classes/:id
+ * @route GET api/student/classes/:id
  * @desc Get students classes
  * @access Private
  * Untested
@@ -224,7 +224,7 @@ router.post('/:id/class/:classID/rate', async function (req, res) {
 });
 
 /**
- * @route POST api/student/:id/class/:classID/rate
+ * @route GET api/student/:id/class/:classID/rate
  * @desc Check registration status of student in a class
  * @access Private
  * Working
@@ -255,6 +255,50 @@ router.get('/:id/class/:classID/checkReg', async function (req, res) {
 
 });
 
+/**
+ * @route GET api/students/:id/profile
+ * @desc Return the User's Data
+ * @access Private
+ */
+router.get('/:id/profile',async function(req, res){
+    console.log('fetching student details...')
+    const studID = req.params.id;
+    const studentByID = await User.findById(studID);
+
+    const studentByUsername = await Student.findOne(
+        {username: studentByID.username}
+    );
+
+        return res.status(200).json({
+            username: studentByID.username,
+            email: studentByID.email,
+            type: studentByID.type,
+            verified: studentByID.verified,
+            phoneNumber: studentByID.phoneNumber,
+            status: studentByUsername.status,
+            first_name: studentByUsername.first_name,
+            last_name: studentByUsername.last_name,
+            classes: studentByUsername.classes
+        });
+
+    }
+);
+/**
+ * @route POST api/students/:id/profile
+ * @desc Return the User's Data
+ * @access Private
+ */
+router.post('/profile/update', async function(req, res){
+    const username = req.body.username;
+    const studentByUsername = await Student.findOneAndUpdate({username:username},{first_name: req.body.first_name, last_name:req.body.last_name}, {new: true});
+
+    return res.status(200).json({
+        first_name: studentByUsername.first_name,
+        last_name: studentByUsername.last_name,
+        success: true,
+        msg: "Updated Details Successfully"
+    })
+});
 
 
 

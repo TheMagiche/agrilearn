@@ -242,10 +242,32 @@ router.post('/login', async function (req, res) {
                 });
             }
             if (user.verified == false) {
-                return res.json({
-                    msg: 'Account not verified',
-                    success: false,
-                });
+               crypto.randomBytes(20, (err, buf) => {
+                    var token = buf.toString('hex');
+                    var Nodeemail = {
+                        to: user.email,
+                        from: 'agriskul@gmail.com',
+                        subject: 'Account Verification',
+                        html: 'Account Verification.\n\n' + 'Please click on the following link, or paste this into your browser to complete the process:\n\n' + '<a href="http://' + req.headers.host + '/verify/' + token + '">Verify your Account</a>\n\n' + 'If you did not request this, please ignore this email.\n',
+                        
+                    };
+                    
+                    user.resetPasswordToken = token;
+                    user.resetPasswordExpires = Date.now() + 3600000;
+                    user.save();
+
+                    transporter.sendMail(Nodeemail, (error, info) => {
+                        if (error) {
+                            return console.log(error);
+                        }
+                        console.log('Message %s sent: %s', info.messageId, info.response);
+                    });
+                    return res.json({
+                        msg: `Account not verified. Email has been sent to ${user.email} to verify your account.`,
+                        success: false,
+                    });
+                    done(err, token);
+                }); 
             }
             // If there is user we are now going to compare the password
             bcrypt.compare(req.body.password, user.password).then(isMatch => {
@@ -479,7 +501,7 @@ router.post('/reset/:token', (req, res) => {
                 }
             });
         },
-        function (user, done) {},
+        
     ]);
 });
 /**
@@ -511,21 +533,44 @@ router.post('/message', async function (req, res) {
 });
 
 /**
- * @route POST api/users/profile
- * @desc Return the User's Data
+ * @route POST api/users/password/update
+ * @desc Update user password
  * @access Private
  */
-router.get(
-    '/profile',
-    passport.authenticate('jwt', {
-        session: false,
-    }),
-    (req, res) => {
-        return res.json({
-            user: req.user,
+router.post('/password/update', async function(req, res){
+    console.log('Changing password');
+   
+    try {
+        let password = req.body.password;
+        await User.findOne({
+            username:req.body.username
+        }).then(user => {
+            
+            bcrypt.hash(password, 10, function (err, hash) {
+                if (err) {
+                    throw err;
+                }
+                // Hash password
+                user.password = hash;
+                user.save();
+            });
+
         });
+        res.status(200).json({
+            success: true,
+            msg: "Successfully updated password"
+        }); 
     }
-);
+    catch (error) {
+        res.status(500).send({
+            msg: 'Something went wrong',
+            success: false,
+        });
+        console.log(err);
+    }
+});
+
+
 
 router.all('*', (req, res) => {
     res.status(400).send({

@@ -94,6 +94,49 @@ router.post('/rate/:instructorID/:userID', async function (req, res, next) {
     });
 });
 
+/**
+ * @route GET api/instructors/:id/profile
+ * @desc Return the User's Data
+ * @access Private
+ */
+router.get('/:id/profile',async function(req, res){
+    console.log('fetching instructor details...')
+    const instructorID = req.params.id;
+    const instructorByID = await User.findById(instructorID);
+
+    const instructorByUsername = await Instructor.findOne(
+        {username: instructorByID.username}
+    );
+
+        return res.status(200).json({
+            username: instructorByID.username,
+            email: instructorByID.email,
+            type: instructorByID.type,
+            verified: instructorByID.verified,
+            phoneNumber: instructorByID.phoneNumber,
+            first_name: instructorByUsername.first_name,
+            last_name: instructorByUsername.last_name,
+            classes: instructorByUsername.classes
+        });
+
+    }
+);
+/**
+ * @route POST api/students/:id/profile
+ * @desc Return the User's Data
+ * @access Private
+ */
+router.post('/profile/update', async function(req, res){
+    const username = req.body.username;
+    const instructorByUsername = await Instructor.findOneAndUpdate({username:username},{first_name: req.body.first_name, last_name:req.body.last_name}, {new: true});
+
+    return res.status(200).json({
+        first_name: instructorByUsername.first_name,
+        last_name: instructorByUsername.last_name,
+        success: true,
+        msg: "Updated Details Successfully"
+    })
+});
 
 
 router.all('*', (req, res) => {

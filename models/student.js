@@ -13,6 +13,11 @@ var StudentSchema = mongoose.Schema({
     email: {
         type: String,
     },
+    // tracks free or paid accounts
+    status:{
+        type: Boolean,
+        default: false,
+    },
     classes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class',
