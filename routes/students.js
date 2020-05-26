@@ -36,7 +36,8 @@ router.get('/classes/:id', async function (req, res, next) {
         // console.log(studentByUsername.classes);
 
         return res.status(200).json({
-            classes: studentByUsername.classes
+            classes: studentByUsername.classes,
+            
         });
     } catch (err) {
         console.log(err);
@@ -58,6 +59,7 @@ router.post('/:id/class/:classID/register', async function (req, res) {
         } = req.params;
 
         const studentByID = await User.findById(id);
+
         const classByID = await Class.findById(classID);
 
         const exists = await Class.aggregate([{
@@ -108,6 +110,7 @@ router.post('/:id/class/:classID/register', async function (req, res) {
         return res.status(200).json({
             msg: 'Registered class successfully',
             success: true,
+
         });
 
 
@@ -161,7 +164,7 @@ router.post('/:id/class/:classID/deregister', async function (req, res) {
         ).exec();
 
         res.status(200).json({
-            msg: "Successfully removed class",
+            msg: "Successfully Deregistered from class",
             success: true
         })
 
@@ -245,6 +248,13 @@ router.get('/:id/class/:classID/checkReg', async function (req, res) {
 
     let classByID = await Class.findById(classID);
 
+    let studentByID = await User.findById(id);
+
+    let studentByUsername = await Student.findOne(
+        {username: studentByID.username}
+    );
+    
+
     var isInArray = classByID.students.some(function (student) {
         return student.equals(id);
     });
@@ -252,12 +262,15 @@ router.get('/:id/class/:classID/checkReg', async function (req, res) {
     if (isInArray) {
 
         return res.status(200).json({
-            registered: true
+            registered: true,
+            studentStatus: studentByUsername.status
         });
     } else {
 
         return res.status(200).json({
-            registered: false
+            registered: false,
+            studentStatus: studentByUsername.status
+
         });
     }
 
@@ -365,7 +378,8 @@ router.post('/:id/premium', async function(req, res){
                     ).then(async stud =>{                      
                         
                         var pesapal = new PesaPal({
-                            sitename: `http://localhost:8080/premium/${userID}/`,
+                            // sitename: `http://localhost:8080/premium/${userID}/`,
+                            sitename: `http://${req.headers.host}/premium/${userID}/`,
                             consumer_key: 'RV1wEGL3aYXhmFEdpd6+72UEbRpVSfZO',
                             consumer_secret: 'peQvF//QOvItVPl3oPDFYZCD5Ho=',
                             debug: true // false in production!

@@ -37,14 +37,13 @@ let transporter = nodeMailer.createTransport({
 
 /**
  * @route POST api/users/register
- * @desc REgisterthe User
+ * @desc Registerthe User
  * @access Public
  * Working
  */
 
 router.post('/register', async (req, res, next) => {
     console.log('Receiving details ..');
-
     async.waterfall([
         function (done) {
             crypto.randomBytes(20, (err, buf) => {
@@ -510,14 +509,14 @@ router.post('/reset/:token', (req, res) => {
  * @access Public
  */
 router.post('/message', async function (req, res) {
-    var email = {
+    var myemail = {
         to: 'wilsonmwangi692@gmail.com',
         from: 'agriskul@gmail.com',
         subject: 'Message from ' + req.body.name + ' Email: ' + req.body.email,
         text: 'Hello,\n\n' + 'This is a message from agriskul.co.ke from: ' + req.body.email + ' \n\n' + req.body.emailmessage + '\n\n' + 'Thank you',
         // html: '<b> varify your email?</b>'
     };
-    transporter.sendMail(email, (error, info) => {
+    transporter.sendMail(myemail, (error, info) => {
         if (error) {
             return res.json({
                 msg: 'Email could not be sent. Sorry.',

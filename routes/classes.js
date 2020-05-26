@@ -23,7 +23,8 @@ router.get('/', async function (req, res) {
                 "instructor": 1,
                 "_id": 1,
                 "rating": 1,
-                "imgUrl": 1
+                "imgUrl": 1,
+                "pro": 1
             })
             .limit(10)
             .populate({
@@ -59,7 +60,8 @@ router.post('/all', async function (req, res) {
             "instructor": 1,
             "_id": 1,
             "rating": 1,
-            "imgUrl": 1
+            "imgUrl": 1,
+            "pro": 1
         })
         .limit(limit * 1)
         .skip((page - 1) * limit)
