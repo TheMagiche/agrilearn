@@ -1,14 +1,16 @@
 <template>
     <div id="premiumMember">
     <section class="section section-lg">
-      <div class="container">
-        <div class="row justify-content-center">
-            <div class="wrapper row mb-3">
+        <div class="container">
+        <div class="row">
+          
                 <div class="premium-text text-center col-lg-4">
-                    Thank you very much for supporting
-                    <p>AgriSkul</p>
-                    <p>{{ message }}</p>
-
+                    <div class="premiumContent">
+                        <div class="imagePremiumContainer">
+                            <img :src="require('@/assets/images/loving.png')" height="15em" alt="instructorimg"/>
+                        </div> 
+                    <p class="premium-text">Thank you very much for supporting AgriSkul</p>  
+                    </div>
                     <div class="text-center">
                         <base-button
                         v-if="!hidden && !completed"
@@ -27,19 +29,19 @@
                         class="my-4 btn-green btn-sm"
                         type="success"
                         @click="confirmPremiumStatus"
-                        >Success</base-button>
-                    </div>  
-                    
+                        >Complete Process</base-button>
+                    </div>           
                 </div>
-                <div class="loader text-center col-lg-8">
-                    <vue-friendly-iframe v-if="hidden" :src="pesapalUrl" @load="onLoad"></vue-friendly-iframe>
+                <div class="col-lg-8">
+                    <div class="main-premium-text">{{ message }}</div>
+                    <div class="iframeDiv">
+                        <vue-friendly-iframe v-if="hidden" :src="pesapalUrl" @load="onLoad"></vue-friendly-iframe>
+                    </div>
                     <div v-if="completed" class="completePay">
                         You've got a premuim account for the next 30 days!
                     </div>
                 </div>
-
-                
-            </div>
+           
         </div>
       </div>
     </section>
@@ -52,7 +54,7 @@ import axios from 'axios';
 export default {
     data(){
         return{
-            message:"Click below and wait for the payment page, to load. Powered by pesapal.com",
+            message:"Click 'Continue to payment' and wait for the payment page to load. Powered by pesapal.com",
             hidden: false,
             // confirmed: false,
             pesapalUrl:'',
@@ -127,7 +129,7 @@ export default {
                 // this.confirmed = true;
                 this.completed = true;
                 this.hidden = false;
-                this.message ="Click below to check status of the payment.";
+                this.message ="Click 'Complete Process' as payment is validated and proceed to profile page";
             }
         }
     },

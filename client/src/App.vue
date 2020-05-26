@@ -2,6 +2,9 @@
   <div id="app">
     <router-view name="header"></router-view>
     <main id="main">
+      <notifications group="forms" />
+      <notifications group="logins" position="top left" />
+      <notifications group="classes" position="bottom right" />
       <fade-transition origin="center" mode="out-in" :duration="250">
         <router-view />
       </fade-transition>

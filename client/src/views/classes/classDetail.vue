@@ -64,14 +64,14 @@
                     </li>
                     <li>
                       <a
-                        v-if="checkisStudent && registered==false"
+                        v-if="checkisStudent && studentCompatibility && !ifRegistered"
                         @click="regClass"
                         class
                       >Register For Class</a>
                     </li>
                     <li>
                       <a
-                        v-if="checkisStudent && registered"
+                        v-if="checkisStudent && ifRegistered"
                         @click="deRegClass"
                         class="deReg"
                       >Deregister Class</a>
@@ -129,7 +129,7 @@
                 </ul>
               </div>
               <hr />
-              <div v-if="checkisStudent && registered" class="sidebar-item">
+              <div v-if="checkisStudent && ifRegistered" class="sidebar-item">
                 <p class="sidebar-heading">Give this class a rating</p>
 
                 <div class="classRating">
@@ -237,7 +237,9 @@ export default {
       page: 1,
       limit: 5,
       registered: false,
-      reviewText: 'See reviews'
+      reviewText: 'See reviews',
+      studentStatus: false,
+      classPro: false
     };
   },
   validations: {
@@ -265,6 +267,18 @@ export default {
       } else {
         return false;
       }
+    },
+    ifRegistered: function(){
+      if(this.registered){
+        return true
+      }
+      return false
+    },
+    studentCompatibility: function(){
+      if (this.studentStatus == false && this.classPro == true) {
+        return false
+      } 
+      return true
     }
   },
   filters: {
@@ -348,8 +362,10 @@ export default {
           this.classReadTime = resp.data.class.readTime;
           this.classRating = parseInt(resp.data.class.rating);
           if (resp.data.class.pro == true) {
-            this.classStatus = 'Pro';
+            this.classPro =  true;
+            this.classStatus = 'Pro (for premium students only)';
           } else {
+            this.classPro = false;
             this.classStatus = 'Free';
           }
           // eslint-disable-next-line no-console
@@ -411,6 +427,7 @@ export default {
       })
         .then(res => {
           this.registered = res.data.registered;
+          this.studentStatus = res.data.studentStatus;
         })
         .catch(err => {
           // eslint-disable-next-line no-console
@@ -425,13 +442,22 @@ export default {
         method: 'POST'
       })
         .then(res => {
-          window.location.reload();
+        
           if (res.data.success == false) {
-            this.error = true;
-            this.message = res.data.msg;
+            this.$notify({
+              group: 'classes',
+              type: 'warning',
+              title: 'Failed',
+              text: `${res.data.msg}`
+              });
           } else {
-            this.success = true;
-            this.message = res.data.msg;
+            this.registered = true
+            this.$notify({
+              group: 'classes',
+              type: 'success',
+              title: 'Success',
+              text: `${res.data.msg}`
+              });
           }
         })
         .catch(err => {
@@ -446,16 +472,23 @@ export default {
         url: `/api/students/${userID}/class/${classID}/deregister`,
         method: 'POST'
       })
-        .then(() => {
-          this.$router
-            .push({
-              name: 'studentClasses'
-            })
-            .then()
-            .catch(err => {
-              // eslint-disable-next-line no-console
-              console.log(err);
-            });
+        .then((res) => {
+          if (res.data.success == false) {
+            this.$notify({
+              group: 'classes',
+              type: 'warning',
+              title: 'Failed',
+              text: `${res.data.msg}`
+              });
+          } else {
+            this.registered = false;
+            this.$notify({
+              group: 'classes',
+              type: 'success',
+              title: 'Success',
+              text: `${res.data.msg}`
+              });
+          }
         })
         .catch(err => {
           // eslint-disable-next-line no-console
@@ -514,14 +547,21 @@ export default {
       })
         .then(res => {
           if (res.data.success == false) {
-            window.location.reload();
-            this.error = true;
-            this.message = res.data.msg;
+            this.$notify({
+              group: 'classes',
+              type: 'warning',
+              title: 'Failed',
+              text: `${res.data.msg}`
+              });
             this.rate = 0;
             this.comment = '';
           } else {
-            this.success = true;
-            this.message = res.data.msg;
+           this.$notify({
+              group: 'classes',
+              type: 'success',
+              title: 'Success',
+              text: `${res.data.msg}`
+              });
             this.rate = 0;
             this.comment = '';
           }

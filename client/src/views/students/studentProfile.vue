@@ -72,16 +72,7 @@
                                 ></base-input>
                             </div>
                             <hr>
-                            <base-alert v-if="detail_error" type="danger" dismissible="true">
-                            {{
-                            message
-                            }}
-                        </base-alert>
-                        <base-alert v-if="detail_success" type="success" dismissible="true">
-                            {{
-                            message
-                            }}
-                        </base-alert>
+                           
                              <h1 class="profile-heading">Personal Details <span>~ Fill in both details</span></h1>
                             <div class="profile-fields">
                                 <h3 class="profile-subheading">First name</h3>
@@ -115,16 +106,7 @@
                                 
                             </div>
                         <form role="form">
-                            <base-alert v-if="password_error" type="danger" dismissible="true">
-                            {{
-                            message
-                            }}
-                        </base-alert>
-                        <base-alert v-if="password_success" type="success" dismissible="true">
-                            {{
-                            message
-                            }}
-                        </base-alert>
+                            
                             <h1 class="profile-heading">Password Change</h1>
                             <div class="profile-fields">
                                 <h3 class="profile-subheading">New Password</h3>
@@ -191,11 +173,7 @@ export default {
             submitted: false,
             password: '',
             confirm_password: '',
-            detail_success: false,
-            detail_error: false,
-            password_success: false,
-            password_error: false,
-            message:'', 
+            
             pro: false
         }
     },
@@ -264,8 +242,12 @@ export default {
             }).then(resp =>{
                 this.first_name = resp.data.first_name;
                 this.last_name = resp.data.last_name;
-                this.detail_success = resp.data.success;
-                this.message = resp.data.msg;
+                this.$notify({
+                    group: 'classes',
+                    type: 'success',
+                    title: 'Success',
+                    text: `${resp.data.msg}`
+                    });
             }) .catch(err => {
               // eslint-disable-next-line no-console
               console.log(err);
@@ -281,8 +263,12 @@ export default {
                     password: this.password,
                 }
             }).then(resp =>{
-                this.password_success = resp.data.success;
-                this.message = resp.data.msg;
+                this.$notify({
+                    group: 'classes',
+                    type: 'success',
+                    title: 'Success',
+                    text: `${resp.data.msg}`
+                    });
                 this.password = '';
                 this.confirm_password = '';
                    

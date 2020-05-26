@@ -6,20 +6,11 @@
           <div class="col-lg-8">
             <div class="container">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" dismissible="true">
-                  {{
-                  message
-                  }}
-                </base-alert>
-                <base-alert v-if="success" type="success" dismissible="true">
-                  {{
-                  message
-                  }}
-                </base-alert>
+
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Welcome to AgriSkul</small>
                 </div>
-                <form role="form" v-if="!success">
+                <form role="form">
                   <div class="fields">
                     <h3 class="title-subheading">Username</h3>
                     <span v-if="submitted && !$v.username.required">Username is required</span>
@@ -153,8 +144,6 @@ export default {
   data: function() {
     return {
       submitted: false,
-      error: false,
-      message: '',
       username: '',
       first_name: '',
       last_name: '',
@@ -201,11 +190,16 @@ export default {
         type: this.type,
         phoneNumber: this.phoneNumber
       };
-
+      // eslint-disable-next-line no-console
+      console.log(user);
       this.register(user).then(res => {
         if (res.data.success == true) {
-          this.success = true;
-          this.message = res.data.msg;
+          this.$notify({
+              group: 'logins',
+              type: 'success',
+              title: 'Registation Successful',
+              text: `${res.data.msg}`
+            });
           this.first_name = '';
           this.last_name = '';
           this.email = '';
@@ -214,8 +208,12 @@ export default {
           this.password2 = '';
           this.phoneNumber = '';
         } else if (res.data.success == false) {
-          this.error = true;
-          this.message = res.data.msg;
+          this.$notify({
+              group: 'logins',
+              type: 'success',
+              title: 'Registation Successful',
+              text: `${res.data.msg}`
+            });
         }
       });
       this.error = false;

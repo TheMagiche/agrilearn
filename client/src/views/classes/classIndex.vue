@@ -20,7 +20,11 @@
                 </div>
                 <div class="data">
                   <div class="content">
-                    <span class="author">By: {{ item.instructor.username }}</span>
+                   <div class="top-content">
+                        <div v-if="item.pro" class="class-status">Pro</div>
+                        <div v-if="!item.pro" class="class-status">Free</div>
+                        <div class="author">By: {{ item.instructor.username }}</div>
+                      </div>
                     <h1 class="title">
                       <a href="#">{{ item.title }}</a>
                     </h1>

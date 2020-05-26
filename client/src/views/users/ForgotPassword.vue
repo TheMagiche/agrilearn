@@ -6,8 +6,6 @@
           <div class="col-lg-5">
             <div class="container pt-lg-5">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
-                <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Password Recovery</small>
                 </div>
@@ -50,9 +48,6 @@ export default {
   data: function() {
     return {
       submitted: false,
-      error: false,
-      success: false,
-      message: '',
       email: ''
     };
   },
@@ -79,11 +74,19 @@ export default {
       })
         .then(res => {
           if (res.data.success == false) {
-            this.error = true;
-            this.message = res.data.msg;
+            this.$notify({
+              group: 'logins',
+              type: 'error',
+              title: 'Failed',
+              text: `${res.data.msg}`
+            });
           } else {
-            this.success = true;
-            this.message = res.data.msg;
+           this.$notify({
+              group: 'logins',
+              type: 'success',
+              title: 'Success',
+              text: `${res.data.msg}`
+            });
           }
         })
         .catch(err => {

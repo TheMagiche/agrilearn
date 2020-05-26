@@ -12,8 +12,9 @@ import VueCookies from 'vue-cookies';
 import './assets/css/style.css';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel';
-import StarRating from 'vue-star-rating'
+import StarRating from 'vue-star-rating';
 import VueFriendlyIframe from 'vue-friendly-iframe';
+import Notifications from 'vue-notification';
 
 Vue.component('star-rating', StarRating);
 Vue.use(VueFriendlyIframe);
@@ -21,6 +22,7 @@ Vue.use(VueCookies);
 Vue.use(VueAxios, axios);
 Vue.use(Argon);
 Vue.use(Vuelidate);
+Vue.use(Notifications);
 Vue.config.productionTip = false;
 
 new Vue({

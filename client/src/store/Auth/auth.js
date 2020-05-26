@@ -68,8 +68,14 @@ const actions = {
     }
   },
   // Register User
-  async register(userData) {
-    await axios.post('/api/users/register', userData);
+  async register({commit},userData) {
+    commit('reg_success');
+    let res = await axios.post('/api/users/register', userData);
+    if (res.data.success) {
+      return res
+    } else {
+      return res
+    }
   },
   // Logout the user
   async logout({ commit }) {
@@ -96,9 +102,11 @@ const mutations = {
     state.verified = localStorage.getItem('verified');
     state.error = null;
   },
+  reg_success(state){
+    state.error = null;
+  },
   logout(state) {
     state.error = null;
-    state.status = '';
     state.token = null;
     state.username = null;
     state.email = null;

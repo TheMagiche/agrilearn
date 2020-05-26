@@ -25,6 +25,21 @@ body {
 
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
 
 a {
   font-family: 'Quicksand',
@@ -217,15 +232,23 @@ Home page
   right: 0;
   bottom: 0;
   left: 0;
-  opacity: 0.35;
+  opacity: 0.85;
   height: 100vh;
   background-image: url("../images/collage/showcase.png");
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
 }
 
-
+.imgContainer{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+.imgContainer img{
+  height: 25em;
+  /* width: 100%; */
+}
 section.showcase{
   max-height: 100vh;
 }
@@ -329,7 +352,7 @@ section.showcase{
   min-height: 20em;
   position: relative;
   overflow: hidden;
-  border-radius: 15px;
+  /* border-radius: 15px; */
   box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
 }
 
@@ -340,7 +363,6 @@ section.showcase{
 
 .homeCard .data2 {
   position: absolute;
-
   bottom: 0;
   width: 100%;
   -webkit-transform: translateY(calc(70px + 1em));
@@ -351,6 +373,14 @@ section.showcase{
   transition: transform 0.3s, -webkit-transform 0.3s;
 }
 
+.data2 .top-content{
+  display: flex;
+  
+}
+.class-status{
+  font-size: 12px;
+  flex: 1;
+}
 .homeCard .data2 .content {
   padding: 1em;
   position: relative;
@@ -361,13 +391,14 @@ section.showcase{
   font-size: 12px;
   font-family: 'Squada One',
     cursive;
+  text-align: end;
+  flex: 1;
 }
 
 .homeCard .title {
   margin-top: 2px;
   font-weight: 700;
-  /* white-space: nowrap; */
-  /* overflow: hidden; */
+  text-align: center;
 }
 
 .homeCard .text {
@@ -391,15 +422,18 @@ section.showcase{
 
 .course .data2 {
   background-color: #fff;
-  color: #20e434;
+  color: #000;
   -webkit-transform: translateY(calc(70px + 4em));
   transform: translateY(calc(70px + 4em));
 }
 
+
+
 .course .title a {
-  color: #20e434;
+  color: #000;
   text-transform: uppercase;
-  font-size: 15px;
+  text-align: center;
+  font-size: 22px;
 }
 
 .course .button {
@@ -435,7 +469,7 @@ section.showcase{
 .testimonial-container {
   width: 50vw;
   margin: 2em auto 1em;
-  padding: 1em;
+  padding: 3em;
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
@@ -471,6 +505,8 @@ section.showcase{
 .testimonial-text {
   text-align: center;
   text-transform: none !important;
+  font-size: 12px;
+  
 }
 
 .testimonial-text::before {
@@ -521,9 +557,9 @@ section.showcase{
 }
 .partner-carousel{
   display: flex;
-  justify-content: space-around;
-  
+  justify-content: space-around; 
 }
+
 .company-card {
   height: 10em;
   width: 15em;
@@ -546,6 +582,53 @@ section.showcase{
   background-color: #20e434d2;
 }
 
+.contact-info{
+  height: 100%;
+  padding: 1em;
+}
+.contact-item{
+  margin: 1em 0;
+  display: flex;
+  height: 10em;
+  text-align: center;
+}
+
+.contact-icon{
+  flex: 1;
+  /* text-align: center; */
+}
+
+.contact-icon.icon i, .icon svg {
+  font-size: 3em;
+}
+
+.contactinfo-text{
+  flex: 1;
+  text-align: end;
+}
+
+.contact-top-text{
+  font-family: 'Squada One', cursive;
+}
+
+.cardContainer{
+  margin: 0 auto;
+  width: 35em;
+}
+
+@media (max-width: 600px) {
+  .partner-carousel{
+    display: block;
+  }
+  .company-card{
+    width: 70%;
+    margin: 1em auto;
+  }
+  .cardContainer{
+    margin: 1em auto;
+    width: 80%;
+  }
+}
 
 /*
 
@@ -743,7 +826,7 @@ Class index, classes { Student / Instructor }
   min-height:450px;
   position: relative;
   overflow: hidden;
-  border-radius: 15px;
+  /* border-radius: 15px; */
   box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
   ;
 }
@@ -832,7 +915,14 @@ Class index, classes { Student / Instructor }
   -webkit-transform: translateY(calc(70px + 4em));
   transform: translateY(calc(70px + 4em));
 }
-
+.data .top-content{
+  display: flex;
+  
+}
+.class-status{
+  font-size: 12px;
+  flex: 1;
+}
 .example-2 .title a {
   color: #fff;
   text-transform: uppercase;
@@ -1238,8 +1328,6 @@ span.spanheading {
 }
 
 span.spandetails {
-  font-family: 'Squada One',
-    cursive;
   color: #000;
 }
 
@@ -1401,7 +1489,15 @@ p.avatar-letter{
 .premium span{
   font-size: 12px;
 }
-
+.main-premium-text{
+  font-family: 'Squada One', cursive;
+}
+.imagePremiumContainer{
+  height: 15em;
+}
+.imagePremiumContainer img{
+  height: 100%;
+}
 /*
 
 ##########################################

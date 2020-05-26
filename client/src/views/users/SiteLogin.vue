@@ -6,8 +6,6 @@
           <div class="col-lg-5">
             <div class="container pt-lg-5">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" :dismissible="true">{{ message }}</base-alert>
-                <base-alert v-if="success" type="success" :dismissible="true">{{ message }}</base-alert>
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Log in to continue</small>
                 </div>
@@ -61,9 +59,6 @@ export default {
   data: function() {
     return {
       submitted: false,
-      success: false,
-      error: false,
-      message: '',
       detail: '',
       password: ''
     };
@@ -93,9 +88,19 @@ export default {
         .then(res => {
           if (res.data.success) {
             this.$router.push('/');
+            this.$notify({
+              group: 'logins',
+              type: 'success',
+              title: 'Login Successful',
+              text: `${res.data.msg}`
+            });
           } else if (res.data.success == false) {
-            this.error = true;
-            this.message = res.data.msg;
+            this.$notify({
+              group: 'logins',
+              type: 'error',
+              title: 'Login failed',
+              text: `${res.data.msg}`
+            });
           }
         })
         .catch(err => {

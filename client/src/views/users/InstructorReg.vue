@@ -6,11 +6,6 @@
           <div class="col-lg-8">
             <div class="container">
               <div class="form-container">
-                <base-alert v-if="error" type="danger" :dismissible="true">
-                  {{
-                  message
-                  }}
-                </base-alert>
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Welcome to AgriSkul</small>
                 </div>
@@ -147,8 +142,7 @@ export default {
   data: function() {
     return {
       submitted: false,
-      error: false,
-      message: '',
+
       username: '',
       first_name: '',
       last_name: '',
@@ -198,10 +192,26 @@ export default {
 
       this.register(user).then(res => {
         if (res.data.success == true) {
-          this.$router.push({ name: 'SiteLogin' });
+          this.$notify({
+              group: 'logins',
+              type: 'success',
+              title: 'Registation Successful',
+              text: `${res.data.msg}`
+            });
+          this.first_name = '';
+          this.last_name = '';
+          this.email = '';
+          this.username = '';
+          this.password = '';
+          this.password2 = '';
+          this.phoneNumber = '';
         } else if (res.data.success == false) {
-          this.error = true;
-          this.message = res.data.msg;
+           this.$notify({
+              group: 'logins',
+              type: 'success',
+              title: 'Registation Successful',
+              text: `${res.data.msg}`
+            });
         }
       });
       this.error = false;
