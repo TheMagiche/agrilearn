@@ -253,7 +253,7 @@ router.post('/login', async function (req, res) {
                     };
                     
                     user.resetPasswordToken = token;
-                    user.resetPasswordExpires = Date.now() + 3600000;
+                    user.resetPasswordExpires = Date.now() + 60 * 60 * 24 * 1000;
                     user.save();
 
                     transporter.sendMail(Nodeemail, (error, info) => {

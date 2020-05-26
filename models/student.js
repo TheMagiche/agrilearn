@@ -18,6 +18,14 @@ var StudentSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    premiumToken:{
+        type: String,
+        default:'',
+    },
+    premiumExpires:{
+        type: Date,
+        default: Date.now(),
+    },
     classes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class',

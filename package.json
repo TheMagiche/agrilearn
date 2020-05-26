@@ -8,17 +8,14 @@
         "dev": "env-cmd -f ./.env nodemon ./bin/www"
     },
     "keywords": [
-        "elearn"
+        "E-learning"
     ],
     "author": "themagiche",
     "license": "ISC",
     "dependencies": {
         "async": "^3.2.0",
         "bcryptjs": "^2.4.3",
-        "connect-flash": "^0.1.1",
-        "connect-multiparty": "^2.2.0",
         "cookie-parser": "^1.4.5",
-        "cookie-session": "^1.4.0",
         "cors": "^2.8.5",
         "crypto": "^1.0.1",
         "debug": "~2.6.9",
@@ -26,17 +23,16 @@
         "env-cmd": "^10.1.0",
         "express": "~4.16.0",
         "express-session": "^1.17.1",
-        "http-errors": "~1.6.2",
+        "got": "^11.1.4",
         "jsonwebtoken": "^8.5.1",
         "mongodb": "^3.5.7",
         "mongoose": "^5.9.13",
         "morgan": "~1.9.0",
         "nodemailer": "^6.4.6",
         "passport": "^0.4.0",
-        "passport-http": "^0.3.0",
-        "passport-jwt": "^4.0.0",
         "passport-local": "^1.0.0",
-        "passport-local-mongoose": "^6.0.1"
+        "passport-local-mongoose": "^6.0.1",
+        "pesapal-node": "^1.0.1"
     },
     "devDependencies": {
         "nodemon": "^2.0.3",

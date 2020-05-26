@@ -20,7 +20,7 @@ app.disable('etag').disable('x-powered-by');
 
 app.use(
     session({
-        secret: 'agrilearn',
+        secret: 'agriskul',
         saveUninitialized: true,
         resave: true,
         maxAge: 24 * 60 * 60 * 1000, // 24

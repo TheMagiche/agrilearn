@@ -5,6 +5,14 @@ const Student = require('../models/student');
 const Class = require('../models/class');
 const ClassRatings = require('../models/classRating');
 const mongoose = require('mongoose');
+
+var async = require('async');
+var crypto = require('crypto');
+
+// Test pesapal intergration
+const {PesaPal} = require('pesapal-node');
+// const got = require('got');
+
 /**
  * @route GET api/student/classes/:id
  * @desc Get students classes
@@ -300,6 +308,193 @@ router.post('/profile/update', async function(req, res){
     })
 });
 
+
+/**
+ * @route GET api/students/:id/premium
+ * @desc Check user's premuim subscription
+ * @access Private
+ */
+router.get('/:id/premium', async function(req, res){
+    const userID = req.params.id;
+    await User.findOne({
+        _id: userID
+    }).then(user =>{
+        if (user.premiumExpires < Date.now()) {
+            Student.findOne(
+                {username: user.username}
+            ).then(stud =>{
+                stud.premiumExpires = null;
+                stud.premiumToken = null;
+                student.status = false;
+            }).catch(err =>{
+                console.log(err);
+            });
+            res.status(200).json({
+                msg: "Your premium subscription has ended",
+                success: true
+            });
+        }
+    }).catch(err =>{
+        console.log(err);
+    });
+});
+
+/**
+ * @route POST api/students/:id/premium
+ * @desc post user's premuim subscription
+ * @access Private
+ */
+router.post('/:id/premium', async function(req, res){
+    console.log('Generating pesapal url..');
+    const userID = req.params.id;
+    async.waterfall([
+        function(done){
+            crypto.randomBytes(20, (err, buf) => {
+                var token = buf.toString('hex');
+                // console.log(token);
+                done(err, token);
+            });
+        },
+        async function(token){
+           User.findOne({
+                _id: userID
+            }).then(user =>{
+                if (user) {
+                    Student.findOne(
+                        {username: user.username}
+                    ).then(async stud =>{                      
+                        
+                        var pesapal = new PesaPal({
+                            sitename: `http://localhost:8080/premium/${userID}/`,
+                            consumer_key: 'RV1wEGL3aYXhmFEdpd6+72UEbRpVSfZO',
+                            consumer_secret: 'peQvF//QOvItVPl3oPDFYZCD5Ho=',
+                            debug: true // false in production!
+                        });
+
+                        var customer = pesapal.customerDetail({
+                            firstname: stud.first_name,
+                            lastname: stud.last_name,
+                            email: user.email,
+                            phonenumber: user.phoneNumber.substr(1),
+                        });
+                        // console.log(customer);
+                        // Create Order Detail <as many as required>
+                        var order = pesapal.orderDetail({
+                            itemID: 'agriskulpremiummbership',
+                            particulars: '30 Day subscription',
+                            quantity: 1,
+                            unitCost: 100.0,
+                            details: 'Get a 30 day subscription for pro membership in agriskul.co.ke'
+                        });
+                        // console.log(order);
+
+                        // Place orders in an array
+                        var orders = [];
+                        orders.push(order);
+
+                        // make a call to the PESAPALDIRECTORDER
+                        var postOrderUrl = await pesapal.sendPostPesaPalDirectOrder({
+                            reference: token,
+                            customerDetails: customer,
+                            description:'30 day pro account',
+                            orders: orders
+                        }); // Returns a url to redirect to pesapal payment page
+                        // console.log(postOrderUrl);
+
+                        res.status(200).json({
+                            msg: "Complete the transaction and check the payment status",
+                            success: true,
+                            urlRedirect: postOrderUrl
+                        });
+                    }).catch(err =>{
+                        console.log(err);
+                    });
+                   
+                }
+            }).catch(err =>{
+                console.log(err);
+            });
+
+
+           
+        }
+    ]);
+
+});
+
+// /**
+//  * @route POST api/students/:id/checkpremium
+//  * @desc confirm premium status of payment from pesapal
+//  * @access Private
+//  */
+// router.post('/:id/checkpremium', async function(req, res){
+//     const {pesapal_merchant_reference, pesapal_transaction_tracking_id } = req.body;
+//     const userID = req.params.id;
+//     var pesapal = new PesaPal({
+//         sitename: `http://localhost:8080/premium/${userID}/`,
+//         consumer_key: 'RV1wEGL3aYXhmFEdpd6+72UEbRpVSfZO',
+//         consumer_secret: 'peQvF//QOvItVPl3oPDFYZCD5Ho=',
+//         debug: true // false in production!
+//     });
+//     let pesapalQueryUrl = await pesapal.getQueryPaymentDetails({
+//         merchant_ref: pesapal_merchant_reference,
+//         merchant_tracking_id: pesapal_transaction_tracking_id
+//     });
+//     // console.log(pesapalQueryUrl);
+//     (async () => {
+//         try {
+//             const response = await got(pesapalQueryUrl);
+//             console.log(response.body);
+//             //=> '<!doctype html> ...'
+//         } catch (error) {
+//             console.log(error.response.body);
+//             //=> 'Internal server error ...'
+//         }
+//     })();
+// });
+
+/**
+ * @route POST api/students/:id/checkpremium
+ * @desc confirm premium status of payment from pesapal
+ * @access Private
+ */
+router.post('/:id/confirmpremium', async function(req, res){
+    console.log('Generating pesapal url..');
+    const userID = req.params.id;
+    async.waterfall([
+        function(done){
+            crypto.randomBytes(20, (err, buf) => {
+                var token = buf.toString('hex');
+                done(err, token);
+            });
+        },
+        function(token){
+            User.findOne({
+                _id: userID
+            }).then(user =>{
+                if (user) {
+                    Student.findOne(
+                        {username: user.username}
+                    ).then(stud =>{
+                        stud.premiumExpires = Date.now() + 60 * 60 * 24 * 1000 * 30; //30days
+                        stud.premiumToken = token;
+                        stud.status = true;
+                        stud.save();
+                    }).catch(err =>{
+                        console.log(err);
+                    });
+                }
+            }).catch(err =>{
+                console.log(err);
+            });
+        }
+    ]);
+    
+    res.status(200).json({
+        msg: "You've received premium status for 30 days",
+        success: true
+    });
+});
 
 
 router.all('*', (req, res) => {
