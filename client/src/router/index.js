@@ -25,6 +25,8 @@ import instructorProfile from '../views/instructors/instructorProfile';
 
 import studentClasses from '../views/students/studentClasses';
 import studentProfile from '../views/students/studentProfile';
+import premiumMember from '../views/students/premiumMember';
+
 
 Vue.use(Router);
 
@@ -236,7 +238,17 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
-    }
+    },
+    {
+      path: '/premium/:token',
+      name: 'premiumMember',
+
+      components: {
+        header: SiteHeader,
+        default: premiumMember,
+        footer: SiteFooter
+      }
+    },
   ],
   scrollBehavior() {
     document.getElementById('app').scrollIntoView();

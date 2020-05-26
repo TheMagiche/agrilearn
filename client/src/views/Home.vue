@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <section class="section section-lg showcase mt--98">
+  <div id="home">
+    <section class="section section-lg showcase">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6">
@@ -19,7 +19,7 @@
               </base-button>
             </div>
           </div>
-          <div class="col-lg-6 d-none d-md-none d-lg-block">
+          <div id="showcase" class="col-lg-6 d-none d-md-none d-lg-block">
             <img :src="require('@/assets/images/showcaseImg.png')" alt="image" height="70%" />
           </div>
         </div>
@@ -106,7 +106,7 @@
         </div>
       </div>
     </section>
-    <section class="section section-lg">
+    <section id="courses" class="section section-lg">
       <div class="container">
         <div>
           <h3 class="display-4 pl-3 headings">Our Courses</h3>
@@ -261,7 +261,7 @@
 
         <div class="pt-3">
           <div class="pt-2">
-            <div class="partner-carousel owl-carousel owl-theme">
+            <div class="partner-carousel">
               <div v-for="company in partners" :key="company.id" class="company-card">
                 <div class="company-data" :style="{ backgroundImage: `url(${company.img})` }">
                   <p class="company-name">{{company.name}}</p>
@@ -422,12 +422,12 @@ export default {
             autoplayHoverPause: true,
             responsiveClass: true
         });
-        $('.partner-carousel').owlCarousel({
-            items: 3,
-            loop: true,
-            autowidth: true,
-            responsiveClass: true
-        });
+        // $('.partner-carousel').owlCarousel({
+        //     items: 3,
+        //     loop: true,
+        //     autowidth: true,
+        //     responsiveClass: true
+        // });
       }
       if ($(window).width() > 600 && $(window).width() < 1024) {
         $('.class-carousel').owlCarousel({
@@ -439,12 +439,12 @@ export default {
             autoplayHoverPause: true,
             responsiveClass: true
         });
-        $('.partner-carousel').owlCarousel({
-            items: 2,
-            loop: true,
-            autowidth: true,
-            responsiveClass: true
-        });
+        // $('.partner-carousel').owlCarousel({
+        //     items: 2,
+        //     loop: true,
+        //     autowidth: true,
+        //     responsiveClass: true
+        // });
       }
       if ($(window).width() < 600) {
         $('.class-carousel').owlCarousel({
@@ -456,12 +456,12 @@ export default {
             autoplayHoverPause: true,
             responsiveClass: true
         });
-        $('.partner-carousel').owlCarousel({
-            items: 1,
-            loop: true,
-            autowidth: false,
-            responsiveClass: true
-        });
+        // $('.partner-carousel').owlCarousel({
+        //     items: 1,
+        //     loop: true,
+        //     autowidth: false,
+        //     responsiveClass: true
+        // });
       }
     },
     getClasses: function() {

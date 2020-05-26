@@ -13,16 +13,19 @@ import './assets/css/style.css';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel';
 import StarRating from 'vue-star-rating'
-
+import VueFriendlyIframe from 'vue-friendly-iframe';
 
 Vue.component('star-rating', StarRating);
+Vue.use(VueFriendlyIframe);
 Vue.use(VueCookies);
 Vue.use(VueAxios, axios);
-Vue.config.productionTip = false;
 Vue.use(Argon);
 Vue.use(Vuelidate);
+Vue.config.productionTip = false;
+
 new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app');
+

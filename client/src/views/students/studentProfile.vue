@@ -17,7 +17,19 @@
                             <span>Account Type:</span> <p> {{type}}</p>
                             <span>Account Status:</span> <p>{{status}}</p>
                         </div>
-                     
+                        <div v-if="!pro" class="premium">
+                            <div class="text-center">
+                                   <base-button
+                                class="my-4 btn-warning btn-sm"
+                                type="warning"
+                                @click="getPremium"
+                                >Support Us</base-button>
+                            </div>
+                          
+                            <span>Become a premium member
+                            for only 100Kshs per month!
+                            </span>
+                        </div>
                     </div>
                 </div>   
                 <div class="col-lg-9">
@@ -148,8 +160,6 @@
                         </form>
                     </div>
                 </div>
-                
-              
                </div>
            </div>
        </section>
@@ -185,7 +195,8 @@ export default {
             detail_error: false,
             password_success: false,
             password_error: false,
-            message:''
+            message:'', 
+            pro: false
         }
     },
     computed: {
@@ -198,6 +209,23 @@ export default {
         confirm_password: { required, sameAsPassword: sameAs('password') }
     },
     methods:{
+        getPremium: function () {
+            return this.$router.replace({ name: "premiumMember", params: {token: this.$store.getters.userID} });
+
+        },  
+        checkPremium: function(){
+            const studID = this.$store.getters.userID;
+            axios({
+                url:`/api/students/${studID}/premium`,
+                method:'GET'
+            }).then(resp =>{
+                // eslint-disable-next-line no-console
+                console.log(resp.data);
+            }).catch(err =>{
+                // eslint-disable-next-line no-console
+                console.log(err);
+            });
+        },
         getDetails: function(){
             const studID = this.$store.getters.userID;
             axios({
@@ -213,8 +241,10 @@ export default {
                 this.last_name = resp.data.last_name;
                 this.classes = resp.data.classes;
                 if (resp.data.status == true) {
+                    this.pro = true;
                     this.status = "Paid Account";
                 } else {
+                    this.pro = false;
                     this.status = "Free Account";
                 }
             }) .catch(err => {

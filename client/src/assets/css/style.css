@@ -22,6 +22,7 @@ body {
     color: #22292f;
   background-color: #fdfdfd;
   scroll-behavior: smooth;
+
 }
 
 
@@ -40,6 +41,23 @@ a {
   background-color: #20e343;
   border-color: #20e343;
 }
+
+#app{
+  position: relative;
+}
+
+#app::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.15;
+  background-color: #DFDBE5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40' width='80' height='40'%3E%3Cpath fill='%2394ac92' fill-opacity='0.74' d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.32.75A20.02 20.02 0 0 1 40.8 25.26 20.02 20.02 0 0 1 65.32.76zM.07 0h20.1l-.08.07A20.02 20.02 0 0 1 .75 5.25 20.08 20.08 0 0 1 .07 0zm1.94 40h2.53l4.26-4.24v-9.78A17.96 17.96 0 0 0 2 40zm5.38 0h9.8a17.98 17.98 0 0 0 6.67-16.42L7.4 40zm3.43-15.42v9.17l11.62-11.59c-3.97-.5-8.08.3-11.62 2.42zm32.86-.78A18 18 0 0 0 63.85 3.63L43.68 23.8zm7.2-19.17v9.15L62.43 2.22c-3.96-.5-8.05.3-11.57 2.4zm-3.49 2.72c-4.1 4.1-5.81 9.69-5.13 15.03l6.61-6.6V6.02c-.51.41-1 .85-1.48 1.33zM17.18 0H7.42L3.64 3.78A18 18 0 0 0 17.18 0zM2.08 0c-.01.8.04 1.58.14 2.37L4.59 0H2.07z'%3E%3C/path%3E%3C/svg%3E");
+} 
+
 
 /*
 
@@ -187,6 +205,27 @@ Home page
 ###########################################
 
 */
+
+#courses{
+  position: relative;
+}
+
+#courses::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.35;
+  height: 100vh;
+  background-image: url("../images/collage/showcase.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+
 section.showcase{
   max-height: 100vh;
 }
@@ -351,14 +390,14 @@ section.showcase{
 
 
 .course .data2 {
-  background-color: #20e434;
-  color: #fff;
+  background-color: #fff;
+  color: #20e434;
   -webkit-transform: translateY(calc(70px + 4em));
   transform: translateY(calc(70px + 4em));
 }
 
 .course .title a {
-  color: #fff;
+  color: #20e434;
   text-transform: uppercase;
   font-size: 15px;
 }
@@ -369,7 +408,7 @@ section.showcase{
   margin: 2em auto 1em;
   text-align: center;
   font-size: 10px;
-  color: #fff !important;
+  color: #20e434 !important;
   line-height: 1;
   position: relative;
   font-weight: 700;
@@ -396,8 +435,28 @@ section.showcase{
 .testimonial-container {
   width: 50vw;
   margin: 2em auto 1em;
+  padding: 1em;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
+  ;
+  position: relative;
 }
-
+.testimonial-container::after{
+  content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-top-color: #ffffff;
+	border-bottom: 0;
+	margin-left: -20px;
+  margin-bottom: -20px;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
+  ;
+}
 .testimonialPic {
   width: 8em;
   height: 8em;
@@ -452,7 +511,7 @@ section.showcase{
 }
 .home-form{
   border-radius: 20px;
-  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
   ;
 }
 .home-form span {
@@ -460,11 +519,14 @@ section.showcase{
   text-transform: initial;
   font-size: 10px;
 }
-
+.partner-carousel{
+  display: flex;
+  justify-content: space-around;
+  
+}
 .company-card {
   height: 10em;
   width: 15em;
-  border-radius: 10px;
   background-color: #4d4d4d;
 }
 
@@ -483,6 +545,7 @@ section.showcase{
   padding: 2px;
   background-color: #20e434d2;
 }
+
 
 /*
 
@@ -681,7 +744,7 @@ Class index, classes { Student / Instructor }
   position: relative;
   overflow: hidden;
   border-radius: 15px;
-  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
   ;
 }
 
@@ -843,6 +906,7 @@ a {
   box-shadow: rgba(0, 0, 0, 0.2) 0 4px 2px -2px;
   margin: 1em auto;
   width: 100%;
+  padding: 1em;
 }
 
 .blog-container a {
@@ -863,7 +927,8 @@ a {
   background-size: cover;
   border-radius: 5px 5px 0 0;
   height: 25rem;
-  box-shadow: inset rgba(0, 0, 0, 0.2) 0 64px 64px 16px;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
+  ;
 }
 
 .blog-author,
@@ -1140,7 +1205,7 @@ p.lesson-line {
   width: 100%;
   height: 100%;
   padding: 1em;
-  background: #fffafac7;
+  background: #ffffff;
   -webkit-box-shadow: -6px -5px 5px -5px rgba(221, 221, 221, 1);
   -moz-box-shadow: -6px -5px 5px -5px rgba(221, 221, 221, 1);
   box-shadow: -6px -5px 5px -5px rgba(221, 221, 221, 1);
@@ -1332,5 +1397,37 @@ p.avatar-letter{
 }
 .profile-subdetails p{
   text-transform: capitalize;
- 
+}
+.premium span{
+  font-size: 12px;
+}
+
+/*
+
+##########################################
+
+  Premium 
+
+###########################################
+
+*/
+
+
+
+.loader{
+  width: 65vw;
+  height: 100vh;
+}
+
+iframe{
+  min-width: 100% !important;
+  height: 100vh;
+}
+
+@media screen and (min-width: 600px) {
+  .loader{
+    width: 100%;
+    height: auto;
+  }
+  
 }
