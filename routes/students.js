@@ -388,8 +388,8 @@ router.post('/:id/premium', async function (req, res) {
                         var pesapal = new PesaPal({
                             // sitename: `http://localhost:8080/premium/${userID}/`,
                             sitename: `http://${req.headers.host}/premium/${userID}/`,
-                            consumer_key: 'RV1wEGL3aYXhmFEdpd6+72UEbRpVSfZO',
-                            consumer_secret: 'peQvF//QOvItVPl3oPDFYZCD5Ho=',
+                            consumer_key: 'Q+cv8l1N3mbI2sEPLlMG196etR/lC2gE',
+                            consumer_secret: 'kqhRW461nvtan1LPYyy999SWnnA=',
                             debug: false // false in production!
                         });
 
