@@ -2,7 +2,7 @@
   <div id="siteHeader">
     <header class="header-global">
       <base-nav class="navbar-main" type effect="dark" expand>
-        <router-link slot="brand" class="navbar-brand mr-lg-5" to="/">
+        <router-link slot="brand" class="navbar-brand mylogo" to="/">
           <img :src="require('@/assets/images/logo.png')" alt="logo" />
         </router-link>
 
@@ -49,7 +49,10 @@
                   <p class="description d-none d-md-inline-block mb-0">Create new class</p>
                 </div>
               </router-link>
-               <router-link :to="{ name: 'instructorProfile' }" class="media d-flex align-items-center">
+              <router-link
+                :to="{ name: 'instructorProfile' }"
+                class="media d-flex align-items-center"
+              >
                 <div class="icon icon-shape bg-gradient-success rounded-circle text-white">
                   <i class="ni ni-circle-08"></i>
                 </div>
@@ -61,7 +64,8 @@
               <hr />
               <li class="nav-items logout icon">
                 <a @click="logout" class="nav-log-link aLog">
-                  <i class="ni ni-button-power"></i><span>Logout</span>
+                  <i class="ni ni-button-power"></i>
+                  <span>Logout</span>
                 </a>
               </li>
             </div>
@@ -108,7 +112,7 @@
         <ul class="navbar-nav align-items-lg-center ml-lg-auto navUl">
           <li class="nav-item">
             <router-link to="/classes" class="nav-link">
-              <span class="nav-link-inner--text navlink">Classses</span>
+              <span class="nav-link-inner--text navlink">Classes</span>
             </router-link>
           </li>
           <li v-if="!isLoggedIn" class="nav-item">

@@ -90,7 +90,11 @@
 
                     <div class="lesson-detail">
                       <!-- <p v-html="Texttrim(lesson.body)" class="lesson-line"></p> -->
-                      <a v-if="registered" @click="viewLesson(lesson._id)" class="lessonAnchor text-right">View lesson</a>
+                      <a
+                        v-if="registered || checkisInstructor"
+                        @click="viewLesson(lesson._id)"
+                        class="lessonAnchor text-right"
+                      >View lesson</a>
                     </div>
                   </li>
                 </ul>
@@ -268,17 +272,17 @@ export default {
         return false;
       }
     },
-    ifRegistered: function(){
-      if(this.registered){
-        return true
+    ifRegistered: function() {
+      if (this.registered) {
+        return true;
       }
-      return false
+      return false;
     },
-    studentCompatibility: function(){
+    studentCompatibility: function() {
       if (this.studentStatus == false && this.classPro == true) {
-        return false
-      } 
-      return true
+        return false;
+      }
+      return true;
     }
   },
   filters: {
@@ -362,7 +366,7 @@ export default {
           this.classReadTime = resp.data.class.readTime;
           this.classRating = parseInt(resp.data.class.rating);
           if (resp.data.class.pro == true) {
-            this.classPro =  true;
+            this.classPro = true;
             this.classStatus = 'Pro (for premium students only)';
           } else {
             this.classPro = false;
@@ -442,22 +446,21 @@ export default {
         method: 'POST'
       })
         .then(res => {
-        
           if (res.data.success == false) {
             this.$notify({
               group: 'classes',
               type: 'warning',
               title: 'Failed',
               text: `${res.data.msg}`
-              });
+            });
           } else {
-            this.registered = true
+            this.registered = true;
             this.$notify({
               group: 'classes',
               type: 'success',
               title: 'Success',
               text: `${res.data.msg}`
-              });
+            });
           }
         })
         .catch(err => {
@@ -472,14 +475,14 @@ export default {
         url: `/api/students/${userID}/class/${classID}/deregister`,
         method: 'POST'
       })
-        .then((res) => {
+        .then(res => {
           if (res.data.success == false) {
             this.$notify({
               group: 'classes',
               type: 'warning',
               title: 'Failed',
               text: `${res.data.msg}`
-              });
+            });
           } else {
             this.registered = false;
             this.$notify({
@@ -487,7 +490,7 @@ export default {
               type: 'success',
               title: 'Success',
               text: `${res.data.msg}`
-              });
+            });
           }
         })
         .catch(err => {
@@ -552,16 +555,16 @@ export default {
               type: 'warning',
               title: 'Failed',
               text: `${res.data.msg}`
-              });
+            });
             this.rate = 0;
             this.comment = '';
           } else {
-           this.$notify({
+            this.$notify({
               group: 'classes',
               type: 'success',
               title: 'Success',
               text: `${res.data.msg}`
-              });
+            });
             this.rate = 0;
             this.comment = '';
           }
@@ -574,7 +577,9 @@ export default {
   },
   mounted() {
     this.getClass();
-    this.checkReg();
+    if (this.$store.getters.isStudent) {
+      this.checkReg();
+    }
   }
 };
 </script>

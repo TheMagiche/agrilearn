@@ -50,7 +50,7 @@
             <div class="pt-xs-3 step-box">
               <b-card title="STEP 2" sub-title="LEARN">
                 <b-card-text class="sub-text">
-                  Gain knowledge from our large cllection of videos and articles
+                  Gain knowledge from our large collection of videos and articles
                   from experienced instructors
                 </b-card-text>
                 <!-- <b-card-text>A second paragraph of text in the card.</b-card-text> -->
@@ -207,7 +207,7 @@
                   <div class="contact-bottom-text">Nairobi, kenya</div>
                 </div>
               </div>
-              <div class="contact-item">
+              <!-- <div class="contact-item">
                 <div class="contact-icon icon">
                   <i class="ni ni-mobile-button"></i>
                 </div>
@@ -215,7 +215,7 @@
                   <div class="contact-top-text">Phone</div>
                   <div class="contact-bottom-text">0706408052</div>
                 </div>
-              </div>
+              </div>-->
               <div class="contact-item">
                 <div class="contact-icon icon">
                   <i class="ni ni-email-83"></i>
@@ -332,6 +332,9 @@ import fredimg from '@/assets/images/profile/fred.jpg';
 import vincentimg from '@/assets/images/profile/vincent.jpg';
 import claireimg from '@/assets/images/profile/claire.jpg';
 import obadiahimg from '@/assets/images/profile/obadiah.jpg';
+
+import agriplan from '@/assets/images/partners/agriplan.png';
+
 export default {
   name: 'home',
   data() {
@@ -371,19 +374,8 @@ export default {
       ],
       partners: [
         {
-          img:
-            'https://images.pexels.com/photos/2534507/pexels-photo-2534507.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-          name: 'BambooKenya'
-        },
-        {
-          img:
-            'https://images.pexels.com/photos/929137/pexels-photo-929137.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-          name: 'Farmers Choice'
-        },
-        {
-          img:
-            'https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-          name: 'Cheese hut'
+          img: agriplan,
+          name: 'Agriplan'
         }
       ]
     };
