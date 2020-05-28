@@ -10,7 +10,9 @@ var async = require('async');
 var crypto = require('crypto');
 
 // Test pesapal intergration
-const {PesaPal} = require('pesapal-node');
+const {
+    PesaPal
+} = require('pesapal-node');
 // const got = require('got');
 
 /**
@@ -37,7 +39,7 @@ router.get('/classes/:id', async function (req, res, next) {
 
         return res.status(200).json({
             classes: studentByUsername.classes,
-            
+
         });
     } catch (err) {
         console.log(err);
@@ -250,10 +252,10 @@ router.get('/:id/class/:classID/checkReg', async function (req, res) {
 
     let studentByID = await User.findById(id);
 
-    let studentByUsername = await Student.findOne(
-        {username: studentByID.username}
-    );
-    
+    let studentByUsername = await Student.findOne({
+        username: studentByID.username
+    });
+
 
     var isInArray = classByID.students.some(function (student) {
         return student.equals(id);
@@ -281,37 +283,43 @@ router.get('/:id/class/:classID/checkReg', async function (req, res) {
  * @desc Return the User's Data
  * @access Private
  */
-router.get('/:id/profile',async function(req, res){
+router.get('/:id/profile', async function (req, res) {
     console.log('fetching student details...')
     const studID = req.params.id;
     const studentByID = await User.findById(studID);
 
-    const studentByUsername = await Student.findOne(
-        {username: studentByID.username}
-    );
+    const studentByUsername = await Student.findOne({
+        username: studentByID.username
+    });
 
-        return res.status(200).json({
-            username: studentByID.username,
-            email: studentByID.email,
-            type: studentByID.type,
-            verified: studentByID.verified,
-            phoneNumber: studentByID.phoneNumber,
-            status: studentByUsername.status,
-            first_name: studentByUsername.first_name,
-            last_name: studentByUsername.last_name,
-            classes: studentByUsername.classes
-        });
+    return res.status(200).json({
+        username: studentByID.username,
+        email: studentByID.email,
+        type: studentByID.type,
+        verified: studentByID.verified,
+        phoneNumber: studentByID.phoneNumber,
+        status: studentByUsername.status,
+        first_name: studentByUsername.first_name,
+        last_name: studentByUsername.last_name,
+        classes: studentByUsername.classes
+    });
 
-    }
-);
+});
 /**
  * @route POST api/students/:id/profile
  * @desc Return the User's Data
  * @access Private
  */
-router.post('/profile/update', async function(req, res){
+router.post('/profile/update', async function (req, res) {
     const username = req.body.username;
-    const studentByUsername = await Student.findOneAndUpdate({username:username},{first_name: req.body.first_name, last_name:req.body.last_name}, {new: true});
+    const studentByUsername = await Student.findOneAndUpdate({
+        username: username
+    }, {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name
+    }, {
+        new: true
+    });
 
     return res.status(200).json({
         first_name: studentByUsername.first_name,
@@ -327,19 +335,19 @@ router.post('/profile/update', async function(req, res){
  * @desc Check user's premuim subscription
  * @access Private
  */
-router.get('/:id/premium', async function(req, res){
+router.get('/:id/premium', async function (req, res) {
     const userID = req.params.id;
     await User.findOne({
         _id: userID
-    }).then(user =>{
+    }).then(user => {
         if (user.premiumExpires < Date.now()) {
-            Student.findOne(
-                {username: user.username}
-            ).then(stud =>{
+            Student.findOne({
+                username: user.username
+            }).then(stud => {
                 stud.premiumExpires = null;
                 stud.premiumToken = null;
                 student.status = false;
-            }).catch(err =>{
+            }).catch(err => {
                 console.log(err);
             });
             res.status(200).json({
@@ -347,7 +355,7 @@ router.get('/:id/premium', async function(req, res){
                 success: true
             });
         }
-    }).catch(err =>{
+    }).catch(err => {
         console.log(err);
     });
 });
@@ -357,32 +365,32 @@ router.get('/:id/premium', async function(req, res){
  * @desc post user's premuim subscription
  * @access Private
  */
-router.post('/:id/premium', async function(req, res){
+router.post('/:id/premium', async function (req, res) {
     console.log('Generating pesapal url..');
     const userID = req.params.id;
     async.waterfall([
-        function(done){
+        function (done) {
             crypto.randomBytes(20, (err, buf) => {
                 var token = buf.toString('hex');
                 // console.log(token);
                 done(err, token);
             });
         },
-        async function(token){
-           User.findOne({
+        async function (token) {
+            User.findOne({
                 _id: userID
-            }).then(user =>{
+            }).then(user => {
                 if (user) {
-                    Student.findOne(
-                        {username: user.username}
-                    ).then(async stud =>{                      
-                        
+                    Student.findOne({
+                        username: user.username
+                    }).then(async stud => {
+
                         var pesapal = new PesaPal({
                             // sitename: `http://localhost:8080/premium/${userID}/`,
                             sitename: `http://${req.headers.host}/premium/${userID}/`,
                             consumer_key: 'RV1wEGL3aYXhmFEdpd6+72UEbRpVSfZO',
                             consumer_secret: 'peQvF//QOvItVPl3oPDFYZCD5Ho=',
-                            debug: true // false in production!
+                            debug: false // false in production!
                         });
 
                         var customer = pesapal.customerDetail({
@@ -410,7 +418,7 @@ router.post('/:id/premium', async function(req, res){
                         var postOrderUrl = await pesapal.sendPostPesaPalDirectOrder({
                             reference: token,
                             customerDetails: customer,
-                            description:'30 day pro account',
+                            description: '30 day pro account',
                             orders: orders
                         }); // Returns a url to redirect to pesapal payment page
                         // console.log(postOrderUrl);
@@ -420,17 +428,17 @@ router.post('/:id/premium', async function(req, res){
                             success: true,
                             urlRedirect: postOrderUrl
                         });
-                    }).catch(err =>{
+                    }).catch(err => {
                         console.log(err);
                     });
-                   
+
                 }
-            }).catch(err =>{
+            }).catch(err => {
                 console.log(err);
             });
 
 
-           
+
         }
     ]);
 
@@ -472,38 +480,38 @@ router.post('/:id/premium', async function(req, res){
  * @desc confirm premium status of payment from pesapal
  * @access Private
  */
-router.post('/:id/confirmpremium', async function(req, res){
+router.post('/:id/confirmpremium', async function (req, res) {
     console.log('Generating pesapal url..');
     const userID = req.params.id;
     async.waterfall([
-        function(done){
+        function (done) {
             crypto.randomBytes(20, (err, buf) => {
                 var token = buf.toString('hex');
                 done(err, token);
             });
         },
-        function(token){
+        function (token) {
             User.findOne({
                 _id: userID
-            }).then(user =>{
+            }).then(user => {
                 if (user) {
-                    Student.findOne(
-                        {username: user.username}
-                    ).then(stud =>{
+                    Student.findOne({
+                        username: user.username
+                    }).then(stud => {
                         stud.premiumExpires = Date.now() + 60 * 60 * 24 * 1000 * 30; //30days
                         stud.premiumToken = token;
                         stud.status = true;
                         stud.save();
-                    }).catch(err =>{
+                    }).catch(err => {
                         console.log(err);
                     });
                 }
-            }).catch(err =>{
+            }).catch(err => {
                 console.log(err);
             });
         }
     ]);
-    
+
     res.status(200).json({
         msg: "You've received premium status for 30 days",
         success: true
