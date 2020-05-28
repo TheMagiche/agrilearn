@@ -19,7 +19,7 @@ body {
   padding: 0;
   font-family: 'Quicksand',
     sans-serif;
-    color: #22292f;
+  color: #22292f;
   background-color: #fdfdfd;
   scroll-behavior: smooth;
 
@@ -30,15 +30,15 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 a {
@@ -57,11 +57,11 @@ a {
   border-color: #20e343;
 }
 
-#app{
+#app {
   position: relative;
 }
 
-#app::before{
+#app::before {
   content: '';
   position: absolute;
   top: 0;
@@ -71,7 +71,7 @@ a {
   opacity: 0.15;
   background-color: #DFDBE5;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40' width='80' height='40'%3E%3Cpath fill='%2394ac92' fill-opacity='0.74' d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.32.75A20.02 20.02 0 0 1 40.8 25.26 20.02 20.02 0 0 1 65.32.76zM.07 0h20.1l-.08.07A20.02 20.02 0 0 1 .75 5.25 20.08 20.08 0 0 1 .07 0zm1.94 40h2.53l4.26-4.24v-9.78A17.96 17.96 0 0 0 2 40zm5.38 0h9.8a17.98 17.98 0 0 0 6.67-16.42L7.4 40zm3.43-15.42v9.17l11.62-11.59c-3.97-.5-8.08.3-11.62 2.42zm32.86-.78A18 18 0 0 0 63.85 3.63L43.68 23.8zm7.2-19.17v9.15L62.43 2.22c-3.96-.5-8.05.3-11.57 2.4zm-3.49 2.72c-4.1 4.1-5.81 9.69-5.13 15.03l6.61-6.6V6.02c-.51.41-1 .85-1.48 1.33zM17.18 0H7.42L3.64 3.78A18 18 0 0 0 17.18 0zM2.08 0c-.01.8.04 1.58.14 2.37L4.59 0H2.07z'%3E%3C/path%3E%3C/svg%3E");
-} 
+}
 
 
 /*
@@ -107,11 +107,13 @@ i.social-instagram {
 i.social-youtube {
   color: rgb(179, 10, 10);
 }
-.logout{
+
+.logout {
   display: block;
   width: 100%;
   position: relative;
 }
+
 .aLog {
   position: absolute;
   top: 10%;
@@ -221,11 +223,11 @@ Home page
 
 */
 
-#courses{
+#courses {
   position: relative;
 }
 
-#courses::before{
+#courses::before {
   content: '';
   position: absolute;
   top: 0;
@@ -240,16 +242,18 @@ Home page
   background-position: center;
 }
 
-.imgContainer{
+.imgContainer {
   display: flex;
   align-content: center;
   justify-content: center;
 }
-.imgContainer img{
+
+.imgContainer img {
   height: 25em;
   /* width: 100%; */
 }
-section.showcase{
+
+section.showcase {
   max-height: 100vh;
 }
 
@@ -279,7 +283,6 @@ section.showcase{
 .step-box {
   position: relative;
   box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
-
 }
 
 @media screen and (min-width: 980px) {
@@ -294,8 +297,7 @@ section.showcase{
 .card {
   min-height: 10em;
   padding: 1em;
-  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
-  ;
+  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px;
 }
 
 .card-subtitle.text-muted {
@@ -348,7 +350,7 @@ section.showcase{
 }
 
 .homeCard .wrapper {
- 
+
   min-height: 20em;
   position: relative;
   overflow: hidden;
@@ -373,14 +375,16 @@ section.showcase{
   transition: transform 0.3s, -webkit-transform 0.3s;
 }
 
-.data2 .top-content{
+.data2 .top-content {
   display: flex;
-  
+
 }
-.class-status{
+
+.class-status {
   font-size: 12px;
   flex: 1;
 }
+
 .homeCard .data2 .content {
   padding: 1em;
   position: relative;
@@ -466,31 +470,38 @@ section.showcase{
   opacity: 1;
 }
 
+.testimonial-wrapper {
+  height: 100%;
+  background-color: red;
+  width: 100%;
+}
+
+
 .testimonial-container {
-  width: 50vw;
-  margin: 2em auto 1em;
+  width: 100%;
+  margin: 1em auto 1em;
   padding: 3em;
   background-color: #ffffff;
   border-radius: 15px;
-  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
-  ;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px;
   position: relative;
 }
-.testimonial-container::after{
+
+.testimonial-container::after {
   content: '';
-	position: absolute;
-	bottom: 0;
-	left: 50%;
-	width: 0;
-	height: 0;
-	border: 20px solid transparent;
-	border-top-color: #ffffff;
-	border-bottom: 0;
-	margin-left: -20px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-top-color: #ffffff;
+  border-bottom: 0;
+  margin-left: -20px;
   margin-bottom: -20px;
-  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
-  ;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px;
 }
+
 .testimonialPic {
   width: 8em;
   height: 8em;
@@ -506,7 +517,7 @@ section.showcase{
   text-align: center;
   text-transform: none !important;
   font-size: 12px;
-  
+
 }
 
 .testimonial-text::before {
@@ -545,19 +556,21 @@ section.showcase{
     cursive;
   text-transform: none !important;
 }
-.home-form{
+
+.home-form {
   border-radius: 20px;
-  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
-  ;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px;
 }
+
 .home-form span {
   color: red;
   text-transform: initial;
   font-size: 10px;
 }
-.partner-carousel{
+
+.partner-carousel {
   display: flex;
-  justify-content: space-around; 
+  justify-content: space-around;
 }
 
 .company-card {
@@ -582,52 +595,61 @@ section.showcase{
   background-color: #20e434d2;
 }
 
-.contact-info{
+.contact-info {
   height: 100%;
   padding: 1em;
 }
-.contact-item{
+
+.contact-item {
   margin: 1em 0;
   display: flex;
   height: 10em;
   text-align: center;
 }
 
-.contact-icon{
+.contact-icon {
   flex: 1;
   /* text-align: center; */
 }
 
-.contact-icon.icon i, .icon svg {
+.contact-icon.icon i,
+.icon svg {
   font-size: 3em;
 }
 
-.contactinfo-text{
+.contactinfo-text {
   flex: 1;
   text-align: end;
 }
 
-.contact-top-text{
+.contact-top-text {
   font-family: 'Squada One', cursive;
 }
 
-.cardContainer{
+.cardContainer {
   margin: 0 auto;
   width: 35em;
 }
 
 @media (max-width: 600px) {
-  .partner-carousel{
+  .partner-carousel {
     display: block;
   }
-  .company-card{
+
+  .company-card {
     width: 70%;
     margin: 1em auto;
   }
-  .cardContainer{
+
+  .cardContainer {
     margin: 1em auto;
     width: 80%;
   }
+
+  #courses::before {
+    display: none
+  }
+
 }
 
 /*
@@ -823,12 +845,11 @@ Class index, classes { Student / Instructor }
 
 .Classcard .wrapper {
   background-color: #20e434;
-  min-height:450px;
+  min-height: 450px;
   position: relative;
   overflow: hidden;
   /* border-radius: 15px; */
-  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
-  ;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px;
 }
 
 .Classcard .wrapper:hover .data {
@@ -915,14 +936,17 @@ Class index, classes { Student / Instructor }
   -webkit-transform: translateY(calc(70px + 4em));
   transform: translateY(calc(70px + 4em));
 }
-.data .top-content{
+
+.data .top-content {
   display: flex;
-  
+
 }
-.class-status{
+
+.class-status {
   font-size: 12px;
   flex: 1;
 }
+
 .example-2 .title a {
   color: #fff;
   text-transform: uppercase;
@@ -1017,8 +1041,7 @@ a {
   background-size: cover;
   border-radius: 5px 5px 0 0;
   height: 25rem;
-  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px
-  ;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px;
 }
 
 .blog-author,
@@ -1442,19 +1465,22 @@ Profile page
 
 */
 
-.profile-heading{
-  font-family: 'Quicksand',sans-serif;
+.profile-heading {
+  font-family: 'Quicksand', sans-serif;
   font-size: 25px;
   margin: 1em 0;
 }
-.profile-heading span{
+
+.profile-heading span {
   font-size: 15px;
 }
-.profile-subheading{
+
+.profile-subheading {
   font-family: 'Squada One', cursive;
   font-size: 15px;
 }
-.profile-avatar{
+
+.profile-avatar {
   height: 12em;
   margin: 1em auto;
   width: 12em;
@@ -1463,7 +1489,8 @@ Profile page
   background-color: #20e343;
   padding: 1em auto;
 }
-p.avatar-letter{
+
+p.avatar-letter {
   font-family: 'Squada One', cursive;
   font-size: 110px;
   width: 80%;
@@ -1472,32 +1499,38 @@ p.avatar-letter{
   margin: 0 auto;
 }
 
-.profile-details h2{
+.profile-details h2 {
   text-transform: capitalize;
 }
 
-.profile-details p.username{
+.profile-details p.username {
   font-family: 'Squada One', cursive;
 }
 
-.profile-subdetails span{
+.profile-subdetails span {
   font-family: 'Squada One', cursive;
 }
-.profile-subdetails p{
+
+.profile-subdetails p {
   text-transform: capitalize;
 }
-.premium span{
+
+.premium span {
   font-size: 12px;
 }
-.main-premium-text{
+
+.main-premium-text {
   font-family: 'Squada One', cursive;
 }
-.imagePremiumContainer{
+
+.imagePremiumContainer {
   height: 15em;
 }
-.imagePremiumContainer img{
+
+.imagePremiumContainer img {
   height: 100%;
 }
+
 /*
 
 ##########################################
@@ -1510,20 +1543,20 @@ p.avatar-letter{
 
 
 
-.loader{
+.loader {
   width: 65vw;
   height: 100vh;
 }
 
-iframe{
+iframe {
   min-width: 100% !important;
   height: 100vh;
 }
 
 @media screen and (min-width: 600px) {
-  .loader{
+  .loader {
     width: 100%;
     height: auto;
   }
-  
+
 }

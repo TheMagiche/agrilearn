@@ -20,7 +20,7 @@
             </div>
           </div>
           <div id="showcase" class="col-lg-6 d-none d-md-none d-lg-block mt--100">
-            <img id="showcaseImg" :src="require('@/assets/images/showcaseImg.png')" alt="image"/>
+            <img id="showcaseImg" :src="require('@/assets/images/showcaseImg.png')" alt="image" />
           </div>
         </div>
       </div>
@@ -89,40 +89,37 @@
           <div class="col-lg-6">
             <div class="mt-5">
               <p class="text-white">
-              Agrilearn aims to revolutionise the teaching and training of the
-              Agri - Sciences by providing access to information in a blended
-              learning environment, which combines online digital media with
-              traditional classroom methods and experiential learning through
-              practical sessions, with an element of student control over time,
-              place and pace in an online learning environment.
+                Agrilearn aims to revolutionise the teaching and training of the
+                Agri - Sciences by providing access to information in a blended
+                learning environment, which combines online digital media with
+                traditional classroom methods and experiential learning through
+                practical sessions, with an element of student control over time,
+                place and pace in an online learning environment.
               </p>
             </div>
-            
+
             <div class="mt-5">
-               <base-button tag="a" class="mb-3 mb-sm-0 btn-white">
-              <router-link to="instructor-register">
-                <span class="text-back">BECOME AN INSTRUCTOR</span>
-              </router-link>
-            </base-button>
+              <base-button tag="a" class="mb-3 mb-sm-0 btn-white">
+                <router-link to="instructor-register">
+                  <span class="text-back">BECOME AN INSTRUCTOR</span>
+                </router-link>
+              </base-button>
             </div>
-           
-              
           </div>
           <div class="col-lg-6">
             <div class="col-lg-6 d-none d-md-none d-lg-block imgContainer">
-              <img :src="require('@/assets/images/instructor.svg')" alt="instructorimg"/>
+              <img :src="require('@/assets/images/instructor.svg')" alt="instructorimg" />
             </div>
           </div>
         </div>
       </div>
-      
     </section>
     <section id="courses" class="section section-lg">
       <div class="container">
-        <!-- <div>
+        <div>
           <h3 class="display-4 pl-3 headings">Our Courses</h3>
           <div class="underline"></div>
-        </div> -->
+        </div>
 
         <div class="pt-3">
           <div class="pt-2">
@@ -170,27 +167,24 @@
         </div>
         <div class="row">
           <div class="col-lg-4">
-             <div class="col-lg-6 d-none d-md-none d-lg-block imgContainer">
-              <img :src="require('@/assets/images/man.png')" alt="instructorimg"/>
+            <div class="col-lg-6 d-none d-md-none d-lg-block imgContainer">
+              <img :src="require('@/assets/images/man.png')" alt="instructorimg" />
             </div>
           </div>
           <div class="col-lg-8">
-            <div class="testimonial-wrapper">
-              <div class="testimonial-carousel owl-carousel owl-theme">
-                <div
-                  class="testimonial-container"
-                  v-for="testimonial in testimonials"
-                  :key="testimonial.id"
-                >
-                  <div class="testimonialPic" :style="{ backgroundImage: `url(${testimonial.img})` }"></div>
-                  <p class="testimonial-text">{{ testimonial.testimonial}}</p>
-                  <p class="testimonial-name">{{testimonial.name}}</p>
-                </div>
+            <div class="testimonial-carousel owl-carousel owl-theme">
+              <div
+                class="testimonial-container"
+                v-for="testimonial in testimonials"
+                :key="testimonial.id"
+              >
+                <div class="testimonialPic" :style="{ backgroundImage: `url(${testimonial.img})` }"></div>
+                <p class="testimonial-text">{{ testimonial.testimonial}}</p>
+                <p class="testimonial-name">{{testimonial.name}}</p>
               </div>
             </div>
           </div>
         </div>
-        
       </div>
     </section>
     <section id="contact" class="section section-lg section-green">
@@ -201,53 +195,40 @@
         </div>
       </div>
       <div class="container">
-         <div class="row mt-4">
-        <div class="col-lg-4">
-          <div class="contact-info text-white">
-            <div class="contact-item">
-              <div class="contact-icon icon">
+        <div class="row mt-4">
+          <div class="col-lg-4">
+            <div class="contact-info text-white">
+              <div class="contact-item">
+                <div class="contact-icon icon">
                   <i class="ni ni-square-pin"></i>
-
-              </div>
-              <div class="contactinfo-text">
-                <div class="contact-top-text">
-                  Location
                 </div>
-                <div class="contact-bottom-text">
-                  Nairobi, kenya
+                <div class="contactinfo-text">
+                  <div class="contact-top-text">Location</div>
+                  <div class="contact-bottom-text">Nairobi, kenya</div>
                 </div>
               </div>
-            </div>
-            <div class="contact-item">
-              <div class="contact-icon icon">
-                <i class="ni ni-mobile-button"></i>
-              </div>
-              <div class="contactinfo-text">
-                <div class="contact-top-text">
-                  Phone
+              <div class="contact-item">
+                <div class="contact-icon icon">
+                  <i class="ni ni-mobile-button"></i>
                 </div>
-                <div class="contact-bottom-text">
-                  0706408052
+                <div class="contactinfo-text">
+                  <div class="contact-top-text">Phone</div>
+                  <div class="contact-bottom-text">0706408052</div>
                 </div>
               </div>
-            </div>
-            <div class="contact-item">
-              <div class="contact-icon icon">
-                 <i class="ni ni-email-83"></i>
-              </div>
-              <div class="contactinfo-text">
-                <div class="contact-top-text">
-                  Email
+              <div class="contact-item">
+                <div class="contact-icon icon">
+                  <i class="ni ni-email-83"></i>
                 </div>
-                <div class="contact-bottom-text">
-                  Agriskul@gmail.com
+                <div class="contactinfo-text">
+                  <div class="contact-top-text">Email</div>
+                  <div class="contact-bottom-text">Agriskul@gmail.com</div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-8">
-          <div class="cardContainer">
+          <div class="col-lg-8">
+            <div class="cardContainer">
               <card shadow>
                 <h4 class="mb-1">Want to get in touch with us?</h4>
                 <p class="mt-0 contact-text">We want to hear from you.</p>
@@ -290,7 +271,6 @@
                       :class="{
                           'is-invalid': submitted && $v.emailmessage.$error
                         }"
-        
                       placeholder="Type a message..."
                       v-model.trim="emailmessage"
                     ></textarea>
@@ -307,12 +287,10 @@
                   >SEND MESSAGE</base-button>
                 </div>
               </card>
+            </div>
           </div>
         </div>
       </div>
-      </div>
-     
-     
     </section>
     <section class="section section-lg">
       <div class="container">
@@ -483,13 +461,13 @@ export default {
     installOwlCarousel: function() {
       if ($(window).width() > 1024) {
         $('.class-carousel').owlCarousel({
-            items: 3,
-            loop: false,
-            autowidth: false,
-            autoplay: true,
-            autoplayTimeout: 8000,
-            autoplayHoverPause: true,
-            responsiveClass: true
+          items: 3,
+          loop: false,
+          autowidth: false,
+          autoplay: true,
+          autoplayTimeout: 8000,
+          autoplayHoverPause: true,
+          responsiveClass: true
         });
         // $('.partner-carousel').owlCarousel({
         //     items: 3,
@@ -500,13 +478,13 @@ export default {
       }
       if ($(window).width() > 600 && $(window).width() < 1024) {
         $('.class-carousel').owlCarousel({
-            items: 2,
-            loop: false,
-            autowidth: false,
-            autoplay: true,
-            autoplayTimeout: 8000,
-            autoplayHoverPause: true,
-            responsiveClass: true
+          items: 2,
+          loop: false,
+          autowidth: false,
+          autoplay: true,
+          autoplayTimeout: 8000,
+          autoplayHoverPause: true,
+          responsiveClass: true
         });
         // $('.partner-carousel').owlCarousel({
         //     items: 2,
@@ -517,13 +495,13 @@ export default {
       }
       if ($(window).width() < 600) {
         $('.class-carousel').owlCarousel({
-            items: 1,
-            loop: false,
-            autowidth: false,
-            autoplay: true,
-            autoplayTimeout: 8000,
-            autoplayHoverPause: true,
-            responsiveClass: true
+          items: 1,
+          loop: false,
+          autowidth: false,
+          autoplay: true,
+          autoplayTimeout: 8000,
+          autoplayHoverPause: true,
+          responsiveClass: true
         });
         // $('.partner-carousel').owlCarousel({
         //     items: 1,
