@@ -94,17 +94,17 @@ export default {
 
       readTime: '',
       config: {
-        toolbar: [
-          'Format',
-          ['Bold', 'Italic', 'Strike', 'Underline'],
-          ['BulletedList', 'NumberedList', 'Blockquote'],
-          ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-          ['Link', 'Unlink'],
-          ['FontSize', 'TextColor'],
-          ['Image'],
-          ['Undo', 'Redo'],
-          ['Source', 'Maximize']
-        ],
+        // toolbar: [
+        //   'Format',
+        //   ['Bold', 'Italic', 'Strike', 'Underline'],
+        //   ['BulletedList', 'NumberedList', 'Blockquote'],
+        //   ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        //   ['Link', 'Unlink'],
+        //   ['FontSize', 'TextColor'],
+        //   ['Image'],
+        //   ['Undo', 'Redo'],
+        //   ['Source', 'Maximize']
+        // ],
         height: 300
       }
     };

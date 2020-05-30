@@ -1502,18 +1502,22 @@ Profile page
   margin: 1em auto;
   width: 12em;
   border-radius: 15px;
-  letter-spacing: -2px;
-  background-color: #20e343;
-  padding: 1em auto;
+  letter-spacing: -5px;
+  background-color: #ffffff;
+
 }
 
-p.avatar-letter {
+.avatar-letter {
   font-family: 'Squada One', cursive;
-  font-size: 110px;
-  width: 80%;
-  color: #fdfdfd;
+  font-size: 80px;
+  height: 100%;
+  width: 100%;
+  color: #20e434;
   text-transform: uppercase;
   margin: 0 auto;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 2.5em;
 }
 
 .profile-details h2 {
