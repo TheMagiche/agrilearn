@@ -24,6 +24,7 @@ passport.deserializeUser(function (id, done) {
 
 const nodeMailer = require('nodemailer');
 let transporter = nodeMailer.createTransport({
+    name: "agriskul.co.ke",
     service: 'Gmail',
     auth: {
         // should be replaced with real sender's account
