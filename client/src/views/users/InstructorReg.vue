@@ -6,6 +6,9 @@
           <div class="col-lg-8">
             <div class="container">
               <div class="form-container">
+                <div class="text-center smimgContainer">
+                  <img :src="require('@/assets/images/leaf.png')" alt="leafimg" />
+                </div>
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Welcome to AgriSkul</small>
                 </div>
@@ -193,25 +196,26 @@ export default {
       this.register(user).then(res => {
         if (res.data.success == true) {
           this.$notify({
-              group: 'logins',
-              type: 'success',
-              title: 'Registation Successful',
-              text: `${res.data.msg}`
-            });
+            group: 'logins',
+            type: 'success',
+            title: 'Registation Successful',
+            text: `${res.data.msg}`
+          });
           this.first_name = '';
           this.last_name = '';
           this.email = '';
           this.username = '';
           this.password = '';
-          this.password2 = '';
+          this.confirm_password = '';
           this.phoneNumber = '';
+          this.submitted = false;
         } else if (res.data.success == false) {
-           this.$notify({
-              group: 'logins',
-              type: 'success',
-              title: 'Registation Successful',
-              text: `${res.data.msg}`
-            });
+          this.$notify({
+            group: 'logins',
+            type: 'success',
+            title: 'Registation Successful',
+            text: `${res.data.msg}`
+          });
         }
       });
       this.error = false;

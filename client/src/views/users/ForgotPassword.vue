@@ -7,6 +7,9 @@
             <div class="container pt-lg-5">
               <div class="form-container">
                 <div class="text-center text-white mb-4">
+                  <div class="text-center smimgContainer">
+                    <img :src="require('@/assets/images/leaf.png')" alt="leafimg" />
+                  </div>
                   <small class="smallTxt">Password Recovery</small>
                 </div>
                 <form role="form">
@@ -81,7 +84,7 @@ export default {
               text: `${res.data.msg}`
             });
           } else {
-           this.$notify({
+            this.$notify({
               group: 'logins',
               type: 'success',
               title: 'Success',

@@ -9,6 +9,9 @@
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Account verifiication</small>
                 </div>
+                <div class="text-center smimgContainer">
+                  <img :src="require('@/assets/images/leaf.png')" alt="leafimg" />
+                </div>
                 <p v-if="success">
                   Proceed to
                   <router-link :to="{name: 'SiteLogin'}">Login Page</router-link>
@@ -34,8 +37,8 @@ import axios from 'axios';
 export default {
   data: function() {
     return {
-
-    }
+      success: false
+    };
   },
 
   methods: {
@@ -47,14 +50,16 @@ export default {
       })
         .then(res => {
           if (res.data.success == false) {
-             this.$notify({
+            this.success = false;
+            this.$notify({
               group: 'logins',
               type: 'error',
               title: 'Failed',
               text: `${res.data.msg}`
             });
           } else {
-             this.$notify({
+            this.success = true;
+            this.$notify({
               group: 'logins',
               type: 'success',
               title: 'Success',

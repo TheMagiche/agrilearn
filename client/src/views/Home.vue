@@ -334,6 +334,7 @@ import claireimg from '@/assets/images/profile/claire.jpg';
 import obadiahimg from '@/assets/images/profile/obadiah.jpg';
 
 import agriplan from '@/assets/images/partners/agriplan.png';
+import agriskul from '@/assets/images/leaf.png';
 
 export default {
   name: 'home',
@@ -376,6 +377,14 @@ export default {
         {
           img: agriplan,
           name: 'Agriplan'
+        },
+        {
+          img: agriskul,
+          name: 'Join Us'
+        },
+        {
+          img: agriskul,
+          name: 'Join Us'
         }
       ]
     };

@@ -6,6 +6,9 @@
           <div class="col-lg-5">
             <div class="container pt-lg-5">
               <div class="form-container">
+                <div class="text-center smimgContainer">
+                  <img :src="require('@/assets/images/leaf.png')" alt="leafimg" />
+                </div>
                 <div class="text-center text-white mb-4">
                   <small class="smallTxt">Reset Password</small>
                 </div>

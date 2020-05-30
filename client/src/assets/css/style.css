@@ -242,10 +242,10 @@ Home page
   left: 0;
   opacity: 0.85;
   height: 100vh;
-  background-image: url("../images/collage/showcase.png");
+  background-image: url("../images/leaf.png");
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background-size: contain;
+  background-position: right;
 }
 
 .imgContainer {
@@ -256,7 +256,10 @@ Home page
 
 .imgContainer img {
   height: 25em;
-  /* width: 100%; */
+}
+
+.smimgContainer img {
+  height: 5em;
 }
 
 section.showcase {
@@ -657,7 +660,7 @@ section.showcase {
   }
 
   #courses::before {
-    display: none
+    background-position: center;
   }
 
 }
