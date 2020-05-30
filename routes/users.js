@@ -350,6 +350,10 @@ passport.use(
  */
 router.get('/logout', function (req, res) {
     req.logout();
+    res.send(200).json({
+        msg: "Successfully Logged out",
+        success: true
+    })
 });
 /**
  * @route POST api/users/reset-password
@@ -508,7 +512,7 @@ router.post('/reset/:token', (req, res) => {
  * @desc Sent email from front page
  * @access Public
  */
-router.post('/message', async function (req, res) {
+router.post('/message', function (req, res) {
     var myemail = {
         to: 'wilsonmwangi692@gmail.com',
         from: 'agriskul@gmail.com',
