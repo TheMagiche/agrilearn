@@ -24,10 +24,7 @@ passport.deserializeUser(function (id, done) {
 
 const nodeMailer = require('nodemailer');
 let transporter = nodeMailer.createTransport({
-    pool: true,
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    service: 'Gmail',
     auth: {
         // should be replaced with real sender's account
         user: 'agriskul@gmail.com',
@@ -241,16 +238,16 @@ router.post('/login', async function (req, res) {
                 });
             }
             if (user.verified == false) {
-               crypto.randomBytes(20, (err, buf) => {
+                crypto.randomBytes(20, (err, buf) => {
                     var token = buf.toString('hex');
                     var Nodeemail = {
                         to: user.email,
                         from: 'agriskul@gmail.com',
                         subject: 'Account Verification',
                         html: 'Account Verification.\n\n' + 'Please click on the following link, or paste this into your browser to complete the process:\n\n' + '<a href="http://' + req.headers.host + '/verify/' + token + '">Verify your Account</a>\n\n' + 'If you did not request this, please ignore this email.\n',
-                        
+
                     };
-                    
+
                     user.resetPasswordToken = token;
                     user.resetPasswordExpires = Date.now() + 60 * 60 * 24 * 1000;
                     user.save();
@@ -266,7 +263,7 @@ router.post('/login', async function (req, res) {
                         success: false,
                     });
                     done(err, token);
-                }); 
+                });
             }
             // If there is user we are now going to compare the password
             bcrypt.compare(req.body.password, user.password).then(isMatch => {
@@ -500,7 +497,7 @@ router.post('/reset/:token', (req, res) => {
                 }
             });
         },
-        
+
     ]);
 });
 /**
@@ -536,15 +533,15 @@ router.post('/message', async function (req, res) {
  * @desc Update user password
  * @access Private
  */
-router.post('/password/update', async function(req, res){
+router.post('/password/update', async function (req, res) {
     console.log('Changing password');
-   
+
     try {
         let password = req.body.password;
         await User.findOne({
-            username:req.body.username
+            username: req.body.username
         }).then(user => {
-            
+
             bcrypt.hash(password, 10, function (err, hash) {
                 if (err) {
                     throw err;
@@ -558,9 +555,8 @@ router.post('/password/update', async function(req, res){
         res.status(200).json({
             success: true,
             msg: "Successfully updated password"
-        }); 
-    }
-    catch (error) {
+        });
+    } catch (error) {
         res.status(500).send({
             msg: 'Something went wrong',
             success: false,
