@@ -27,7 +27,7 @@ let transporter = nodeMailer.createTransport({
     pool: true,
     host: 'smtp.gmail.com',
     port: 465,
-    secure: false,
+    secure: true,
     auth: {
         // should be replaced with real sender's account
         user: 'agriskul@gmail.com',
