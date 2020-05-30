@@ -100,9 +100,9 @@
 
             <div class="mt-5">
               <base-button tag="a" class="mb-3 mb-sm-0 btn-white">
-                <router-link to="instructor-register">
+                <a href="/#contact">
                   <span class="text-back">BECOME AN INSTRUCTOR</span>
-                </router-link>
+                </a>
               </base-button>
             </div>
           </div>
