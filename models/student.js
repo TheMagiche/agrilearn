@@ -14,17 +14,16 @@ var StudentSchema = mongoose.Schema({
         type: String,
     },
     // tracks free or paid accounts
-    status:{
+    status: {
         type: Boolean,
         default: false,
     },
-    premiumToken:{
+    premiumToken: {
         type: String,
-        default:'',
+        default: '',
     },
-    premiumExpires:{
+    premiumExpires: {
         type: Date,
-        default: Date.now(),
     },
     classes: [{
         type: mongoose.Schema.Types.ObjectId,
