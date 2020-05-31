@@ -24,11 +24,10 @@ passport.deserializeUser(function (id, done) {
 
 const nodeMailer = require('nodemailer');
 let transporter = nodeMailer.createTransport({
-    pool: true,
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    rejectUnauthorized:false,
+    port: 587,
+    secure: false,
+    rejectUnauthorized: false,
     auth: {
         // should be replaced with real sender's account
         user: 'agriskul@gmail.com',
