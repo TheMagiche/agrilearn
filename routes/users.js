@@ -24,20 +24,15 @@ passport.deserializeUser(function (id, done) {
 
 const nodeMailer = require('nodemailer');
 let transporter = nodeMailer.createTransport({
-    pool: true,
-    name: 'agriskul.co.ke',
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
+    requireTLS: true,
     auth: {
         // should be replaced with real sender's account
         user: 'agriskul@gmail.com',
         pass: 'agriskul2020!',
     },
-    tls: {
-        // do not fail on invalid certs
-        rejectUnauthorized: false
-    }
 });
 
 /**
