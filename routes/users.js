@@ -25,18 +25,26 @@ passport.deserializeUser(function (id, done) {
 });
 
 const nodeMailer = require('nodemailer');
+// let transporter = nodeMailer.createTransport(smtpTransport({
+//     service: 'gmail',
+//     auth: {
+//         // should be replaced with real sender's account
+//         user: 'agriskul@gmail.com',
+//         pass: 'agriskul2020!',
+//     },
+//     tls: {
+//         rejectUnauthorized: false
+//     }
+// }));
 let transporter = nodeMailer.createTransport(smtpTransport({
-    service: 'gmail',
+    host: 'smtp.sendgrid.net',
+    port: 465,
     auth: {
         // should be replaced with real sender's account
-        user: 'agriskul@gmail.com',
-        pass: 'agriskul2020!',
+        user: 'apikey',
+        pass: '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',
     },
-    tls: {
-        rejectUnauthorized: false
-    }
 }));
-
 /**
  * @route POST api/users/register
  * @desc Registerthe User
