@@ -8,6 +8,8 @@ const Instructor = require('../models/instructor');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+var smtpTransport = require('nodemailer-smtp-transport');
+
 var async = require('async');
 var crypto = require('crypto');
 // Serialize user for the session to determine which data will be saved
@@ -23,17 +25,17 @@ passport.deserializeUser(function (id, done) {
 });
 
 const nodeMailer = require('nodemailer');
-let transporter = nodeMailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    requireTLS: true,
+let transporter = nodeMailer.createTransport(smtpTransport({
+    service: 'gmail',
     auth: {
         // should be replaced with real sender's account
         user: 'agriskul@gmail.com',
         pass: 'agriskul2020!',
     },
-});
+    tls: {
+        rejectUnauthorized: false
+    }
+}));
 
 /**
  * @route POST api/users/register
