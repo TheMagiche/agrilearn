@@ -27,7 +27,7 @@
                   >Go Premuim</base-button>
                 </div>
 
-                <span>Support the website for the price of a lunch meal get your premium membership at 100 Bob only!</span>
+                <span>Support the website for the price of a lunch meal. Get your premium membership at 100 Bob only!</span>
               </div>
             </div>
           </div>

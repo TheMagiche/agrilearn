@@ -5,6 +5,7 @@
       <notifications group="forms" />
       <notifications group="logins" position="top left" />
       <notifications group="classes" position="bottom right" />
+      <notifications group="premium" position="top right" />
       <fade-transition origin="center" mode="out-in" :duration="250">
         <router-view />
       </fade-transition>

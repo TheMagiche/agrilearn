@@ -433,6 +433,15 @@ export default {
         .then(res => {
           this.registered = res.data.registered;
           this.studentStatus = res.data.studentStatus;
+          this.$notify({
+            group: 'premium',
+            duration: 10000,
+            width: 500,
+            type: 'warn',
+            ignoreDuplicates: true,
+            title: 'Premium Clases',
+            text: `Classes that are marked 'pro' are for premium students. Please support us and become a premium member by checking out your profile page`
+          });
         })
         .catch(err => {
           // eslint-disable-next-line no-console
