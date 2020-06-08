@@ -15,8 +15,10 @@ import 'owl.carousel';
 import StarRating from 'vue-star-rating';
 import VueFriendlyIframe from 'vue-friendly-iframe';
 import Notifications from 'vue-notification';
+import Meta from 'vue-meta';
 
 Vue.component('star-rating', StarRating);
+Vue.use(Meta);
 Vue.use(VueFriendlyIframe);
 Vue.use(VueCookies);
 Vue.use(VueAxios, axios);
@@ -30,4 +32,3 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app');
-

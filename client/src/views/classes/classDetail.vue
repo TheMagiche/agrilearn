@@ -175,6 +175,7 @@
                 </div>
               </div>
               <div v-if="checkisInstructor && checkInstructor" class="sidebar-item">
+                <!-- <div class="sidebar-item"> -->
                 <p class="sidebar-heading">Class reviews</p>
                 <a
                   @click="getReviews"

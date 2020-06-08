@@ -27,13 +27,7 @@
                   >Go Premuim</base-button>
                 </div>
 
-                <span>
-                  Become a premium member
-                  for only
-                  <strike>1000Kshs</strike>
-                  <span></span> 100Kshs per month!
-                  90% off during launch. Hurry now
-                </span>
+                <span>Support the website for the price of a lunch meal get your premium membership at 100 Bob only!</span>
               </div>
             </div>
           </div>

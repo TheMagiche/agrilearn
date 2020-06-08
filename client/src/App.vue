@@ -25,10 +25,32 @@ export default {
     return {
       size: 50,
       backgroundColor: '#20e434',
-      maxWidth: 400,
-     
+      maxWidth: 400
     };
   },
+  metaInfo: {
+    title: 'AgriSkul',
+    meta: [
+      { charset: 'utf-8' },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        name: 'keywords',
+        content:
+          'Learn farming in kenya, Improve your farming skills, Agriskul, Farming in kenya, Digital learning, Online farming courses, Creative farming techniques, Farming in kenya, Tutorials, Start agriculture in kenya, Start farming today, Poultry in kenya, Startup'
+      },
+      { name: 'agriskul', content: 'agriskul.co.ke' },
+      {
+        name: 'description',
+        content:
+          'Learn to grow your agribusiness in kenya. Find the perfect tutorial to get started on your farming today, learn the latest trends and stay ahead of the curve'
+      },
+      { name: 'http-equiv=X-UA-Compatible', content: 'IE=edge' },
+      { name: 'viewport', content: 'width=device-width,initial-scale=1' }
+    ]
+  }
 };
 </script>
 
