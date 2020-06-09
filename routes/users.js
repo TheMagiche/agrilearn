@@ -146,24 +146,24 @@ router.post('/register', async (req, res, next) => {
 
                         }
 
-                        var Nodeemail = {
-                            to: email,
-                            from: 'agriskul@gmail.com',
-                            subject: 'Signup Verification',
-                            html: 'Signup Verification.\n\n' + 'Please click on the following link, or paste this into your browser to complete the process:\n\n' + '<a href="http://' + req.headers.host + '/verify/' + token + '">Verify your Account</a>\n\n' + 'If you did not request this, please ignore this email.\n',
-                            // html: '<b> varify your email?</b>'
-                        };
+                        // var Nodeemail = {
+                        //     to: email,
+                        //     from: 'agriskul@gmail.com',
+                        //     subject: 'Signup Verification',
+                        //     html: 'Signup Verification.\n\n' + 'Please click on the following link, or paste this into your browser to complete the process:\n\n' + '<a href="http://' + req.headers.host + '/verify/' + token + '">Verify your Account</a>\n\n' + 'If you did not request this, please ignore this email.\n',
+                        //     // html: '<b> varify your email?</b>'
+                        // };
 
-                        transporter.sendMail(Nodeemail, (error, info) => {
-                            if (error) {
-                                return console.log(error);
-                            }
-                            console.log('Message %s sent: %s', info.messageId, info.response);
-                        });
+                        // transporter.sendMail(Nodeemail, (error, info) => {
+                        //     if (error) {
+                        //         return console.log(error);
+                        //     }
+                        //     console.log('Message %s sent: %s', info.messageId, info.response);
+                        // });
                         return res.status(200).json({
                             username: username,
                             success: true,
-                            msg: `Thank you for joining ${username}. Verification link sent to ${email}`,
+                            msg: `Thank you for joining ${username}. Proceed to login`,
                         });
                     }
                 })

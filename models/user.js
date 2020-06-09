@@ -23,7 +23,7 @@ var UserSchema = mongoose.Schema({
     },
     verified: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     resetPasswordToken: {
         type: String,
@@ -68,8 +68,8 @@ module.exports.saveStudent = function (newUser, newStudent, token, callback) {
         }
         // Hash password
         newUser.password = hash;
-        newUser.resetPasswordToken = token;
-        newUser.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        // newUser.resetPasswordToken = token;
+        // newUser.resetPasswordExpires = Date.now() + 3600000; // 1 hour
         newUser.save();
         // Save user in two different collections
         async.parallel([newUser.save.bind(newUser), newStudent.save.bind(newStudent)], callback);
@@ -84,8 +84,8 @@ module.exports.saveInstructor = function (newUser, newInstructor, token, callbac
         }
         // Hash password
         newUser.password = hash;
-        newUser.resetPasswordToken = token;
-        newUser.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        // newUser.resetPasswordToken = token;
+        // newUser.resetPasswordExpires = Date.now() + 3600000; // 1 hour
         newUser.save();
         // Save instructor in two different collections
         async.parallel([newUser.save.bind(newUser), newInstructor.save.bind(newInstructor)], callback);
