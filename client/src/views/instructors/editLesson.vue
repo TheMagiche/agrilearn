@@ -68,17 +68,6 @@ export default {
       lessonNumber: '',
       lessonTitle: '',
       config: {
-        toolbar: [
-          'Format',
-          ['Bold', 'Italic', 'Strike', 'Underline'],
-          ['BulletedList', 'NumberedList', 'Blockquote'],
-          ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-          ['Link', 'Unlink'],
-          ['FontSize', 'TextColor'],
-          ['Image'],
-          ['Undo', 'Redo'],
-          ['Source', 'Maximize']
-        ],
         height: 300
       }
     };
