@@ -340,7 +340,7 @@ router.get('/:id/premium', async function (req, res) {
     await User.findOne({
         _id: userID
     }).then(user => {
-        if (user.premiumExpires < Date.now()) {
+        if ( new Date(user.premiumExpires) < Date.now()) {
             Student.findOne({
                 username: user.username
             }).then(stud => {
