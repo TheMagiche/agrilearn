@@ -13,7 +13,11 @@ var LessonSchema = mongoose.Schema({
   class: {
     type: mongoose.Schema.Types.ObjectId,
       ref: "Class"
-  }
+  },
+  topics: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Topic"
+  }]
 });
 
 var Lesson = (module.exports = mongoose.model("Lesson", LessonSchema));

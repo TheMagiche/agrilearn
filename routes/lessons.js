@@ -96,7 +96,9 @@ router.get('/details/:id', async function (req, res, next) {
     console.log('fetching lesson...');
     try {
         const id = req.params.id;
-        const lessonByID = await Lesson.findById(id);
+        const lessonByID = await Lesson.findById(id).populate({
+            path: 'topic'
+        });
 
         res.status(200).json({
             lesson: lessonByID
