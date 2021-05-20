@@ -1,0 +1,1583 @@
+/*
+
+##########################################
+
+GLoabl variables
+
+###########################################
+
+*/
+/* font-family: 'Squada One',
+cursive;
+- */
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Quicksand',
+    sans-serif;
+  color: #22292f;
+  background-color: #fdfdfd;
+  scroll-behavior: smooth;
+
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+a {
+  font-family: 'Quicksand',
+    sans-serif;
+}
+
+.pagination-container {
+  margin: 2em auto 0;
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #20e343;
+  border-color: #20e343;
+}
+
+#app {
+  position: relative;
+}
+
+#app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.15;
+  background-color: #DFDBE5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40' width='80' height='40'%3E%3Cpath fill='%2394ac92' fill-opacity='0.74' d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.32.75A20.02 20.02 0 0 1 40.8 25.26 20.02 20.02 0 0 1 65.32.76zM.07 0h20.1l-.08.07A20.02 20.02 0 0 1 .75 5.25 20.08 20.08 0 0 1 .07 0zm1.94 40h2.53l4.26-4.24v-9.78A17.96 17.96 0 0 0 2 40zm5.38 0h9.8a17.98 17.98 0 0 0 6.67-16.42L7.4 40zm3.43-15.42v9.17l11.62-11.59c-3.97-.5-8.08.3-11.62 2.42zm32.86-.78A18 18 0 0 0 63.85 3.63L43.68 23.8zm7.2-19.17v9.15L62.43 2.22c-3.96-.5-8.05.3-11.57 2.4zm-3.49 2.72c-4.1 4.1-5.81 9.69-5.13 15.03l6.61-6.6V6.02c-.51.41-1 .85-1.48 1.33zM17.18 0H7.42L3.64 3.78A18 18 0 0 0 17.18 0zM2.08 0c-.01.8.04 1.58.14 2.37L4.59 0H2.07z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+
+/*
+
+##########################################
+
+Site header
+
+###########################################
+
+*/
+.navUl span {
+  font-family: 'Quicksand', sans-serif;
+  text-transform: capitalize !important;
+}
+
+i {
+  color: #fff;
+}
+
+i.social-facebook {
+  color: #07396a;
+}
+
+i.social-twitter {
+  color: skyblue;
+}
+
+i.social-instagram {
+  color: red;
+}
+
+i.social-youtube {
+  color: rgb(179, 10, 10);
+}
+
+.logout {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.aLog {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  cursor: pointer;
+  font-size: 80%;
+}
+
+.logout i {
+  color: #000000;
+  font-size: 80%;
+  display: inline;
+  padding-right: 5px;
+}
+
+.green {
+  color: #20e434;
+}
+
+.navlink {
+  color: #000;
+  text-transform: uppercase;
+}
+
+.navbar-brand img {
+  height: 5em;
+  margin-left: -2em;
+  padding-top: 1em;
+}
+
+@media screen and (max-width: 1024px) {
+  .navbar-dark .navbar-toggler {
+    color: rgba(255, 255, 255, 0.95);
+    border-color: transparent;
+    background: #20e434 !important;
+  }
+
+  .navbar-collapse .navbar-toggler span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    opacity: 1;
+    background: #fff;
+  }
+
+  span.social-text-instagram {
+    font-family: 'Squada One',
+      cursive;
+    font-size: 12px;
+    text-transform: none !important;
+    color: red;
+  }
+
+  span.social-text-youtube {
+    font-family: 'Squada One',
+      cursive;
+    font-size: 12px;
+    text-transform: none !important;
+    color: rgb(179, 10, 10);
+  }
+
+  span.social-text-facebook {
+    font-family: 'Squada One',
+      cursive;
+    font-size: 12px;
+    text-transform: none !important;
+    color: #07396a;
+  }
+
+  span.social-text-twitter {
+    font-family: 'Squada One',
+      cursive;
+    font-size: 12px;
+    text-transform: none !important;
+    color: skyblue;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .mylogo {
+    margin-left: 2em;
+  }
+}
+
+.btn-success {
+  color: #fff;
+
+  background: #20e434 !important;
+
+  border-color: #20e434 !important;
+
+  -webkit-box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.username-text {
+  color: #000;
+  text-transform: uppercase !important;
+}
+
+/*
+
+##########################################
+
+Home page
+
+###########################################
+
+*/
+
+#courses {
+  position: relative;
+}
+
+#courses::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.85;
+  height: 100vh;
+  background-image: url("../images/leaf.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+}
+
+.imgContainer {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.imgContainer img {
+  height: 25em;
+}
+
+.smimgContainer img {
+  height: 5em;
+}
+
+section.showcase {
+  max-height: 100vh;
+}
+
+.underline {
+  width: 65px;
+  height: 2px;
+  background: #20e434;
+}
+
+.text-back {
+  color: #000;
+}
+
+.headings {
+  font-family: 'Quicksand',
+    sans-serif;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.subheading {
+  margin-top: 1.5em;
+  margin-bottom: 3em;
+  text-transform: initial;
+}
+
+.step-box {
+  position: relative;
+  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
+}
+
+@media screen and (min-width: 980px) {
+  .step-box::after {
+    content: '-----';
+    position: absolute;
+    right: -30px;
+    top: 50%;
+  }
+}
+
+.card {
+  min-height: 10em;
+  padding: 1em;
+  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px;
+}
+
+.card-subtitle.text-muted {
+  color: #20e434 !important;
+}
+
+.card-title {
+  font-size: 14px;
+}
+
+.card-text {
+  color: #000;
+  font-size: 14px;
+}
+
+.section-green {
+  background: #20e434;
+}
+
+.underline-inverse {
+  width: 65px;
+  height: 2px;
+  background: #ffffff;
+}
+
+.headings-inverse {
+  font-family: 'Quicksand',
+    sans-serif;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.white-section-text {
+  color: #ffffff;
+  text-align: center;
+  text-transform: initial;
+}
+
+.btn-white {
+  background: #ffffff;
+}
+
+.sub-text {
+  text-transform: initial;
+}
+
+.homeCard {
+  padding: 0 1.7rem;
+  margin-bottom: 2em;
+}
+
+.homeCard .wrapper {
+
+  min-height: 20em;
+  position: relative;
+  overflow: hidden;
+  /* border-radius: 15px; */
+  box-shadow: rgba(36, 37, 38, 0.04) 4px 4px 15px 0px
+}
+
+.homeCard .wrapper:hover .data2 {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.homeCard .data2 {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  -webkit-transform: translateY(calc(70px + 1em));
+  transform: translateY(calc(70px + 1em));
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
+}
+
+.data2 .top-content {
+  display: flex;
+
+}
+
+.class-status {
+  font-size: 12px;
+  flex: 1;
+}
+
+.homeCard .data2 .content {
+  padding: 1em;
+  position: relative;
+  z-index: 1;
+}
+
+.homeCard .author {
+  font-size: 12px;
+  font-family: 'Squada One',
+    cursive;
+  text-align: end;
+  flex: 1;
+}
+
+.homeCard .title {
+  margin-top: 2px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.homeCard .text {
+  height: 70px;
+  margin-bottom: 0.5em;
+}
+
+.course .wrapper {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.course .header {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1em;
+
+}
+
+
+
+.course .data2 {
+  background-color: #fff;
+  color: #000;
+  -webkit-transform: translateY(calc(70px + 4em));
+  transform: translateY(calc(70px + 4em));
+}
+
+
+
+.course .title a {
+  color: #000;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 22px;
+}
+
+.course .button {
+  display: block;
+  width: 100px;
+  margin: 2em auto 1em;
+  text-align: center;
+  font-size: 10px;
+  color: #20e434 !important;
+  line-height: 1;
+  position: relative;
+  font-weight: 700;
+}
+
+.course .button::after {
+  content: '\2192';
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.course .button:hover::after {
+  -webkit-transform: translate(5px, -50%);
+  transform: translate(5px, -50%);
+  opacity: 1;
+}
+
+.testimonial-wrapper {
+  height: 100%;
+  background-color: red;
+  width: 100%;
+}
+
+
+.testimonial-container {
+  width: 100%;
+  margin: 1em auto 1em;
+  padding: 3em;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px;
+  position: relative;
+}
+
+.testimonial-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-top-color: #ffffff;
+  border-bottom: 0;
+  margin-left: -20px;
+  margin-bottom: -20px;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px;
+}
+
+.testimonialPic {
+  width: 8em;
+  height: 8em;
+  margin: 1em auto;
+  background-color: green;
+  background-size: cover;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.testimonial-text {
+  text-align: center;
+  text-transform: none !important;
+  font-size: 12px;
+
+}
+
+.testimonial-text::before {
+  content: open-quote;
+  font-size: 1.5em;
+  color: #20e434;
+}
+
+.testimonial-text::after {
+  content: close-quote;
+  font-size: 1.5em;
+  color: #20e434;
+}
+
+.testimonial-name {
+  text-align: right;
+  padding-right: 1em;
+  font-family: 'Squada One',
+    cursive;
+}
+
+.socials {
+  width: 15em;
+  margin: 1.5em auto 0.5em;
+  display: flex;
+  align-items: center;
+}
+
+.socials a {
+  flex: 1;
+  align-items: center;
+}
+
+.contact-text {
+  font-family: 'Squada One',
+    cursive;
+  text-transform: none !important;
+}
+
+.home-form {
+  border-radius: 20px;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px;
+}
+
+.home-form span {
+  color: red;
+  text-transform: initial;
+  font-size: 10px;
+}
+
+.partner-carousel {
+  display: flex;
+  justify-content: space-around;
+}
+
+.company-card {
+  height: 10em;
+  width: 15em;
+  background-color: #4d4d4d;
+}
+
+.company-data {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  background-color: white;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.company-name {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2px;
+  background-color: #20e434d2;
+}
+
+.contact-info {
+  height: 100%;
+  padding: 1em;
+}
+
+.contact-item {
+  margin: 1em 0;
+  display: flex;
+  height: 10em;
+  text-align: center;
+}
+
+.contact-icon {
+  flex: 1;
+  /* text-align: center; */
+}
+
+.contact-icon.icon i,
+.icon svg {
+  font-size: 3em;
+}
+
+.contactinfo-text {
+  flex: 1;
+  text-align: end;
+}
+
+.contact-top-text {
+  font-family: 'Squada One', cursive;
+}
+
+.cardContainer {
+  margin: 0 auto;
+  width: 35em;
+}
+
+@media (max-width: 600px) {
+  .partner-carousel {
+    display: block;
+  }
+
+  .company-card {
+    width: 70%;
+    margin: 1em auto;
+  }
+
+  .cardContainer {
+    margin: 1em auto;
+    width: 80%;
+  }
+
+  #courses::before {
+    background-position: center;
+  }
+
+}
+
+/*
+
+##########################################
+
+Site footer
+
+###########################################
+
+*/
+.footer.has-cards::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 600px;
+  height: 2000px;
+  background: #20e434 !important;
+  -webkit-transform: skew(0, -8deg);
+  transform: skew(0, -8deg);
+}
+
+.footer .nav .nav-item .nav-link,
+.footer .footer-link {
+  color: #fff !important;
+}
+
+.text-green {
+  color: #20e434;
+}
+
+.footer-heading {
+  font-family: 'Squada One',
+    cursive;
+  font-size: 21px;
+  text-transform: uppercase !important;
+}
+
+.footer-subheading {
+  font-family: 'Quicksand',
+    sans-serif;
+  font-size: 16px;
+  color: #000;
+  text-transform: uppercase !important;
+}
+
+.copyright {
+  color: #ffffff !important;
+}
+
+
+/*
+
+##########################################
+
+Not found page
+
+###########################################
+
+*/
+
+/*
+
+##########################################
+
+Registration page { Student  & instructor
+
+###########################################
+
+*/
+.form-container {
+  padding-left: 1em;
+}
+
+.smallTxt {
+  font-family: 'Quicksand',
+    sans-serif;
+  font-size: 1em;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.fields {
+  margin: 0em 1em;
+}
+
+.green {
+  background: #20e434;
+}
+
+.invalid-feedback,
+.is-invalid {
+  color: red;
+}
+
+.card {
+  height: 100%;
+}
+
+h3.title-subheading {
+  color: #20e434;
+}
+
+.btn-green {
+  background: #20e434;
+}
+
+form span {
+  font-size: 8px !important;
+  color: red;
+  padding-left: 1em;
+}
+
+.reg-img {
+  width: 25em;
+}
+
+/*
+
+##########################################
+
+Login Page
+
+###########################################
+
+*/
+.green {
+  background: #20e434;
+}
+
+.forgot-txt {
+  font-size: 12px;
+}
+
+.smallTxt {
+  text-transform: uppercase;
+}
+
+.btn-green {
+  background: #20e434;
+}
+
+/*
+
+##########################################
+
+Verification page, Password Reset, Forgot password
+
+###########################################
+
+*/
+.green {
+  background: #20e434;
+}
+
+.forgot-txt {
+  font-size: 12px;
+}
+
+.smallTxt {
+  text-transform: uppercase;
+}
+
+.btn-green {
+  background: #20e434;
+}
+
+/*
+
+##########################################
+
+Class index, classes { Student / Instructor }
+
+###########################################
+
+*/
+
+.title-heading {
+  text-align: right;
+  padding-right: 1em;
+  margin-bottom: 1em;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+.Classcard {
+  float: left;
+  padding: 0 1.7rem;
+  margin-bottom: 2em;
+  width: 50%;
+}
+
+.Classcard .wrapper {
+  background-color: #20e434;
+  min-height: 450px;
+  position: relative;
+  overflow: hidden;
+  /* border-radius: 15px; */
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px;
+}
+
+.Classcard .wrapper:hover .data {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.Classcard .data {
+  position: absolute;
+
+  bottom: 0;
+  width: 100%;
+  -webkit-transform: translateY(calc(70px + 1em));
+  transform: translateY(calc(70px + 1em));
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
+}
+
+.Classcard .data .content {
+  padding: 1em;
+  position: relative;
+  z-index: 1;
+}
+
+.Classcard .author {
+  font-size: 12px;
+  font-family: 'Squada One', cursive;
+
+}
+
+.Classcard .title {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.Classcard .text {
+  height: 70px;
+  margin-bottom: 0.5em;
+}
+
+.Classcard input[type='checkbox'] {
+  display: none;
+}
+
+.Classcard input[type='checkbox']:checked+.menu-content {
+  -webkit-transform: translateY(-60px);
+  transform: translateY(-60px);
+}
+
+.example-2 .wrapper {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.example-2 .wrapper:hover .menu-content span {
+  -webkit-transform: translate(-50%, -10px);
+  transform: translate(-50%, -10px);
+  opacity: 1;
+}
+
+.example-2 .header {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1em;
+}
+
+.example-2 .header::before,
+.example-2 .header::after {
+  content: '';
+  display: table;
+}
+
+.example-2 .header::after {
+  clear: both;
+}
+
+.example-2 .header .date {
+  float: left;
+  font-size: 12px;
+}
+
+.example-2 .data {
+  background-color: #fff;
+  color: #000;
+  -webkit-transform: translateY(calc(70px + 4em));
+  transform: translateY(calc(70px + 4em));
+}
+
+.data .top-content {
+  display: flex;
+
+}
+
+.class-status {
+  font-size: 12px;
+  flex: 1;
+}
+
+.example-2 .title a {
+  color: #000;
+
+  text-transform: uppercase;
+  font-size: 28px;
+}
+
+.example-2 .button {
+  display: block;
+  width: 100px;
+  margin: 2em auto 1em;
+  text-align: center;
+  font-size: 12px;
+  color: #20e434 !important;
+  line-height: 1;
+  position: relative;
+  font-weight: 700;
+}
+
+.example-2 .button::after {
+  content: '\2192';
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.example-2 .button:hover::after {
+  -webkit-transform: translate(5px, -50%);
+  transform: translate(5px, -50%);
+  opacity: 1;
+}
+
+@media screen and (max-width: 480px) {
+  .Classcard {
+    width: 100%;
+  }
+
+  .Classcard .text {
+    height: 100px;
+    margin-bottom: 0.5em;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .Classcard {
+    width: 100%;
+  }
+}
+
+/*
+
+##########################################
+
+    Class Detail / Lesson
+
+###########################################
+
+*/
+
+a {
+  cursor: pointer;
+}
+
+.blog-container {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 4px 2px -2px;
+  margin: 1em auto;
+  width: 100%;
+  padding: 1em;
+}
+
+.blog-container a {
+  color: #20e434;
+  text-decoration: none;
+  -webkit-transition: 0.25s ease;
+  transition: 0.25s ease;
+}
+
+.blog-container a:hover {
+  border-color: #20e434;
+  color: #ff4d4d;
+}
+
+.blog-cover {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 5px 5px 0 0;
+  height: 25rem;
+  box-shadow: rgba(36, 37, 38, 0.04) 8px 8px 30px 0px;
+}
+
+.blog-author,
+.blog-author--no-cover {
+  margin: 0 auto;
+  padding-top: 0.125rem;
+  width: 80%;
+}
+
+.blog-author h3::before,
+.blog-author--no-cover h3::before {
+  background-size: cover;
+  border-radius: 50%;
+  content: ' ';
+  display: inline-block;
+  height: 32px;
+  margin-right: 0.5rem;
+  position: relative;
+  top: 8px;
+  width: 32px;
+}
+
+.blog-author h3 {
+  color: #fff;
+  font-size: 18px;
+}
+
+.blog-author--no-cover h3 {
+  color: #999999;
+  font-weight: 100;
+}
+
+.blog-body {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.blog-title h3 {
+  font-size: 30px;
+  margin-top: 1em;
+  color: #000;
+  font-weight: 100;
+}
+
+.blog-summary p {
+  color: #000 !important;
+  text-transform: none !important;
+  margin-top: 1em;
+}
+
+.blog-tags ul {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+  padding-left: 0;
+}
+
+.blog-tags li+li {
+  margin-left: 0.5rem;
+}
+
+.blog-tags a {
+  border: 1px solid #999999;
+  border-radius: 3px;
+  color: #999999;
+  font-size: 0.75rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  letter-spacing: 1px;
+  padding: 0 0.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  width: 5rem;
+}
+
+a.deReg:hover {
+  border-color: red;
+}
+
+.blog-footer {
+  border-top: 1px solid #e6e6e6;
+  margin: 0 auto;
+  padding-bottom: 0.125rem;
+  width: 80%;
+}
+
+.blog-footer ol {
+  padding-left: 0;
+}
+
+.blog-footer li:first-child {
+  margin-right: auto;
+}
+
+.blog-footer li+li {
+  margin-left: 0.5rem;
+}
+
+.blog-footer li {
+  color: #999999;
+  font-size: 0.75rem;
+  height: 1.5rem;
+  letter-spacing: 1px;
+  line-height: 1.5rem;
+
+  text-transform: uppercase;
+}
+
+.blog-footer li a {
+  color: #999999;
+}
+
+.blog-menu {
+  display: flex;
+
+}
+
+.submenu {
+  flex: 1;
+}
+
+.ratings span {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.comments {
+  margin-right: 1rem;
+}
+
+.published-date {
+  border: 1px solid #999999;
+  border-radius: 3px;
+  padding: 0 0.5rem;
+}
+
+.numero {
+  position: relative;
+  top: -0.5rem;
+}
+
+.icon-star,
+.icon-bubble {
+  fill: #999999;
+  height: 24px;
+  margin-right: 0.5rem;
+  -webkit-transition: 0.25s ease;
+  transition: 0.25s ease;
+  width: 24px;
+}
+
+.icon-star:hover,
+.icon-bubble:hover {
+  fill: #ff4d4d;
+}
+
+@media screen and (min-width: 300px) {
+  .blog-container {
+    width: 100%;
+  }
+
+  .blog-summary {
+    color: #4d4d4d;
+    width: 90% !important;
+  }
+}
+
+@media screen and (min-width: 767px) {
+  .blog-container {
+    width: 100%;
+  }
+
+  .blog-summary {
+    color: #4d4d4d;
+    width: 90% !important;
+  }
+}
+
+@media screen and (min-width: 959px) {
+  .blog-container {
+    width: 100%;
+  }
+
+  .blog-summary {
+    color: #4d4d4d;
+    width: 90% !important;
+  }
+}
+
+.lesson-detail {
+  display: flex;
+}
+
+p.lesson-line {
+  flex: 1;
+  text-transform: none !important;
+  color: #000;
+}
+
+.lesson-title {
+  text-transform: uppercase !important;
+  font-family: 'Squada One',
+    cursive;
+  color: #000;
+}
+
+.lessonAnchor {
+  text-transform: uppercase;
+  color: #20e434 !important;
+  padding-right: 1em;
+  font-size: 12px;
+  display: block;
+  margin-bottom: 1em;
+}
+
+.section-lesson {
+  background: #fffafac7;
+  padding: 1em;
+  -webkit-box-shadow: 0px -5px 5px 1px rgba(221, 221, 221, 1);
+  -moz-box-shadow: 0px -5px 5px 1px rgba(221, 221, 221, 1);
+  box-shadow: 0px -5px 5px 1px rgba(221, 221, 221, 1);
+}
+
+.heading-section .title-heading {
+  padding-top: 1em;
+  font-family: 'Squada One',
+    cursive;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+
+
+.lesson-ul {
+  width: 100%;
+  list-style: none;
+  counter-reset: counter-name;
+
+}
+
+.lesson-li {
+  margin: 2em auto;
+  padding-left: 2em;
+  width: 100%;
+  font-family: 'Squada One',
+    cursive;
+  position: relative;
+}
+
+.lesson-li::before {
+  counter-increment: counter-name;
+  content: counter(counter-name);
+  position: absolute;
+  left: -2em;
+  /* top: 30%; */
+  background-color: #fff;
+  border: 1px solid #20e434;
+  ;
+  width: 2em;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.class-sidebar {
+  width: 100%;
+  height: 100%;
+  padding: 1em;
+  background: #ffffff;
+  -webkit-box-shadow: -6px -5px 5px -5px rgba(221, 221, 221, 1);
+  -moz-box-shadow: -6px -5px 5px -5px rgba(221, 221, 221, 1);
+  box-shadow: -6px -5px 5px -5px rgba(221, 221, 221, 1);
+}
+
+.sidebar-heading {
+  font-family: 'Quicksand',
+    sans-serif;
+  font-family: 10px;
+  color: #000;
+}
+
+ul.classdetails {
+  list-style: none;
+  padding: 0;
+}
+
+li.listdetails {
+  margin: 1em auto;
+}
+
+li.listdetails span {
+  display: block;
+  text-transform: none;
+}
+
+span.spanheading {
+  font-family: 'Squada One',
+    cursive;
+}
+
+span.spandetails {
+  color: #000;
+}
+
+.class-ratings span {
+  text-transform: uppercase;
+  font-size: 10px;
+
+}
+
+.classRating span {
+  font-size: 12px;
+}
+
+.ratingfields {
+  margin-bottom: 1em;
+}
+
+.reviews {
+  counter-reset: counter-name-2;
+  padding-left: 1.5em;
+}
+
+.class-reviews {
+  position: relative;
+}
+
+.class-reviews::before {
+  counter-increment: counter-name-2;
+  content: counter(counter-name-2);
+  position: absolute;
+  top: .5em;
+  left: -2em;
+  /* top: 30%; */
+  background-color: #fff;
+  border: 1px solid #20e434;
+  ;
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+
+a.getReviews {
+  font-family: 'Squada One',
+    cursive;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 2em;
+}
+
+a.removeReviews {
+  font-family: 'Squada One',
+    cursive;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 2em;
+}
+
+/*
+
+##########################################
+
+    Class create edit Lesson edit new
+
+###########################################
+
+*/
+.form-container {
+  padding-left: 1em;
+}
+
+.fields {
+  margin: 0em 1em;
+}
+
+.title-subheading {
+  text-align: left;
+  padding-left: 1em;
+  margin-bottom: 1em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.classForm {
+  background: #dddddd;
+  border-radius: 15px;
+  height: 60vh;
+  padding: 1em;
+  box-shadow: 1px, 2px, 1px #000;
+}
+
+.form-card {
+  background-color: #ffffff;
+  padding: 2em 1em;
+  -webkit-box-shadow: -1px -6px 18px -7px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px -6px 18px -7px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px -6px 18px -7px rgba(0, 0, 0, 0.75);
+}
+
+/*
+
+##########################################
+
+Profile page
+
+###########################################
+
+*/
+
+.profile-heading {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 25px;
+  margin: 1em 0;
+}
+
+.profile-heading span {
+  font-size: 15px;
+}
+
+.profile-subheading {
+  font-family: 'Squada One', cursive;
+  font-size: 15px;
+}
+
+.profile-avatar {
+  height: 12em;
+  margin: 1em auto;
+  width: 12em;
+  border-radius: 15px;
+  letter-spacing: -5px;
+  background-color: #ffffff;
+
+}
+
+.avatar-letter {
+  font-family: 'Squada One', cursive;
+  font-size: 80px;
+  height: 100%;
+  width: 100%;
+  color: #20e434;
+  text-transform: uppercase;
+  margin: 0 auto;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 2.5em;
+}
+
+.profile-details h2 {
+  text-transform: capitalize;
+}
+
+.profile-details p.username {
+  font-family: 'Squada One', cursive;
+}
+
+.profile-subdetails span {
+  font-family: 'Squada One', cursive;
+}
+
+.profile-subdetails p {
+  text-transform: capitalize;
+}
+
+.premium span {
+  font-size: 12px;
+}
+
+.main-premium-text {
+  font-family: 'Squada One', cursive;
+}
+
+.imagePremiumContainer {
+  height: 15em;
+}
+
+.imagePremiumContainer img {
+  height: 100%;
+}
+
+/*
+
+##########################################
+
+  Premium 
+
+###########################################
+
+*/
+
+
+
+.loader {
+  width: 65vw;
+  height: 100vh;
+}
+
+iframe {
+  min-width: 100% !important;
+  height: 100vh;
+}
+
+@media screen and (min-width: 600px) {
+  .loader {
+    width: 100%;
+    height: auto;
+  }
+
+}

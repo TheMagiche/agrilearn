@@ -6,36 +6,34 @@ const User = require('../models/user');
 const ClassRating = require('../models/classRating');
 const mongoose = require('mongoose');
 
-
 /**
  * @route POST api/classes/
  * @desc Get some classes
  * @access Private
  * Working
  */
-router.get('/', async function (req, res) {
+router.get('/', async function(req, res) {
     try {
         console.log('classes...');
 
         const classes = await Class.find()
             .select({
-                "title": 1,
-                "instructor": 1,
-                "_id": 1,
-                "rating": 1,
-                "imgUrl": 1,
-                "pro": 1
+                title: 1,
+                instructor: 1,
+                _id: 1,
+                rating: 1,
+                imgUrl: 1,
+                pro: 1,
             })
-            .limit(10)
+            .limit(6)
             .populate({
                 path: 'instructor',
-                select: ['username']
+                select: ['username'],
             });
 
         res.status(200).json({
-            classes: classes
+            classes: classes,
         });
-
     } catch (err) {
         console.log(err);
     }
@@ -46,34 +44,31 @@ router.get('/', async function (req, res) {
  * @access Private
  * Working
  */
-router.post('/all', async function (req, res) {
-    const {
-        page,
-        limit
-    } = req.body;
+router.post('/all', async function(req, res) {
+    const { page, limit } = req.body;
 
     console.log('classes...');
 
     const classes = await Class.find()
         .select({
-            "title": 1,
-            "instructor": 1,
-            "_id": 1,
-            "rating": 1,
-            "imgUrl": 1,
-            "pro": 1
+            title: 1,
+            instructor: 1,
+            _id: 1,
+            rating: 1,
+            imgUrl: 1,
+            pro: 1,
         })
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .populate({
             path: 'instructor',
-            select: ['username']
+            select: ['username'],
         });
     const count = await Class.countDocuments();
     res.status(200).json({
         classes: classes,
         totalPages: Math.ceil(count / limit),
-        currentPage: page
+        currentPage: page,
     });
 });
 
@@ -83,19 +78,13 @@ router.post('/all', async function (req, res) {
  * @access Private
  * Working
  */
-router.post('/create/:id', async function (req, res, next) {
+router.post('/create/:id', async function(req, res, next) {
     console.log('Receiving class details...');
 
     try {
         const id = req.params.id;
         // console.log(id);
-        const {
-            title,
-            description,
-            imageUrl,
-            pro,
-            readTime
-        } = req.body;
+        const { title, description, imageUrl, pro, readTime } = req.body;
 
         const myclass = await Class.create({
             title: title,
@@ -103,7 +92,7 @@ router.post('/create/:id', async function (req, res, next) {
             imgUrl: imageUrl,
             instructor: id,
             pro: pro,
-            readTime: readTime
+            readTime: readTime,
         });
         await myclass.save();
 
@@ -129,8 +118,8 @@ router.post('/create/:id', async function (req, res, next) {
  * @access Private
  * Working
  */
-router.put('/:id/update', function (req, res, next) {
-    Class.findByIdAndUpdate(req.params.id, req.body, function (err, myclass) {
+router.put('/:id/update', function(req, res, next) {
+    Class.findByIdAndUpdate(req.params.id, req.body, function(err, myclass) {
         if (err) return next(err);
         return res.json({
             success: true,
@@ -146,22 +135,25 @@ router.put('/:id/update', function (req, res, next) {
  * @access Private
  * Working
  */
-router.delete('/:id/delete', async function (req, res, next) {
-    await Instructor.update({
-            _id: req.body.instructorID
-        }, {
+router.delete('/:id/delete', async function(req, res, next) {
+    await Instructor.updateOne(
+        {
+            _id: req.body.instructorID,
+        },
+        {
             $pull: {
-                classes: mongoose.Types.ObjectId(req.params.id)
-            }
-        }, {
+                classes: mongoose.Types.ObjectId(req.params.id),
+            },
+        },
+        {
             safe: true,
         },
-        function (err) {
+        function(err) {
             console.log(err);
         }
     );
 
-    Class.findById(req.params.id, function (err, myclass) {
+    Class.findById(req.params.id, function(err, myclass) {
         if (err) return next(err);
         myclass.remove();
         return res.json({
@@ -177,7 +169,7 @@ router.delete('/:id/delete', async function (req, res, next) {
  * @access Private
  * Working
  */
-router.get('/details/:id', async function (req, res) {
+router.get('/details/:id', async function(req, res) {
     console.log('fetching class...');
     try {
         const id = req.params.id;
@@ -190,19 +182,10 @@ router.get('/details/:id', async function (req, res) {
             .populate({
                 path: 'lessons',
                 select: ['title', '_id'],
-            })
-            .populate({
-                path: 'ratings',
-                select: ['author', 'comment', 'rating'],
-                populate: {
-                    path: 'author',
-                    select: ['username', 'email']
-                }
             });
-        // console.log(classByID);
 
         res.status(200).json({
-            class: classByID
+            class: classByID,
         });
     } catch (err) {
         console.log(err);
@@ -218,16 +201,13 @@ router.get('/details/:id', async function (req, res) {
  * @access Private
  * Working
  */
-router.post('/instructor/:id', async function (req, res) {
-    const {
-        id
-    } = req.params;
+router.post('/instructor/:id', async function(req, res) {
+    const { id } = req.params;
     const instructorByClass = await (await Class.findById(id)).populate('instructor');
     res.status(200).json({
-        class: instructorByClass
+        class: instructorByClass,
     });
 });
-
 
 /**
  * @route POST api/classes/ratings/:classID
@@ -235,42 +215,39 @@ router.post('/instructor/:id', async function (req, res) {
  * @access Private
  * Working
  */
-router.post('/ratings/:classID', async function (req, res) {
-    const {
-        classID,
-        page,
-        limit
-    } = req.params;
+router.post('/ratings/:classID', async function(req, res) {
+    const { classID } = req.params;
+    const { page, limit } = req.body;
 
     const ratings = await ClassRating.find()
-        .where('class').equals(mongoose.Types.ObjectId(classID))
+        .where('class')
+        .equals(mongoose.Types.ObjectId(classID))
+        .select()
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .populate({
             path: 'author',
             select: ['username', 'email'],
-        })
+        });
 
-    const count = ClassRating.countDocuments({
-        $where: {
-            class: {
-                $eq: mongoose.Types.ObjectId(classID)
-            }
-        }
+    const count = await ClassRating.countDocuments({
+        class: {
+            $eq: mongoose.Types.ObjectId(classID),
+        },
     });
+    // console.log(ratings)
+    console.log(count);
 
     return res.status(200).json({
         ratings: ratings,
         totalPages: Math.ceil(count / limit),
-        currentPage: page
-    })
+        currentPage: page,
+    });
 });
-
-
 
 router.all('*', (req, res) => {
     res.status(400).send({
-        error: 'undefined-route'
+        error: 'undefined-route',
     });
 });
 

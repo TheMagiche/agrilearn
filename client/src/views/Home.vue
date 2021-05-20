@@ -1,0 +1,202 @@
+<template>
+    <HomeLayout>
+        <template v-slot:content>
+            <div class="showcase">
+                <a-row type="flex" align="top" :gutter="[16, 16]">
+                    <a-col :span="14">
+                        <div class="flexbox">
+                            <img class="siteLogo" :src="require('@/assets/logo.png')" alt="logo" />
+                            <h1>Learn to grow your agribusiness</h1>
+                            <p>Find the perfect tutorial to get started on your farming today, learn the latest trends and stay ahead of the curve</p>
+                        </div>
+                    </a-col>
+                    <a-col :span="10">
+                        <a-timeline mode="alternate">
+                            <a-timeline-item>
+                                <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px" />
+                                <a-card title="REGISTER" class="step-card-right">
+                                    <p>Create an account using your details.</p>
+                                </a-card>
+                            </a-timeline-item>
+                            <a-timeline-item>
+                                <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px" />
+                                <a-card title="LEARN" class="step-card-left">
+                                    <p>Gain knowledge from our large collection of videos and articles from experienced instructors</p>
+                                </a-card>
+                            </a-timeline-item>
+                            <a-timeline-item>
+                                <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px" />
+                                <a-card title="GROW" class="step-card-right">
+                                    <p>Put your knowledge to use on your business and watch it grow.</p>
+                                </a-card>
+                            </a-timeline-item>
+                        </a-timeline>
+                    </a-col>
+                </a-row>
+            </div>
+            <div class="clsSection">
+                <div class="center-heading">
+                    <img :src="require('@/assets/images/leaf.png')" alt="leafimg" />
+                    <h2>Learn by Doing</h2>
+                    <p>Practice makes perfect, start today!</p>
+                </div>
+                <a-row :gutter="[2, 8]">
+                    <a-col v-for="item in classes" :key="item._id" :span="8">
+                        <a-card hoverable class="homeCard">
+                            <img slot="cover" class="classImg" alt="example" :src="item.imgUrl" />
+                            <div class="rating">
+                                <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="item.rating" :read-only="true"></star-rating>
+                            </div>
+                            <template slot="actions" class="ant-card-actions">
+                                <a-button type="dashed" icon="ellipsis" @click="viewClass(item._id)">view</a-button>
+                            </template>
+                            <a-row>
+                                <a-col :span="4">
+                                    <a-tooltip :title="item.instructor.username">
+                                        <a-avatar><a-icon slot="icon" type="user"></a-icon></a-avatar>
+                                    </a-tooltip>
+                                </a-col>
+                                <a-col :span="20">
+                                    <span
+                                        ><strong>{{ item.title }}</strong></span
+                                    >
+                                    <br />
+                                </a-col>
+                            </a-row>
+                        </a-card>
+                    </a-col>
+                </a-row>
+            </div>
+        </template>
+    </HomeLayout>
+</template>
+<style scoped>
+.showcase {
+    padding: 2em;
+}
+.clsSection {
+    padding: 2em 6em;
+    text-align: center;
+    background: rgb(226, 226, 226);
+}
+.homeCard {
+    width: 75%;
+    margin: 1em auto;
+    text-align: left;
+}
+.center-heading img {
+    height: 6em;
+}
+.center-heading h2 {
+    text-transform: capitalize;
+    font-size: 2em;
+    font-weight: bold;
+}
+.rating {
+    margin-bottom: 10px;
+}
+.classImg {
+    height: 20em;
+}
+.step-card-left {
+    width: 250px;
+    top: 25px;
+    left: 5px;
+}
+.step-card-right {
+    width: 250px;
+    top: 25px;
+    left: 15px;
+}
+.flexbox {
+    padding-top: 8em;
+}
+.flexbox h1 {
+    font-size: 2.5em;
+    text-transform: capitalize;
+    font-weight: bolder;
+}
+img.siteLogo {
+    width: 14em;
+    height: 100%;
+}
+</style>
+<script>
+import axios from 'axios';
+
+// @ is an alias to /src
+import HomeLayout from '@/Layouts/HomeLayout.vue';
+import showcasebg from '@/assets/images/showcaseImg.png';
+import fredimg from '@/assets/images/profile/fred.jpg';
+import vincentimg from '@/assets/images/profile/vincent.jpg';
+import claireimg from '@/assets/images/profile/claire.jpg';
+import obadiahimg from '@/assets/images/profile/obadiah.jpg';
+
+export default {
+    name: 'Home',
+    title: 'Home',
+    components: {
+        HomeLayout,
+    },
+    data() {
+        return {
+            loading: true,
+            classes: null,
+            showcasebg: showcasebg,
+            testimonials: [
+                {
+                    name: 'Fred Ongwenya',
+                    testimonial: "It's really amazing to browse Agriskul,pick a free course,register for it and learn from your phone. Every farmer should use Agriskul as their virtual guide and refer for anything",
+                    img: fredimg,
+                },
+                {
+                    name: 'Vincent Ngatia',
+                    testimonial: 'Agriskul has very practical knowledge that any new farmer can follow while starting a farming venture.For me,their poultry  feeding  programs was  recommended by my vet. Agriskul will always be my e-learning of choice',
+                    img: vincentimg,
+                },
+                {
+                    name: 'Obadiah Bunyi',
+                    testimonial: 'Have you been searching for a premium learning site for knowledge to boost your way of farming? Agriskul is a top rated site that covers all edges in farming, from poultry farming to fish farming',
+                    img: obadiahimg,
+                },
+                {
+                    name: 'Claire Onyinkwa',
+                    testimonial: 'Are you looking for a free online course whose technical classes are just explained in simple English you can understand?Look no further,Agriskul has resourceful courses that equip you with the right farming knowledge',
+
+                    img: claireimg,
+                },
+            ],
+        };
+    },
+    methods: {
+        getClasses: function () {
+            axios({
+                url: '/api/classes/',
+                method: 'GET',
+            })
+                .then((resp) => {
+                    this.classes = resp.data.classes;
+                })
+                .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+        },
+        viewClass: function (val) {
+            this.$router
+                .push({
+                    name: 'ClassDetail',
+                    params: { id: val },
+                })
+                .then()
+                .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+        },
+    },
+    mounted() {
+        this.getClasses();
+    },
+};
+</script>

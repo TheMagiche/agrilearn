@@ -9,28 +9,38 @@ const Instructor = require('../models/instructor');
  * @access Private
  * Working
  */
-router.get('/classes/:id', async function (req, res, next) {
+router.post('/classes/:id', async function (req, res, next) {
     console.log('Getting instructors classes...');
     try {
         const {
             id
         } = req.params;
+        const { page, limit } = req.body;
         const instructorByID = await User.findById(id);
 
-        const instructorByUsername = await Instructor.findOne({
+        // const instructorByUsername = await Instructor.findOne({
+        //     username: instructorByID.username,
+        // })
+        const countDoc = await Instructor.findOne({
             username: instructorByID.username,
-        }).populate({
-            path: 'classes',
-            select: ['title', 'imgUrl', 'rating'],
-            populate: {
-                path: 'instructor',
-                select: ['email', 'username', 'id'],
-            },
         });
+        let count = countDoc.toObject();
+        count = count.classes.length;
 
-        // console.log(instructorByUsername.classes)
+        const instructorByUsername = await countDoc
+            .populate({
+                path: 'classes',
+                select: ['title', 'imgUrl', 'rating', 'instructor'],
+                options: {
+                    limit: limit * 1,
+                    skip: (page - 1) * limit,
+                },
+            })
+            .execPopulate();
         res.status(200).json({
-            classes: instructorByUsername.classes
+            classes: instructorByUsername.classes,
+            totalPages: Math.ceil(count / limit),
+            currentPage: page,
         });
     } catch (err) {
         console.log(err);
@@ -103,7 +113,6 @@ router.get('/:id/profile', async function (req, res) {
     console.log('fetching instructor details...')
     const instructorID = req.params.id;
     const instructorByID = await User.findById(instructorID);
-
     const instructorByUsername = await Instructor.findOne({
         username: instructorByID.username
     });
@@ -121,7 +130,7 @@ router.get('/:id/profile', async function (req, res) {
 
 });
 /**
- * @route POST api/students/:id/profile
+ * @route POST api/instructors/:id/profile
  * @desc Return the User's Data
  * @access Private
  */
