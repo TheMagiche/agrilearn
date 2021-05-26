@@ -1,5 +1,5 @@
 <template>
-    <a-drawer title="Edit lesson" :width="900" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
+    <a-drawer title="Create new lesson" :width="900" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
         <a-form-model ref="LessonForm" :model="form" layout="vertical" @submit="onSubmit">
             <a-row :gutter="16">
                 <a-col :span="12">
@@ -84,15 +84,16 @@ export default {
             this.visible = false;
         },
         onSubmit: async (e) => {
-            const lessonID = this.$route.params.id;
+            const classID = this.$route.params.id;
             await axios({
-                url: `/api/lessons/update/${lessonID}`,
+                url: `/api/lessons/create/${classID}`,
                 data: {
+                    number: this.form.number,
                     title: this.form.title,
                     body: this.form.description,
-                    number: this.form.number,
+                    myclass: classID,
                 },
-                method: 'PUT',
+                method: 'POST',
             })
                 .then(() => {
                     this.visible = false;
@@ -108,32 +109,11 @@ export default {
             }
             this.pro = true;
         },
-        getLesson: function () {
-            const lessonID = this.$route.params.id;
-            axios({
-                url: `/api/lessons/details/${lessonID}`,
-                method: 'GET',
-            })
-                .then((resp) => {
-                    // eslint-disable-next-line no-console
-                    this.lessonID = resp.data.lesson._id;
-                    this.form.title = resp.data.lesson.title;
-                    this.form.description = resp.data.lesson.body;
-                    this.form.number = resp.data.lesson.number.toLowerCase();
-                })
-                .catch((err) => {
-                    // eslint-disable-next-line no-console
-                    console.log(err);
-                });
-        },
     },
     created() {
-        bus.$on('editLesson-visible', (val) => {
+        bus.$on('createLesson-visible', (val) => {
             this.visible = val;
         });
-    },
-    mounted() {
-        this.getLesson();
     },
 };
 </script>

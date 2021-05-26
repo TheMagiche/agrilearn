@@ -1,160 +1,132 @@
 <template>
-    <a-drawer title="Create a new account" :width="720" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
-        <a-form :form="form" layout="vertical" hide-required-mark>
+    <a-drawer title="Contact us for any inquries" :width="720" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
+        <a-form-model ref="contactForm" :model="form" layout="vertical" @submit="onSubmit">
             <a-row :gutter="16">
                 <a-col :span="12">
-                    <a-form-item label="Name">
-                        <a-input
-                            v-decorator="[
-                                'name',
-                                {
-                                    rules: [{ required: true, message: 'Please enter user name' }],
-                                },
-                            ]"
-                            placeholder="Please enter user name"
-                        />
-                    </a-form-item>
+                    <a-form-model-item label="Your Name">
+                        <a-input placeholder="Please enter name" v-model.trim="form.name" />
+                        <span v-if="submitted && !$v.form.name.required">Required field</span>
+                        <span v-if="!$v.form.name.maxLength">invalid name too long</span>
+                    </a-form-model-item>
                 </a-col>
                 <a-col :span="12">
-                    <a-form-item label="Url">
-                        <a-input
-                            v-decorator="[
-                                'url',
-                                {
-                                    rules: [{ required: true, message: 'please enter url' }],
-                                },
-                            ]"
-                            style="width: 100%"
-                            addon-before="http://"
-                            addon-after=".com"
-                            placeholder="please enter url"
-                        />
-                    </a-form-item>
-                </a-col>
-            </a-row>
-            <a-row :gutter="16">
-                <a-col :span="12">
-                    <a-form-item label="Owner">
-                        <a-select
-                            v-decorator="[
-                                'owner',
-                                {
-                                    rules: [{ required: true, message: 'Please select an owner' }],
-                                },
-                            ]"
-                            placeholder="Please a-s an owner"
-                        >
-                            <a-select-option value="xiao"> Xiaoxiao Fu </a-select-option>
-                            <a-select-option value="mao"> Maomao Zhou </a-select-option>
-                        </a-select>
-                    </a-form-item>
-                </a-col>
-                <a-col :span="12">
-                    <a-form-item label="Type">
-                        <a-select
-                            v-decorator="[
-                                'type',
-                                {
-                                    rules: [{ required: true, message: 'Please choose the type' }],
-                                },
-                            ]"
-                            placeholder="Please choose the type"
-                        >
-                            <a-select-option value="private"> Private </a-select-option>
-                            <a-select-option value="public"> Public </a-select-option>
-                        </a-select>
-                    </a-form-item>
-                </a-col>
-            </a-row>
-            <a-row :gutter="16">
-                <a-col :span="12">
-                    <a-form-item label="Approver">
-                        <a-select
-                            v-decorator="[
-                                'approver',
-                                {
-                                    rules: [{ required: true, message: 'Please choose the approver' }],
-                                },
-                            ]"
-                            placeholder="Please choose the approver"
-                        >
-                            <a-select-option value="jack"> Jack Ma </a-select-option>
-                            <a-select-option value="tom"> Tom Liu </a-select-option>
-                        </a-select>
-                    </a-form-item>
-                </a-col>
-                <a-col :span="12">
-                    <a-form-item label="DateTime">
-                        <a-date-picker
-                            v-decorator="[
-                                'dateTime',
-                                {
-                                    rules: [{ required: true, message: 'Please choose the dateTime' }],
-                                },
-                            ]"
-                            style="width: 100%"
-                            :get-popup-container="(trigger) => trigger.parentNode"
-                        />
-                    </a-form-item>
+                    <a-form-model-item label="Your Email">
+                        <a-input placeholder="Please enter email" v-model.trim="form.email" />
+                        <span v-if="submitted && !$v.form.email.required">Required field</span>
+                        <span v-if="submitted && !$v.form.email.email">Invalid email</span>
+                        <span v-if="!$v.form.name.maxLength">invalid email, too long</span>
+                    </a-form-model-item>
                 </a-col>
             </a-row>
             <a-row :gutter="16">
                 <a-col :span="24">
-                    <a-form-item label="Description">
-                        <a-textarea
-                            v-decorator="[
-                                'description',
-                                {
-                                    rules: [{ required: true, message: 'Please enter url description' }],
-                                },
-                            ]"
-                            :rows="4"
-                            placeholder="please enter url description"
-                        />
-                    </a-form-item>
+                    <a-form-model-item label="Message">
+                        <a-textarea :rows="14" placeholder="please enter your message" v-model.trim="form.message" />
+                        <span v-if="submitted && !$v.form.message.required">Required field</span>
+                        <span v-if="!$v.form.message.maxLength">Message too short</span>
+                        <span v-if="!$v.form.message.maxLength">Message too long</span>
+                    </a-form-model-item>
                 </a-col>
             </a-row>
-        </a-form>
-        <div
-            :style="{
-                position: 'absolute',
-                right: 0,
-                bottom: 0,
-                width: '100%',
-                borderTop: '1px solid #e9e9e9',
-                padding: '10px 16px',
-                background: '#fff',
-                textAlign: 'right',
-                zIndex: 1,
-            }"
-        >
-            <a-button :style="{ marginRight: '8px' }" @click="onClose"> Cancel </a-button>
-            <a-button type="primary" @click="onClose"> Submit </a-button>
-        </div>
+            <div
+                :style="{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                    width: '100%',
+                    borderTop: '1px solid #e9e9e9',
+                    padding: '10px 16px',
+                    background: '#fff',
+                    textAlign: 'right',
+                    zIndex: 1,
+                }"
+            >
+                <a-button :style="{ marginRight: '8px' }" @click="onClose"> Cancel </a-button>
+                <a-button type="primary" html-type="submit"> Submit </a-button>
+            </div>
+        </a-form-model>
     </a-drawer>
 </template>
+<style scoped>
+span {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    color: red;
+}
+</style>
 <script>
-import { bus } from '@/main';
+import { bus } from '@/event-bus';
+import { required, email, minLength, maxLength } from 'vuelidate/lib/validators';
+import axios from 'axios';
 
 export default {
+    name: 'ContactModal',
     data() {
         return {
-            form: this.$form.createForm(this),
+            form: {
+                name: '',
+                email: '',
+                message: '',
+            },
+            submitted: false,
             visible: false,
         };
     },
-
-    methods: {
-        showDrawer() {
-            this.visible = true;
-        },
-        onClose() {
-            this.visible = false;
-            bus.$emit('contactForm', false);
+    validations: {
+        form: {
+            name: { required, maxLength: maxLength(40) },
+            email: { required, email, maxLength: maxLength(60) },
+            message: { required, minLength: minLength(6), maxLength: maxLength(1500) },
         },
     },
-    mounted() {
-        this.showDrawer();
+    methods: {
+        onClose() {
+            this.visible = false;
+        },
+        onSubmit(e) {
+            e.preventDefault();
+            // stop here if form is invalid
+            this.submitted = true;
+            this.$v.$touch();
+            if (this.$v.$invalid) {
+                return;
+            }
+            axios({
+                url: '/api/users/message',
+                method: 'POST',
+                data: {
+                    name: this.name,
+                    email: this.email,
+                    emailmessage: this.message,
+                },
+            })
+                .then((res) => {
+                    if (res.data.success == false) {
+                        this.$notification['error']({
+                            message: 'Error',
+                            description: `${res.data.msg}`,
+                        });
+                        this.$refs.contactForm.resetFields();
+                    } else {
+                        this.$notification['success']({
+                            message: 'Message Sent',
+                            description: `${res.data.msg}`,
+                        });
+                        this.$refs.contactForm.resetFields();
+                        this.visible = false;
+                    }
+                })
+                .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+        },
+    },
+    created() {
+        bus.$on('contact-visible', (val) => {
+            this.visible = val;
+        });
     },
 };
 </script>

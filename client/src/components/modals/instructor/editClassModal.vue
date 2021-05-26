@@ -1,178 +1,170 @@
 <template>
-  <div>
-    <a-button type="primary" @click="showDrawer"> <a-icon type="plus" /> New account </a-button>
-    <a-drawer
-      title="Create a new account"
-      :width="720"
-      :visible="visible"
-      :body-style="{ paddingBottom: '80px' }"
-      @close="onClose"
-    >
-      <a-form :form="form" layout="vertical" hide-required-mark>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Name">
-              <a-input
-                v-decorator="[
-                  'name',
-                  {
-                    rules: [{ required: true, message: 'Please enter user name' }],
-                  },
-                ]"
-                placeholder="Please enter user name"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Url">
-              <a-input
-                v-decorator="[
-                  'url',
-                  {
-                    rules: [{ required: true, message: 'please enter url' }],
-                  },
-                ]"
-                style="width: 100%"
-                addon-before="http://"
-                addon-after=".com"
-                placeholder="please enter url"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Owner">
-              <a-select
-                v-decorator="[
-                  'owner',
-                  {
-                    rules: [{ required: true, message: 'Please select an owner' }],
-                  },
-                ]"
-                placeholder="Please a-s an owner"
-              >
-                <a-select-option value="xiao">
-                  Xiaoxiao Fu
-                </a-select-option>
-                <a-select-option value="mao">
-                  Maomao Zhou
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Type">
-              <a-select
-                v-decorator="[
-                  'type',
-                  {
-                    rules: [{ required: true, message: 'Please choose the type' }],
-                  },
-                ]"
-                placeholder="Please choose the type"
-              >
-                <a-select-option value="private">
-                  Private
-                </a-select-option>
-                <a-select-option value="public">
-                  Public
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Approver">
-              <a-select
-                v-decorator="[
-                  'approver',
-                  {
-                    rules: [{ required: true, message: 'Please choose the approver' }],
-                  },
-                ]"
-                placeholder="Please choose the approver"
-              >
-                <a-select-option value="jack">
-                  Jack Ma
-                </a-select-option>
-                <a-select-option value="tom">
-                  Tom Liu
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="DateTime">
-              <a-date-picker
-                v-decorator="[
-                  'dateTime',
-                  {
-                    rules: [{ required: true, message: 'Please choose the dateTime' }],
-                  },
-                ]"
-                style="width: 100%"
-                :get-popup-container="trigger => trigger.parentNode"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="Description">
-              <a-textarea
-                v-decorator="[
-                  'description',
-                  {
-                    rules: [{ required: true, message: 'Please enter url description' }],
-                  },
-                ]"
-                :rows="4"
-                placeholder="please enter url description"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
-      <div
-        :style="{
-          position: 'absolute',
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          borderTop: '1px solid #e9e9e9',
-          padding: '10px 16px',
-          background: '#fff',
-          textAlign: 'right',
-          zIndex: 1,
-        }"
-      >
-        <a-button :style="{ marginRight: '8px' }" @click="onClose">
-          Cancel
-        </a-button>
-        <a-button type="primary" @click="onClose">
-          Submit
-        </a-button>
-      </div>
+    <a-drawer title="Edit class" :width="900" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
+        <a-form-model ref="classForm" :model="form" layout="vertical" @submit="onSubmit">
+            <a-row :gutter="16">
+                <a-col :span="20">
+                    <a-form-model-item label="Class Title">
+                        <a-input placeholder="Please enter class title" v-model.trim="form.title" />
+                    </a-form-model-item>
+                </a-col>
+                <a-col :span="4">
+                    <a-form-model-item label="Free | Pro">
+                        <a-select :default-value="isPro" @change="handleChange">
+                            <a-select-option value="free"> Free </a-select-option>
+                            <a-select-option value="pro"> Pro </a-select-option>
+                        </a-select>
+                    </a-form-model-item>
+                </a-col>
+            </a-row>
+            <a-row :gutter="16">
+                <a-col :span="20">
+                    <a-form-model-item label="Image url (use pexels.com *)">
+                        <a-input placeholder="Please enter image url" v-model.trim="form.imageUrl" />
+                    </a-form-model-item>
+                </a-col>
+                <a-col :span="4">
+                    <a-form-model-item label="Study Time">
+                        <a-input placeholder="10 minute" v-model.trim="form.estTime" />
+                    </a-form-model-item>
+                </a-col>
+            </a-row>
+            <a-row :gutter="16">
+                <a-col :span="24">
+                    <a-form-model-item label="Class Content">
+                        <Editor
+                            v-model="form.description"
+                            apiKey="qg2ya1j13asut4kogk3ih9iaxwm76ah12w4b0fjfhm1gxtx5"
+                            :init="{
+                                height: 500,
+                                plugins: ['advlist autolink lists link image charmap print preview anchor', 'searchreplace visualblocks code fullscreen', 'insertdatetime media table paste code help wordcount'],
+                                toolbar: 'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent | removeformat | help',
+                            }"
+                        ></Editor>
+                    </a-form-model-item>
+                </a-col>
+            </a-row>
+            <div
+                :style="{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                    width: '100%',
+                    borderTop: '1px solid #e9e9e9',
+                    padding: '10px 16px',
+                    background: '#fff',
+                    textAlign: 'right',
+                    zIndex: 1,
+                }"
+            >
+                <a-button :style="{ marginRight: '8px' }" @click="onClose"> Cancel </a-button>
+                <a-button type="primary" html-type="submit"> Submit </a-button>
+            </div>
+        </a-form-model>
     </a-drawer>
-  </div>
 </template>
+<style scoped>
+span {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    color: red;
+}
+</style>
 <script>
+import { bus } from '@/event-bus';
+import axios from 'axios';
+import Editor from '@tinymce/tinymce-vue';
+
 export default {
-  data() {
-    return {
-      form: this.$form.createForm(this),
-      visible: false,
-    };
-  },
-  methods: {
-    showDrawer() {
-      this.visible = true;
+    name: 'EditClassModal',
+    components: {
+        Editor,
     },
-    onClose() {
-      this.visible = false;
+    data() {
+        return {
+            pro: false,
+            form: {
+                title: '',
+                description: '',
+                imageUrl: '',
+                estTime: '',
+            },
+            submitted: false,
+            visible: false,
+        };
     },
-  },
+    computed: {
+        isPro: function () {
+            if (this.pro) {
+                return 'Pro';
+            }
+            return 'Free';
+        },
+    },
+    methods: {
+        onClose() {
+            this.visible = false;
+        },
+        getClass: function () {
+            const classID = this.$route.params.id;
+            axios({
+                url: `/api/classes/details/${classID}`,
+                method: 'GET',
+            })
+                .then((resp) => {
+                    this.classID = resp.data.class._id;
+                    this.form.title = resp.data.class.title;
+                    this.form.description = resp.data.class.description;
+                    this.form.imageUrl = resp.data.class.imgUrl;
+                    this.pro = resp.data.class.pro;
+                    this.form.estTime = resp.data.class.readTime;
+                    // eslint-disable-next-line no-console
+                    // console.log(this.classLessons);
+                })
+                .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+        },
+        onSubmit: async () => {
+            const classID = this.$route.params.id;
+            await axios({
+                url: `/api/classes/${classID}/update`,
+                data: {
+                    title: this.form.title,
+                    imgUrl: this.form.imageUrl,
+                    description: this.form.description,
+                    pro: this.pro,
+                    readTime: this.form.estTime ,
+                },
+                method: 'PUT',
+            })
+                .then(() => {
+                    this.$router.push({
+                        name: 'instructorClasses',
+                    });
+                })
+                .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+        },
+        handleChange(value) {
+            if (value === 'free') {
+                this.pro = false;
+            }
+            this.pro = true;
+        },
+    },
+    created() {
+        bus.$on('editClass-visible', (val) => {
+            this.visible = val;
+        });
+    },
+    mounted() {
+        this.getClass();
+    },
 };
 </script>

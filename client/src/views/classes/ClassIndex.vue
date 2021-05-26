@@ -7,7 +7,14 @@
                         <a-card hoverable style="width: 100%">
                             <img slot="cover" class="classImg" alt="example" :src="item.imgUrl" />
                             <div class="rating">
-                                <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="item.rating" :read-only="true"></star-rating>
+                                <a-row>
+                                    <a-col :span="18"> <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="item.rating" :read-only="true"></star-rating> </a-col>
+                                    <a-col :span="6"
+                                        ><div class="clsStatus">
+                                            {{ classStatus(item.classPro) }}
+                                        </div></a-col
+                                    >
+                                </a-row>
                             </div>
                             <template slot="actions" class="ant-card-actions">
                                 <a-button type="dashed" icon="ellipsis" @click="viewClass(item._id)">view</a-button>
@@ -37,6 +44,12 @@
     </DashboardLayout>
 </template>
 <style scoped>
+.clsStatus {
+    padding: 0.1em 0.5em;
+    text-align: center;
+    color: white;
+    background: burlywood;
+}
 .spin-content {
     width: 100%;
     background: wheat;
@@ -110,6 +123,12 @@ export default {
         },
     },
     methods: {
+        classStatus: (val) => {
+            if (val) {
+                return 'Pro';
+            }
+            return 'Free';
+        },
         Texttrim: function (value) {
             if (!value) return '';
             value = value.toString();

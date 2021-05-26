@@ -120,7 +120,7 @@ const routes = [
         name: 'InstructorProfile',
         component: InstructorProfile,
         meta: {
-            requiresAuth: false,
+            requiresAuth: true,
         },
     },
     {
@@ -158,7 +158,7 @@ router.beforeEach((to, from, next) => {
             next();
             return;
         }
-        next('/signup');
+        router.push('/signup')
     } else {
         next();
     }

@@ -24,18 +24,6 @@
                         <span>View Profile </span>
                     </router-link>
                 </a-menu-item>
-                <a-menu-item key="4">
-                    <a-button type="link">
-                        <a-icon type="audit" />
-                        <span>Edit Profile </span>
-                    </a-button>
-                </a-menu-item>
-                <a-menu-item key="5">
-                    <a-button type="link">
-                        <a-icon type="trophy" />
-                        <span>Premium </span>
-                    </a-button>
-                </a-menu-item>
             </a-sub-menu>
         </a-menu>
         <a-menu v-if="isLoggedIn && isInstructor" theme="dark" :open-keys="openKeys" mode="inline" @openChange="onOpenChange">
@@ -48,7 +36,7 @@
                     </router-link>
                 </a-menu-item>
                 <a-menu-item key="4">
-                    <a-button type="link">
+                    <a-button type="link" @click="createClass">
                         <a-icon type="form" />
                         <span>New Class </span>
                     </a-button>
@@ -62,14 +50,10 @@
                         <span>View Profile </span>
                     </router-link>
                 </a-menu-item>
-                <a-menu-item key="2">
-                    <a-button type="link">
-                        <a-icon type="audit" />
-                        <span>Edit Profile </span>
-                    </a-button>
-                </a-menu-item>
             </a-sub-menu>
         </a-menu>
+        <CreateClassModal />
+        <GetPremimumModal />
     </div>
 </template>
 
@@ -78,13 +62,26 @@
 <script>
 import Axios from 'axios';
 import Vue from 'vue';
+
+import CreateClassModal from '@/components/modals/instructor/newClassModal';
+
+import GetPremimumModal from '@/components/modals/students/getPremiumModal.vue';
+
+import { bus } from '@/event-bus';
+
 Vue.prototype.$http = Axios;
 const token = localStorage.getItem('token');
+
 if (token) {
     Vue.prototype.$http.defaults.headers.common['Authorization'] = token;
 }
+
 export default {
     name: 'SideBar',
+    components: {
+        CreateClassModal,
+        GetPremimumModal,
+    },
     data() {
         return {
             rootSubmenuKeys: ['sub1', 'sub2'],
@@ -99,6 +96,9 @@ export default {
             } else {
                 this.openKeys = latestOpenKey ? [latestOpenKey] : [];
             }
+        },
+        createClass() {
+            bus.$emit('createClass-visible', true);
         },
     },
     computed: {

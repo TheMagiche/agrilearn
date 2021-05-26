@@ -1,79 +1,94 @@
 <template>
-    <DashboardLayout>
-        <template v-slot:dashboard-content>
-            <a-spin :spinning="spinning">
-                <a-row :gutter="[16, 16]">
-                    <a-col :span="14">
-                        <a-card :loading="loading" hoverable class="detailCard">
-                            <img slot="cover" alt="example" :src="classImageUrl" />
-                            <div class="rating">
-                                <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="classRating" :read-only="true"></star-rating>
-                            </div>
-                            <template slot="actions" class="ant-card-actions">
-                                <a-button v-if="checkisStudent && studentCompatibility && !ifRegistered" type="primary" icon="setting" @click="regClass"> Register </a-button>
-                                <a-button v-if="checkisStudent && ifRegistered" type="warning" icon="setting" @click="deRegClass"> Deregister </a-button>
-                                <a-button v-if="checkisStudent && ifRegistered" type="primary" icon="setting" @click="rateClass"> Rate </a-button>
-                                <a-button v-if="checkisInstructor && checkInstructor" type="warning" icon="edit" @click="editClass(classID)"> Edit </a-button>
-                                <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="ellipsis" @click="deleteClass(classID)"> Delete </a-button>
-                                <a-button v-if="checkisInstructor && checkInstructor" type="primary" icon="ellipsis" @click="addLesson"> Add lesson </a-button>
-                            </template>
-                            <a-row type="flex" align="top">
-                                <a-col :span="22">
-                                    <h2>
-                                        <strong>{{ classTitle }}</strong>
-                                    </h2>
-                                    <br />
-                                    <p v-html="classDescription"></p>
-                                </a-col>
-                                <a-col :span="2">
-                                    <a-tooltip :title="classInstructorUsername">
-                                        <a-avatar><a-icon slot="icon" type="user"></a-icon></a-avatar>
-                                    </a-tooltip>
-                                </a-col>
-                            </a-row>
-                        </a-card>
-                    </a-col>
-                    <a-col :span="10">
-                        <a-card :loading="loading" title="Lessons">
-                            <ul class="lesson-ul">
-                                <li class="lesson-li" v-for="lesson in classLessons" :key="lesson._id">
-                                    <p class="lesson-title">{{ lesson.title }}</p>
+    <div>
+        <DashboardLayout>
+            <template v-slot:dashboard-content>
+                <a-spin :spinning="spinning">
+                    <a-row :gutter="[16, 16]">
+                        <a-col :span="14">
+                            <a-card :loading="loading" hoverable class="detailCard">
+                                <img slot="cover" alt="example" :src="classImageUrl" />
+                                <div class="rating">
+                                    <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="classRating" :read-only="true"></star-rating>
+                                </div>
+                                <template slot="actions" class="ant-card-actions">
+                                    <a-button v-if="checkisStudent && studentCompatibility && !ifRegistered" type="primary" icon="thunderbolt" @click="regClass"> Register </a-button>
+                                    <a-button v-if="checkisStudent && ifRegistered" type="warning" icon="api" @click="deRegClass"> Deregister </a-button>
+                                    <a-button v-if="checkisStudent && ifRegistered" type="primary" icon="smile" @click="rateClass"> Rate </a-button>
+                                    <a-button v-if="checkisInstructor && checkInstructor" type="warning" icon="edit" @click="editClass"> Edit </a-button>
+                                    <!-- <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="ellipsis" @click="deleteClass(classID)"> Delete </a-button> -->
+                                    <a-button v-if="checkisInstructor && checkInstructor" type="primary" icon="diff" @click="addLesson"> Add lesson </a-button>
+                                </template>
+                                <a-row type="flex" align="top">
+                                    <a-col :span="22">
+                                        <a-row>
+                                            <a-col :span="2">
+                                                <a-tooltip :title="classInstructorUsername">
+                                                    <a-avatar><a-icon slot="icon" type="user"></a-icon></a-avatar>
+                                                </a-tooltip>
+                                            </a-col>
+                                            <a-col :span="22">
+                                                <h2>
+                                                    <strong>{{ classTitle }}</strong>
+                                                </h2>
+                                            </a-col>
+                                        </a-row>
 
-                                    <div class="lesson-detail">
-                                        <!-- <p v-html="Texttrim(lesson.body)" class="lesson-line"></p> -->
-                                        <a v-if="registered || checkisInstructor" @click="viewLesson(lesson._id)" class="lessonAnchor text-right">View lesson</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </a-card>
-                        <br />
-                        <a-card :loading="loading" title="Reviews">
-                            <a-list item-layout="horizontal" :data-source="classReviews">
-                                <a-list-item slot="renderItem" slot-scope="item">
-                                    <a-row>
-                                        <a-col>
-                                            <star-rating v-bind:increment="0.5" v-bind:max-rating="5" inactive-color="#ddd" active-color="#20e434" v-bind:star-size="20" :read-only="true" v-model="item.rating"></star-rating>
-                                        </a-col>
-                                        <a-col>
-                                          <a-skeleton :loading="loading" active avatar>
-                                            <a-list-item-meta :description="item.comment">
-                                                <strong slot="title">{{ item.author.username }} ~ {{ item.author.email }}</strong>
-                                                <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                                            </a-list-item-meta>
-                                          </a-skeleton>
-                                        </a-col>
-                                    </a-row>
-                                </a-list-item>
-                            </a-list>
-                            <div class="pag">
-                                <a-pagination v-model="page" :total="totalPages" />
-                            </div>
-                        </a-card>
-                    </a-col>
-                </a-row>
-            </a-spin>
-        </template>
-    </DashboardLayout>
+                                        <br />
+                                    </a-col>
+                                    <a-col :span="2">
+                                        <div class="clsStatus">
+                                            {{ classStatus }}
+                                        </div>
+                                    </a-col>
+                                </a-row>
+                                <p v-html="classDescription"></p>
+                            </a-card>
+                        </a-col>
+                        <a-col :span="10">
+                            <a-card :loading="loading" title="Lessons">
+                                <ul class="lesson-ul">
+                                    <li class="lesson-li" v-for="lesson in classLessons" :key="lesson._id">
+                                        <p class="lesson-title">{{ lesson.title }}</p>
+
+                                        <div class="lesson-detail">
+                                            <!-- <p v-html="Texttrim(lesson.body)" class="lesson-line"></p> -->
+                                            <a v-if="registered || checkisInstructor" @click="viewLesson(lesson._id)" class="lessonAnchor text-right">View lesson</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </a-card>
+                            <br />
+                            <a-card :loading="loading" title="Reviews">
+                                <a-list item-layout="horizontal" :data-source="classReviews">
+                                    <a-list-item slot="renderItem" slot-scope="item">
+                                        <a-row>
+                                            <a-col>
+                                                <star-rating v-bind:increment="0.5" v-bind:max-rating="5" inactive-color="#ddd" active-color="#20e434" v-bind:star-size="20" :read-only="true" v-model="item.rating"></star-rating>
+                                            </a-col>
+                                            <a-col>
+                                                <a-skeleton :loading="loading" active avatar>
+                                                    <a-list-item-meta :description="item.comment">
+                                                        <strong slot="title">{{ item.author.username }} ~ {{ item.author.email }}</strong>
+                                                        <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                                                    </a-list-item-meta>
+                                                </a-skeleton>
+                                            </a-col>
+                                        </a-row>
+                                    </a-list-item>
+                                </a-list>
+                                <div class="pag">
+                                    <a-pagination v-model="page" :total="totalPages" />
+                                </div>
+                            </a-card>
+                        </a-col>
+                    </a-row>
+                </a-spin>
+            </template>
+        </DashboardLayout>
+        <EditClassModal />
+        <CreateLessonModal />
+        <RatingModal />
+    </div>
 </template>
 <style scoped>
 .detailCard {
@@ -114,17 +129,31 @@
     align-items: center;
     border-radius: 50%;
 }
+.clsStatus {
+    padding: 0.1em 0.5em;
+    text-align: center;
+    color: white;
+    background: burlywood;
+}
 </style>
 <script>
 // @ is an alias to /src
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import axios from 'axios';
 
+import EditClassModal from '@/components/modals/instructor/editClassModal';
+import CreateLessonModal from '@/components/modals/instructor/newLessonModal';
+import RatingModal from '@/components/modals/students/ratingModal';
+import { bus } from '@/event-bus';
+
 export default {
     name: 'ClassDetail',
     title: 'Class',
     components: {
         DashboardLayout,
+        EditClassModal,
+        CreateLessonModal,
+        RatingModal,
     },
     data() {
         return {
@@ -319,20 +348,8 @@ export default {
                     console.log(err);
                 });
         },
-        editClass: function () {
-            const classID = this.$route.params.id;
-            this.$router
-                .push({
-                    name: 'classEdit',
-                    params: {
-                        id: classID,
-                    },
-                })
-                .then()
-                .catch((err) => {
-                    // eslint-disable-next-line no-console
-                    console.log(err);
-                });
+        editClass() {
+            bus.$emit('editClass-visible', true);
         },
         checkReg: function () {
             const classID = this.$route.params.id;
@@ -407,19 +424,7 @@ export default {
                 });
         },
         addLesson: function () {
-            const classID = this.$route.params.id;
-            this.$router
-                .push({
-                    name: 'newLesson',
-                    params: {
-                        id: classID,
-                    },
-                })
-                .then()
-                .catch((err) => {
-                    // eslint-disable-next-line no-console
-                    console.log(err);
-                });
+            bus.$emit('createLesson-visible', true);
         },
         viewLesson: function (val) {
             this.$router
@@ -436,47 +441,13 @@ export default {
                 });
         },
         rateClass: function (evt) {
-            evt.preventDefault();
-
-            this.submitted = true;
-
-            // stop here if form is invalid
-            this.$v.$touch();
-            if (this.$v.$invalid) {
-                return;
-            }
-            const classID = this.$route.params.id;
-            const userID = this.$store.getters.userID;
-            axios({
-                url: `/api/students/${userID}/class/${classID}/rate`,
-                method: 'POST',
-                data: {
-                    rate: this.rate,
-                    comment: this.comment,
-                },
-            })
-                .then((res) => {
-                    if (res.data.success == false) {
-                        this.$notification['error']({
-                            message: 'Something went wrong',
-                            description: `${res.data.msg}`,
-                        });
-                        this.rate = 0;
-                        this.comment = '';
-                    } else {
-                        this.$notification['success']({
-                            message: 'Added your review',
-                            description: `${res.data.msg}`,
-                        });
-                        this.rate = 0;
-                        this.comment = '';
-                    }
-                })
-                .catch((err) => {
-                    // eslint-disable-next-line no-console
-                    console.log(err);
-                });
+            bus.$emit('rating-visible', true);
         },
+    },
+    created(){
+        bus.$on('added-rating', (val) =>{
+            this.getReviews();
+        })
     },
     mounted() {
         this.getClass();

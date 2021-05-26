@@ -1,178 +1,141 @@
 <template>
-  <div>
-    <a-button type="primary" @click="showDrawer"> <a-icon type="plus" /> New account </a-button>
-    <a-drawer
-      title="Create a new account"
-      :width="720"
-      :visible="visible"
-      :body-style="{ paddingBottom: '80px' }"
-      @close="onClose"
-    >
-      <a-form :form="form" layout="vertical" hide-required-mark>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Name">
-              <a-input
-                v-decorator="[
-                  'name',
-                  {
-                    rules: [{ required: true, message: 'Please enter user name' }],
-                  },
-                ]"
-                placeholder="Please enter user name"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Url">
-              <a-input
-                v-decorator="[
-                  'url',
-                  {
-                    rules: [{ required: true, message: 'please enter url' }],
-                  },
-                ]"
-                style="width: 100%"
-                addon-before="http://"
-                addon-after=".com"
-                placeholder="please enter url"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Owner">
-              <a-select
-                v-decorator="[
-                  'owner',
-                  {
-                    rules: [{ required: true, message: 'Please select an owner' }],
-                  },
-                ]"
-                placeholder="Please a-s an owner"
-              >
-                <a-select-option value="xiao">
-                  Xiaoxiao Fu
-                </a-select-option>
-                <a-select-option value="mao">
-                  Maomao Zhou
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Type">
-              <a-select
-                v-decorator="[
-                  'type',
-                  {
-                    rules: [{ required: true, message: 'Please choose the type' }],
-                  },
-                ]"
-                placeholder="Please choose the type"
-              >
-                <a-select-option value="private">
-                  Private
-                </a-select-option>
-                <a-select-option value="public">
-                  Public
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Approver">
-              <a-select
-                v-decorator="[
-                  'approver',
-                  {
-                    rules: [{ required: true, message: 'Please choose the approver' }],
-                  },
-                ]"
-                placeholder="Please choose the approver"
-              >
-                <a-select-option value="jack">
-                  Jack Ma
-                </a-select-option>
-                <a-select-option value="tom">
-                  Tom Liu
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="DateTime">
-              <a-date-picker
-                v-decorator="[
-                  'dateTime',
-                  {
-                    rules: [{ required: true, message: 'Please choose the dateTime' }],
-                  },
-                ]"
-                style="width: 100%"
-                :get-popup-container="trigger => trigger.parentNode"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="Description">
-              <a-textarea
-                v-decorator="[
-                  'description',
-                  {
-                    rules: [{ required: true, message: 'Please enter url description' }],
-                  },
-                ]"
-                :rows="4"
-                placeholder="please enter url description"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
-      <div
-        :style="{
-          position: 'absolute',
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          borderTop: '1px solid #e9e9e9',
-          padding: '10px 16px',
-          background: '#fff',
-          textAlign: 'right',
-          zIndex: 1,
-        }"
-      >
-        <a-button :style="{ marginRight: '8px' }" @click="onClose">
-          Cancel
-        </a-button>
-        <a-button type="primary" @click="onClose">
-          Submit
-        </a-button>
-      </div>
+    <a-drawer title="Become a premium member" :width="720" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
+        <div v-if="!hidden && !completed" class="premium-welcome">
+            <div class="premium-text">{{ message }}</div>
+            <img :src="require('@/assets/images/loving.png')" height="100%" alt="instructorimg" />
+            <p class="premium-text">Thank you very much for supporting AgriSkul</p>
+
+            <a-button @click="getPremium" type="primary"> Continue to payment page </a-button>
+        </div>
+
+        <div v-if="hidden" class="premium-welcome">
+            <div class="premium-text">{{ message }}</div>
+            <a-spin :spinning="spinning" tip="Loading...">
+                <div class="iframeDiv">
+                    <vue-friendly-iframe v-if="hidden" :src="pesapalUrl" @load="onLoad"></vue-friendly-iframe>
+                </div>
+            </a-spin>
+        </div>
+
+        <div v-if="completed" class="premium-welcome">
+            <img :src="require('@/assets/images/loving.png')" height="100%" alt="instructorimg" />
+            <p class="premium-text">You've got a premuim account for the next 30 days!</p>
+            <a-button type="primary" @click="confirmPremiumStatus">Complete Process</a-button>
+            <div class="premium-text">{{ message }}</div>
+        </div>
     </a-drawer>
-  </div>
 </template>
+<style scoped>
+span {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    color: red;
+}
+.premium-welcome {
+    height: 60vh;
+    text-align: center;
+}
+.premium-text{
+    font-weight: bold;
+    color: black;
+}
+.iframeDiv {
+    width: 100% !important;
+    height: 80vh !important;
+}
+.vue-friendly-iframe {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+</style>
 <script>
+import { bus } from '@/event-bus';
+import axios from 'axios';
+
 export default {
-  data() {
-    return {
-      form: this.$form.createForm(this),
-      visible: false,
-    };
-  },
-  methods: {
-    showDrawer() {
-      this.visible = true;
+    name: 'PremiumModal',
+    data() {
+        return {
+            message: "Click 'Continue to payment' and wait for the payment page to load. Powered by pesapal.com",
+            hidden: false,
+            pesapalUrl: '',
+            pesapal_transaction_tracking_id: null,
+            pesapal_merchant_reference: null,
+            completed: false,
+            visible: false,
+            spinning: true,
+        };
     },
-    onClose() {
-      this.visible = false;
+    methods: {
+        getPremium: function () {
+            const studID = this.$store.getters.userID;
+            axios({
+                url: `/api/students/${studID}/premium`,
+                method: 'POST',
+            })
+                .then((resp) => {
+                    this.pesapalUrl = resp.data.urlRedirect;
+                    this.hidden = true;
+                    this.message = resp.data.msg;
+                })
+                .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+        },
+        onLoad() {
+            setTimeout(() => {
+                this.spinning = false;
+            }, 5000);
+        },
+        onClose() {
+            this.visible = false;
+        },
+        confirmPremiumStatus: function () {
+            const studID = this.$store.getters.userID;
+            axios({
+                url: `/api/students/${studID}/confirmpremium`,
+                method: 'POST',
+                data: {
+                    userID: this.$store.getters.userID,
+                },
+            })
+                .then((res) => {
+                    if (res.data.success) {
+                        bus.$emit('stud-premium', true);
+                        this.visible = false;
+                    } else if (res.data.success == false) {
+                        this.error = true;
+                        this.message = res.data.msg;
+                    }
+                })
+                .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+        },
+        checkQueryInRoute: function () {
+            if (this.$route.query.pesapal_transaction_tracking_id || this.$route.query.pesapal_merchant_reference) {
+                this.pesapal_transaction_tracking_id = this.$route.query.pesapal_transaction_tracking_id;
+                this.pesapal_merchant_reference = this.$route.query.pesapal_merchant_reference;
+                // this.confirmed = true;
+                this.completed = true;
+                this.hidden = false;
+                this.message = "Click 'Complete Process' as payment is validated and proceed to profile page";
+            }
+        },
     },
-  },
+
+    created() {
+        bus.$on('premium-visible', (val) => {
+            this.visible = val;
+        });
+    },
+    mounted() {
+        this.checkQueryInRoute();
+    },
 };
 </script>

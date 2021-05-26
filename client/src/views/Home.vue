@@ -9,6 +9,19 @@
                             <h1>Learn to grow your agribusiness</h1>
                             <p>Find the perfect tutorial to get started on your farming today, learn the latest trends and stay ahead of the curve</p>
                         </div>
+                        <div class="testimonial">
+                            <span v-for="item in testimonials" :key="item.id">
+                                <a-tooltip placement="right">
+                                    <template slot="title"> 
+                                        <strong>{{item.name}} </strong>
+                                        <br/> 
+                                        {{item.testimonial}} 
+                                        
+                                    </template>
+                                    <a-avatar :size="100" :src="item.img" />
+                                </a-tooltip>
+                            </span>
+                        </div>
                     </a-col>
                     <a-col :span="10">
                         <a-timeline mode="alternate">
@@ -40,12 +53,19 @@
                     <h2>Learn by Doing</h2>
                     <p>Practice makes perfect, start today!</p>
                 </div>
-                <a-row :gutter="[2, 8]">
+                <a-row :gutter="[16, 16]">
                     <a-col v-for="item in classes" :key="item._id" :span="8">
                         <a-card hoverable class="homeCard">
                             <img slot="cover" class="classImg" alt="example" :src="item.imgUrl" />
                             <div class="rating">
-                                <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="item.rating" :read-only="true"></star-rating>
+                                <a-row>
+                                    <a-col :span="18"> <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="item.rating" :read-only="true"></star-rating> </a-col>
+                                    <a-col :span="6"
+                                        ><div class="clsStatus">
+                                            {{ classStatus(item.classPro) }}
+                                        </div></a-col
+                                    >
+                                </a-row>
                             </div>
                             <template slot="actions" class="ant-card-actions">
                                 <a-button type="dashed" icon="ellipsis" @click="viewClass(item._id)">view</a-button>
@@ -71,6 +91,12 @@
     </HomeLayout>
 </template>
 <style scoped>
+.clsStatus {
+    padding: 0.1em 0.5em;
+    text-align: center;
+    color: white;
+    background: burlywood;
+}
 .showcase {
     padding: 2em;
 }
@@ -80,7 +106,7 @@
     background: rgb(226, 226, 226);
 }
 .homeCard {
-    width: 75%;
+    width: 100%;
     margin: 1em auto;
     text-align: left;
 }
@@ -116,6 +142,12 @@
     text-transform: capitalize;
     font-weight: bolder;
 }
+.testimonial {
+    padding-top: 2em;
+}
+.testimonial span {
+    margin-right: 10px;
+}
 img.siteLogo {
     width: 14em;
     height: 100%;
@@ -145,30 +177,39 @@ export default {
             showcasebg: showcasebg,
             testimonials: [
                 {
+                    id: 1,
                     name: 'Fred Ongwenya',
-                    testimonial: "It's really amazing to browse Agriskul,pick a free course,register for it and learn from your phone. Every farmer should use Agriskul as their virtual guide and refer for anything",
+                    testimonial: "It's really amazing to browse Agriskul, pick a free course, register for it and learn from your phone. Every farmer should use Agriskul as their virtual guide and refer for anything",
                     img: fredimg,
                 },
                 {
+                    id: 2,
                     name: 'Vincent Ngatia',
-                    testimonial: 'Agriskul has very practical knowledge that any new farmer can follow while starting a farming venture.For me,their poultry  feeding  programs was  recommended by my vet. Agriskul will always be my e-learning of choice',
+                    testimonial: 'Agriskul has very practical knowledge that any new farmer can follow while starting a farming venture. For me, their poultry feeding programs was  recommended by my vet. Agriskul will always be my e-learning of choice',
                     img: vincentimg,
                 },
                 {
+                    id: 3,
                     name: 'Obadiah Bunyi',
                     testimonial: 'Have you been searching for a premium learning site for knowledge to boost your way of farming? Agriskul is a top rated site that covers all edges in farming, from poultry farming to fish farming',
                     img: obadiahimg,
                 },
                 {
+                    id: 4,
                     name: 'Claire Onyinkwa',
-                    testimonial: 'Are you looking for a free online course whose technical classes are just explained in simple English you can understand?Look no further,Agriskul has resourceful courses that equip you with the right farming knowledge',
-
+                    testimonial: 'Are you looking for a free online course whose technical classes are just explained in simple english you can understand? Look no further, Agriskul has resourceful courses that equip you with the right farming knowledge',
                     img: claireimg,
                 },
             ],
         };
     },
     methods: {
+        classStatus: (val) => {
+            if (val) {
+                return 'Pro';
+            }
+            return 'Free';
+        },
         getClasses: function () {
             axios({
                 url: '/api/classes/',

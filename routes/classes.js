@@ -25,6 +25,7 @@ router.get('/', async function(req, res) {
                 imgUrl: 1,
                 pro: 1,
             })
+            .sort({ _id: -1 })
             .limit(6)
             .populate({
                 path: 'instructor',
@@ -58,6 +59,7 @@ router.post('/all', async function(req, res) {
             imgUrl: 1,
             pro: 1,
         })
+        .sort({ _id: -1 })
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .populate({
@@ -106,9 +108,17 @@ router.post('/create/:id', async function(req, res, next) {
         instructorByUsername.classes.push(myclass);
 
         await instructorByUsername.save();
-        return res.status(200).json(instructorByID);
+        return res.status(200).json({
+            success: true,
+            msg: 'Successfully created class',
+            class: myclass,
+        });
     } catch (err) {
-        console.log(err);
+        res.status(400).json({
+            success: false,
+            msg: 'Could not create class',
+            class: myclass,
+        });
     }
 });
 
@@ -223,6 +233,7 @@ router.post('/ratings/:classID', async function(req, res) {
         .where('class')
         .equals(mongoose.Types.ObjectId(classID))
         .select()
+        .sort({ _id: -1 })
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .populate({

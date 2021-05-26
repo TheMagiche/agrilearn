@@ -7,7 +7,14 @@
                         <a-card hoverable class="profileCard">
                             <img slot="cover" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
                             <template slot="actions" class="ant-card-actions">
-                                <a-icon key="setting" type="setting" />
+                                <a-button @click="editProfile" type="primary">
+                                    <a-icon key="setting" type="setting" />
+                                    Edit profile
+                                </a-button>
+                                <a-button @click="getPremium" type="warning">
+                                    <a-icon key="trophy" type="trophy" />
+                                    Get Premium
+                                </a-button>
                             </template>
                             <a-card-meta :title="username" :description="type"> </a-card-meta>
                         </a-card>
@@ -15,51 +22,48 @@
                     <a-col :span="14">
                         <div class="greyArea" style="">
                             <a-card title="General Details" :bordered="false">
-                                <a-row>
-                                    <a-col :span="6"><strong>Name</strong></a-col>
-                                    <a-col :span="18"
-                                        ><p>{{ first_name | capitalize }} {{ last_name | capitalize }}</p></a-col
-                                    >
-                                </a-row>
-                                <a-row>
-                                    <a-col :span="6"><strong>Email</strong></a-col>
-                                    <a-col :span="18"
-                                        ><p>{{ email }}</p></a-col
-                                    >
-                                </a-row>
-                                <a-row>
-                                    <a-col :span="6"><strong>Phone</strong></a-col>
-                                    <a-col :span="18"
-                                        ><p>{{ phoneNumber }}</p></a-col
-                                    >
-                                </a-row>
+                                <div class="profile-section">
+                                    <div class="profile-heading">Name:</div>
+                                    <div class="profile-detail">{{ first_name | capitalize }} {{ last_name | capitalize }}</div>
+                                </div>
+                                <div class="profile-section">
+                                    <div class="profile-heading">Email:</div>
+                                    <div class="profile-detail">
+                                        {{ email }}
+                                    </div>
+                                </div>
+                                <div class="profile-section">
+                                    <div class="profile-heading">Phone:</div>
+                                    <div class="profile-detail">
+                                        {{ phoneNumber }}
+                                    </div>
+                                </div>
                             </a-card>
                         </div>
                         <br />
                         <div class="greyArea">
                             <a-card title="Contextual Information" :bordered="false">
-                                <a-row>
-                                    <a-col :span="16"><strong>Number of enrolled classes</strong></a-col>
-                                    <a-col :span="8"
-                                        ><p>{{ classes.length }}</p></a-col
-                                    >
-                                </a-row>
-                                <a-row>
-                                    <a-col :span="16"><strong>Verified:</strong></a-col>
-                                    <a-col :span="8"
-                                        ><p>{{ verified }}</p></a-col
-                                    >
-                                </a-row>
-                                <a-row>
-                                    <a-col :span="16"><strong>Status:</strong></a-col>
-                                    <a-col :span="8"
-                                        ><p>{{ status }}</p>
-                                    </a-col>
-                                </a-row>
+                                <div class="profile-section">
+                                    <div class="profile-heading">Status:</div>
+                                    <div class="profile-detail">{{ status }}</div>
+                                </div>
+                                <div class="profile-section">
+                                    <div class="profile-heading">Number of enrolled classes:</div>
+                                    <div class="profile-detail">
+                                        {{ classes.length }}
+                                    </div>
+                                </div>
+                                <div class="profile-section">
+                                    <div class="profile-heading">Verified:</div>
+                                    <div class="profile-detail">
+                                        {{ verified }}
+                                    </div>
+                                </div>
                             </a-card>
                         </div>
                     </a-col>
                 </a-row>
+                <EditProfileModal />
             </a-spin>
         </template>
     </DashboardLayout>
@@ -72,16 +76,33 @@
     background: #ececec;
     padding: 30px;
 }
+.profile-section {
+    padding: 0.2em;
+}
+.profile-heading {
+    font-weight: bold;
+}
+.profile-detail {
+    padding: 0 0.5em;
+    background: #30a679;
+    color: #fff;
+    border-radius: 5px;
+}
 </style>
 <script>
 // @ is an alias to /src
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import axios from 'axios';
+
+import { bus } from '@/event-bus';
+import EditProfileModal from '@/components/modals/students/editStudProfileModal';
+
 export default {
     name: 'StudentProfile',
     title: 'Student Profile',
     components: {
         DashboardLayout,
+        EditProfileModal,
     },
     data() {
         return {
@@ -111,6 +132,12 @@ export default {
         },
     },
     methods: {
+        editProfile: function () {
+            bus.$emit('stud-profile-visible', true);
+        },
+        getPremium() {
+            bus.$emit('premium-visible', true);
+        },
         checkPremium: function () {
             const studID = this.$store.getters.userID;
             axios({
@@ -156,6 +183,18 @@ export default {
                     console.log(err);
                 });
         },
+    },
+    created(){
+        bus.$on('stud-profile-updated', (val) => {
+            if (val) {
+                this.getDetails();
+            }
+        });
+        bus.$on('stud-premium', (val) => {
+            if (val) {
+                this.getDetails();
+            }
+        });
     },
     mounted() {
         this.getDetails();

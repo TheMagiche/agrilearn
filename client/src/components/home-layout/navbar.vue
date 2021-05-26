@@ -11,7 +11,7 @@
                 <router-link to="/signin">Login</router-link>
             </a-menu-item>
             <a-menu-item key="contact">
-                <a-button type="primary" icon="notification" @click="logout"> Contact </a-button>
+                <a-button type="primary" icon="notification" @click="contact"> Contact </a-button>
             </a-menu-item>
         </a-menu>
         <a-menu v-if="isLoggedIn" theme="light" mode="horizontal" :style="{ lineHeight: '64px', textAlign: 'right' }">
@@ -26,18 +26,24 @@
                 </router-link>
             </a-menu-item>
             <a-menu-item key="contact">
-                <a-button type="primary" icon="notification" @click="logout"> Contact </a-button>
+                <a-button type="primary" icon="notification" @click="contact"> Contact </a-button>
             </a-menu-item>
             <a-menu-item key="logout">
                 <a-button type="dashed" icon="logout" @click="logout"> Logout </a-button>
             </a-menu-item>
         </a-menu>
+        <ContactModal />
     </div>
 </template>
 <style scoped></style>
 <script>
+import ContactModal from '@/components/modals/users/contactModal';
+import { bus } from '@/event-bus';
 export default {
     name: 'Navabar',
+    components: {
+        ContactModal,
+    },
     data() {
         return {
             current: ['home'],
@@ -97,6 +103,9 @@ export default {
                 message: 'Logout Successful',
                 description: `Hope to see you soon`,
             });
+        },
+        contact: function () {
+            bus.$emit('contact-visible', true);
         },
         checkOudatedToken: function () {
             this.$http.interceptors.response.use(undefined, function (err) {

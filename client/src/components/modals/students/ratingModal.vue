@@ -1,178 +1,112 @@
 <template>
-  <div>
-    <a-button type="primary" @click="showDrawer"> <a-icon type="plus" /> New account </a-button>
-    <a-drawer
-      title="Create a new account"
-      :width="720"
-      :visible="visible"
-      :body-style="{ paddingBottom: '80px' }"
-      @close="onClose"
-    >
-      <a-form :form="form" layout="vertical" hide-required-mark>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Name">
-              <a-input
-                v-decorator="[
-                  'name',
-                  {
-                    rules: [{ required: true, message: 'Please enter user name' }],
-                  },
-                ]"
-                placeholder="Please enter user name"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Url">
-              <a-input
-                v-decorator="[
-                  'url',
-                  {
-                    rules: [{ required: true, message: 'please enter url' }],
-                  },
-                ]"
-                style="width: 100%"
-                addon-before="http://"
-                addon-after=".com"
-                placeholder="please enter url"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Owner">
-              <a-select
-                v-decorator="[
-                  'owner',
-                  {
-                    rules: [{ required: true, message: 'Please select an owner' }],
-                  },
-                ]"
-                placeholder="Please a-s an owner"
-              >
-                <a-select-option value="xiao">
-                  Xiaoxiao Fu
-                </a-select-option>
-                <a-select-option value="mao">
-                  Maomao Zhou
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Type">
-              <a-select
-                v-decorator="[
-                  'type',
-                  {
-                    rules: [{ required: true, message: 'Please choose the type' }],
-                  },
-                ]"
-                placeholder="Please choose the type"
-              >
-                <a-select-option value="private">
-                  Private
-                </a-select-option>
-                <a-select-option value="public">
-                  Public
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Approver">
-              <a-select
-                v-decorator="[
-                  'approver',
-                  {
-                    rules: [{ required: true, message: 'Please choose the approver' }],
-                  },
-                ]"
-                placeholder="Please choose the approver"
-              >
-                <a-select-option value="jack">
-                  Jack Ma
-                </a-select-option>
-                <a-select-option value="tom">
-                  Tom Liu
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="DateTime">
-              <a-date-picker
-                v-decorator="[
-                  'dateTime',
-                  {
-                    rules: [{ required: true, message: 'Please choose the dateTime' }],
-                  },
-                ]"
-                style="width: 100%"
-                :get-popup-container="trigger => trigger.parentNode"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="Description">
-              <a-textarea
-                v-decorator="[
-                  'description',
-                  {
-                    rules: [{ required: true, message: 'Please enter url description' }],
-                  },
-                ]"
-                :rows="4"
-                placeholder="please enter url description"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
-      <div
-        :style="{
-          position: 'absolute',
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          borderTop: '1px solid #e9e9e9',
-          padding: '10px 16px',
-          background: '#fff',
-          textAlign: 'right',
-          zIndex: 1,
-        }"
-      >
-        <a-button :style="{ marginRight: '8px' }" @click="onClose">
-          Cancel
-        </a-button>
-        <a-button type="primary" @click="onClose">
-          Submit
-        </a-button>
-      </div>
-    </a-drawer>
-  </div>
+    <a-modal title="Rate class" :visible="visible" :confirm-loading="confirmLoading" @ok="onSubmit" @cancel="onClose">
+        <a-form-model ref="ratingForm" :model="form" layout="vertical">
+            <a-row :gutter="16">
+                <a-col :span="12">
+                    <a-form-model-item label="Class Rating">
+                        <star-rating v-bind:increment="0.5" v-bind:max-rating="5" inactive-color="#dddddd" active-color="#20e434" v-bind:star-size="20" v-model="form.rate"></star-rating>
+                        <span v-if="submitted && !$v.form.rate.required">Required field</span>
+                    </a-form-model-item>
+                </a-col>
+            </a-row>
+            <a-row :gutter="16">
+                <a-col :span="24">
+                    <a-form-model-item label="comment">
+                        <a-textarea :rows="3" placeholder="please enter your comment" v-model.trim="form.comment" />
+                        <span v-if="submitted && !$v.form.comment.required">Required field</span>
+                        <span v-if="!$v.form.comment.minLength">comment too short</span>
+                        <span v-if="!$v.form.comment.maxLength">comment too long</span>
+                    </a-form-model-item>
+                </a-col>
+            </a-row>
+        </a-form-model>
+    </a-modal>
 </template>
+<style scoped>
+span {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    color: red;
+}
+</style>
 <script>
+import { bus } from '@/event-bus';
+import { required, minLength, maxLength } from 'vuelidate/lib/validators';
+import axios from 'axios';
+
 export default {
-  data() {
-    return {
-      form: this.$form.createForm(this),
-      visible: false,
-    };
-  },
-  methods: {
-    showDrawer() {
-      this.visible = true;
+    name: 'ContactModal',
+    data() {
+        return {
+            form: {
+                rate: 0,
+                comment: '',
+            },
+            submitted: false,
+            visible: false,
+            confirmLoading: false,
+        };
     },
-    onClose() {
-      this.visible = false;
+    validations: {
+        form: {
+            rate: { required },
+            comment: { required, maxLength: maxLength(50), minLength: minLength(5) },
+        },
     },
-  },
+    methods: {
+        onClose() {
+            this.visible = false;
+        },
+        onSubmit(e) {
+            e.preventDefault();
+
+            this.submitted = true;
+            this.confirmLoading = true;
+            // stop here if form is invalid
+            this.$v.$touch();
+            if (this.$v.$invalid) {
+                return;
+            }
+            const classID = this.$route.params.id;
+            const userID = this.$store.getters.userID;
+            axios({
+                url: `/api/students/${userID}/class/${classID}/rate`,
+                method: 'POST',
+                data: {
+                    rate: this.form.rate,
+                    comment: this.form.comment,
+                },
+            })
+                .then((res) => {
+                    if (res.data.success == false) {
+                        this.$notification['error']({
+                            message: 'Something went wrong',
+                            description: `${res.data.msg}`,
+                        });
+
+                        this.confirmLoading = false;
+                        this.visible = false;
+                    } else {
+                        this.$notification['success']({
+                            message: 'Added your review',
+                            description: `${res.data.msg}`,
+                        });
+                        this.confirmLoading = false;
+                        this.visible = false;
+                        bus.$emit('added-rating',true);
+                    }
+                })
+                .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+        },
+    },
+    created() {
+        bus.$on('rating-visible', (val) => {
+            this.visible = val;
+        });
+    },
 };
 </script>

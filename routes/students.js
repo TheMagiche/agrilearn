@@ -304,31 +304,91 @@ router.get('/:id/profile', async function(req, res) {
     });
 });
 /**
- * @route POST api/students/:id/profile
- * @desc Return the User's Data
+ * @route POST api/students/profile/update
+ * @desc update User Data
  * @access Private
  */
 router.post('/profile/update', async function(req, res) {
-    const username = req.body.username;
-    const studentByUsername = await Student.findOneAndUpdate(
-        {
-            username: username,
-        },
-        {
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-        },
-        {
-            new: true,
-        }
-    );
+    try {
+        const username = req.body.username;
+        const email = req.body.email;
+        const phoneNumber = req.body.phone;
+        await User.findOne({
+            $or: [
+                {
+                    username: username,
+                },
+                {
+                    email: email,
+                },
+                {
+                    phoneNumber: phoneNumber,
+                },
+            ],
+        })
+            .then(user => {
+                if (user) {
+                    if (user.username == username && user.email != email) {
+                        console.log('Username already exists, username: ' + username);
+                        return res.status(400).json({
+                            msg: 'Username already exists',
+                            success: false,
+                        });
+                    }
+                    if (user.email == email && user.username != username) {
+                        console.log('EMAIL already exists, email: ' + email);
+                        return res.status(400).json({
+                            msg: 'Email already exists',
+                            success: false,
+                        });
+                    }
+                    if (user.phoneNumber == phoneNumber && user.email != email) {
+                        console.log('Phone number already exists, email: ' + phoneNumber);
+                        return res.status(400).json({
+                            msg: 'Phone number already exists',
+                            success: false,
+                        });
+                    }
+                } else {
+                    user.username = username;
+                    user.email = email;
+                    user.phone = phoneNumber;
+                    user.save();
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                return res.status(500).send({
+                    msg: 'Something went wrong',
+                    success: false,
+                });
+            });
 
-    return res.status(200).json({
-        first_name: studentByUsername.first_name,
-        last_name: studentByUsername.last_name,
-        success: true,
-        msg: 'Updated Details Successfully',
-    });
+        const studentByUsername = await Student.findOneAndUpdate(
+            {
+                username: username,
+            },
+            {
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+            },
+            {
+                new: true,
+            }
+        );
+        return res.status(200).json({
+            first_name: studentByUsername.first_name,
+            last_name: studentByUsername.last_name,
+            success: true,
+            msg: 'Updated Details Successfully',
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            msg: 'Something went wrong',
+            success: false,
+        });
+    }
 });
 
 /**

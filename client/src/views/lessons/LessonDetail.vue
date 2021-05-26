@@ -7,9 +7,9 @@
                         <a-card :loading="loading" hoverable class="detailCard">
                             <img slot="cover" alt="example" :src="defaultImg" />
                             <template slot="actions" class="ant-card-actions">
-                                <a-button v-if="checkisInstructor && checkInstructor" type="warning" icon="edit" @click="editLesson(lessonID)"> Edit </a-button>
-                                <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="ellipsis" @click="deleteLesson(lessonID)"> Delete </a-button>
-                                <a-button type="primary" icon="ellipsis" @click="addLesson"> Add Comment </a-button>
+                                <a-button v-if="checkisInstructor && checkInstructor" type="warning" icon="edit" @click="editLesson"> Edit </a-button>
+                                <!-- <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="ellipsis" @click="deleteLesson(lessonID)"> Delete </a-button> 
+                                <a-button type="primary" icon="ellipsis" @click="addComment"> Add Comment </a-button>-->
                             </template>
                             <a-row type="flex" align="top">
                                 <a-col>
@@ -25,29 +25,11 @@
                     </a-col>
                     <a-col :span="10">
                         <a-card :loading="loading" title="Forum">
-                            <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="listData">
-                                <div slot="footer"><b>ant design vue</b> footer part</div>
-                                <a-list-item slot="renderItem" key="item.title" slot-scope="item">
-                                    <template v-for="{ type, text } in actions" slot="actions">
-                                        <span :key="type">
-                                            <a-icon :type="type" style="margin-right: 8px" />
-                                            {{ text }}
-                                        </span>
-                                    </template>
-
-                                    <a-list-item-meta :description="item.description">
-                                        <a slot="title" :href="item.href">{{ item.title }}</a>
-                                        <a-avatar slot="avatar" :src="item.avatar" />
-                                    </a-list-item-meta>
-                                    {{ item.content }}
-                                </a-list-item>
-                            </a-list>
-                            <!-- <div class="pag">
-                                <a-pagination v-model="page" :total="totalPages" />
-                            </div> -->
+                            <Disqus  :pageConfig="pageConfig" />
                         </a-card>
                     </a-col>
                 </a-row>
+                <EditLessonModal />
             </a-spin>
         </template>
     </DashboardLayout>
@@ -65,48 +47,31 @@
 // @ is an alias to /src
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import axios from 'axios';
-const listData = [];
-for (let i = 0; i < 23; i++) {
-    listData.push({
-        href: 'https://www.antdv.com/',
-        title: `ant design vue part ${i}`,
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-        content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-    });
-}
+import EditLessonModal from '@/components/modals/instructor/editLessonModal';
+
+import { bus } from '@/event-bus';
+
 export default {
     name: 'LessonDetail',
     title: 'Lesson',
     components: {
         DashboardLayout,
+        EditLessonModal,
     },
     data() {
         return {
-            listData,
             defaultImg: 'https://images.pexels.com/photos/207662/pexels-photo-207662.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
             lessonID: '',
-            pagination: {
-                onChange: (page) => {
-                    console.log(page);
-                },
-                pageSize: 3,
-            },
             lessonBody: '',
             lessonNumber: '',
             lessonTitle: '',
-            forum: [],
-            currentPage: 1,
-            totalPages: 1,
-            page: 1,
-            limit: 3,
             spinning: true,
             loading: true,
-            actions: [
-                { type: 'star-o', text: '156' },
-                { type: 'like-o', text: '156' },
-                { type: 'message', text: '2' },
-            ],
+            pageConfig: {
+                identifier: this.$router.currentRoute,
+                title: `${this.lessonTitle}`,
+                
+            },
         };
     },
     computed: {
@@ -182,19 +147,10 @@ export default {
                 });
         },
         editLesson: function () {
-            const lessonID = this.$route.params.id;
-            this.$router
-                .push({
-                    name: 'editLesson',
-                    params: {
-                        id: lessonID,
-                    },
-                })
-                .then()
-                .catch((err) => {
-                    // eslint-disable-next-line no-console
-                    console.log(err);
-                });
+            bus.$emit('editLesson-visible', true);
+        },
+        addComment: function () {
+            bus.$emit('addCommment-visible', true);
         },
     },
     mounted() {

@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        
         <router-view />
         <a-back-top />
     </div>
@@ -16,7 +17,10 @@ body {
     scroll-behavior: smooth;
     box-sizing: border-box;
 }
-
+iframe {
+    width: 100% !important;
+    height: 100% !important;
+}
 ::-webkit-scrollbar {
     width: 12px;
 }
@@ -32,7 +36,9 @@ body {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
+
 </style>
+
 <script>
 export default {
     name: 'app',

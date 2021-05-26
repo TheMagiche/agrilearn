@@ -7,7 +7,10 @@
                         <a-card hoverable class="profileCard">
                             <img slot="cover" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
                             <template slot="actions" class="ant-card-actions">
-                                <a-icon key="setting" type="setting" />
+                                <a-button @click="editProfile" type="primary">
+                                    <a-icon key="setting" type="setting" />
+                                    Edit profile
+                                </a-button>
                             </template>
                             <a-card-meta :title="username" :description="type"> </a-card-meta>
                         </a-card>
@@ -15,20 +18,36 @@
                     <a-col :span="14">
                         <div class="greyArea" style="">
                             <a-card title="General Details" :bordered="false">
-                                <p>Name: {{first_name | capitalize}} {{last_name | capitalize}}</p>
-                                <p>Email: {{ email }}</p>
-                                <p>Phone: {{ phone }}</p>
+                                <div class="profile-section">
+                                    <div class="profile-heading"> Name:</div>
+                                    <div class="profile-detail"> {{ first_name | capitalize }} {{ last_name | capitalize }}</div>
+                                </div>
+                                <div class="profile-section">
+                                    <div class="profile-heading">Email:</div>
+                                    <div class="profile-detail">{{ email }}</div>
+                                </div>
+                                <div class="profile-section">
+                                    <div class="profile-heading">Phone:</div>
+                                    <div class="profile-detail">{{ phoneNumber }}</div>
+                                </div>
                             </a-card>
                         </div>
                         <br />
                         <div class="greyArea">
                             <a-card title="Contextual Information" :bordered="false">
-                                <p>Number of classes: {{classes.length}} </p>
-                                <p>Verified: {{verified}} </p>
+                                <div class="profile-section">
+                                    <div class="profile-heading">Number of classes:</div>
+                                    <div class="profile-detail">{{ classes.length }}</div>
+                                </div>
+                                <div class="profile-section">
+                                    <div class="profile-heading">Verified:</div>
+                                    <div class="profile-detail">{{ verified }}</div>
+                                </div>
                             </a-card>
                         </div>
                     </a-col>
                 </a-row>
+                <EditProfileModal />
             </a-spin>
         </template>
     </DashboardLayout>
@@ -41,16 +60,35 @@
     background: #ececec;
     padding: 30px;
 }
+.profile-section{
+    padding: .2em
+}
+.profile-heading{
+ 
+    font-weight: bold;
+}
+.profile-detail{
+
+    padding:  0 .5em;
+    background: #30A679;
+    color: #fff;
+    border-radius: 5px;
+}
 </style>
 <script>
 // @ is an alias to /src
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import axios from 'axios';
+
+import { bus } from '@/event-bus';
+import EditProfileModal from '@/components/modals/instructor/editInstProfileModal';
+
 export default {
     name: 'InstructorProfile',
     title: 'Instructor Profile',
     components: {
         DashboardLayout,
+        EditProfileModal,
     },
     data() {
         return {
@@ -79,6 +117,9 @@ export default {
         },
     },
     methods: {
+        editProfile: function () {
+            bus.$emit('inst-profile-visible', true);
+        },
         getDetails: function () {
             const instructorID = this.$store.getters.userID;
             axios({
@@ -102,6 +143,13 @@ export default {
                     console.log(err);
                 });
         },
+    },
+    created() {
+        bus.$on('inst-profile-updated', (val) => {
+            if (val) {
+                this.getDetails();
+            }
+        });
     },
     mounted() {
         this.getDetails();
