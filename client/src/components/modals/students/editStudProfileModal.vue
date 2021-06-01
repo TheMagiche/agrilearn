@@ -1,5 +1,5 @@
 <template>
-    <a-drawer title="Edit Profile" :width="720" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
+    <a-drawer title="Edit Profile" width="80%" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
         <a-form-model ref="profileForm" :model="form" layout="vertical" @submit="updateDetails">
             <a-row :gutter="16">
                 <a-col :span="12">
@@ -10,10 +10,11 @@
                     </a-form-model-item>
                 </a-col>
                 <a-col :span="12">
-                    <a-form-model-item label="Your email">
-                        <a-input placeholder="Please enter email" v-model.trim="form.email" />
-                        <span v-if="submitted && !$v.form.email.required">Required field</span>
-                        <span v-if="!$v.form.email.email">Email is invalid</span>
+                    <a-form-model-item label="Your avatar">
+                        <a-select @change="handleChange">
+                            <a-icon slot="suffixIcon" type="smile" />
+                            <a-select-option v-for="item in avatars" :key="item" :value="item"> <img class="selImage" :src="resolveImage(item)" :alt="item" /> </a-select-option>
+                        </a-select>
                     </a-form-model-item>
                 </a-col>
             </a-row>
@@ -32,7 +33,14 @@
                         <span v-if="!$v.form.lname.maxLength">name is too long</span>
                     </a-form-model-item>
                 </a-col>
-                <a-col :span="24">
+                <a-col :span="12">
+                    <a-form-model-item label="Your email">
+                        <a-input placeholder="Please enter email" v-model.trim="form.email" />
+                        <span v-if="submitted && !$v.form.email.required">Required field</span>
+                        <span v-if="!$v.form.email.email">Email is invalid</span>
+                    </a-form-model-item>
+                </a-col>
+                <a-col :span="12">
                     <a-form-model-item label="Your phone">
                         <a-input placeholder="+254---------" v-model.trim="form.phone" />
                         <span v-if="submitted && !$v.form.phone.required">Required field</span>
@@ -89,11 +97,16 @@ span {
     padding: 0px;
     color: red;
 }
+.selImage {
+    height: 60px;
+    width: 60px;
+}
 </style>
 <script>
 import { bus } from '@/event-bus';
 import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators';
 import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
     name: 'InstProfileModal',
@@ -104,6 +117,7 @@ export default {
                 fname: '',
                 lname: '',
                 email: '',
+                avatar: '',
                 phone: '',
             },
             formP: {
@@ -113,6 +127,66 @@ export default {
             submitted: false,
             submittedP: false,
             visible: false,
+            avatars: [
+                'Artboard 1',
+                'Artboard 2',
+                'Artboard 3',
+                'Artboard 4',
+                'Artboard 5',
+                'Artboard 6',
+                'Artboard 7',
+                'Artboard 8',
+                'Artboard 9',
+                'Artboard 10',
+                'Artboard 11',
+                'Artboard 12',
+                'Artboard 13',
+                'Artboard 14',
+                'Artboard 15',
+                'Artboard 16',
+                'Artboard 17',
+                'Artboard 18',
+                'Artboard 19',
+                'Artboard 20',
+                'Artboard 21',
+                'Artboard 22',
+                'Artboard 23',
+                'Artboard 24',
+                'Artboard 25',
+                'Artboard 26',
+                'Artboard 27',
+                'Artboard 30_1',
+                'Artboard 29',
+                'Artboard 30',
+                'Artboard 31',
+                'Artboard 33_1',
+                'Artboard 33',
+                'Artboard 34',
+                'Artboard 36_1',
+                'Artboard 36',
+                'Artboard 37',
+                'Artboard 38',
+                'Artboard 39',
+                'Artboard 40',
+                'Artboard 41',
+                'Artboard 45_1',
+                'Artboard 43',
+                'Artboard 44',
+                'Artboard 45',
+                'Artboard 47_1',
+                'Artboard 47',
+                'Artboard 48',
+                'Artboard 50',
+                'Artboard 52',
+                'Artboard 53',
+                'Artboard 54',
+                'Artboard 54_1',
+                'Artboard 55',
+                'Artboard 56',
+                'Artboard 57',
+                'Artboard 59_1',
+                'Artboard 59',
+            ],
         };
     },
     validations: {
@@ -133,6 +207,16 @@ export default {
         },
     },
     methods: {
+        resolveImage: function (avatar) {
+            if (typeof avatar == 'string') {
+                return require(`@/assets/avatars/${avatar}.png`);
+            } else {
+                return require(`@/assets/avatars/Artboard 1.png`);
+            }
+        },
+        handleChange(value) {
+            this.form.avatar = value;
+        },
         onClose() {
             this.visible = false;
         },
@@ -148,33 +232,33 @@ export default {
                     this.form.phone = resp.data.phoneNumber;
                     this.form.fname = resp.data.first_name;
                     this.form.lname = resp.data.last_name;
+                    this.form.avatar = resp.data.avatar;
                 })
                 .catch((err) => {
                     // eslint-disable-next-line no-console
                     console.log(err);
                 });
         },
-        updateDetails: function (e) {
+        ...mapActions(['profile']),
+        updateDetails(e) {
             e.preventDefault();
             // stop here if form is invalid
             this.submitted = true;
-            this.$v.$touch();
-            if (this.$v.$invalid) {
+            this.$v.form.$touch();
+            if (this.$v.form.$invalid) {
                 return;
             }
-            // eslint-disable-next-line no-console
-            console.log('getting update');
-            axios({
-                url: '/api/students/profile/update',
-                data: {
-                    username: this.form.username,
-                    email: this.form.email,
-                    phone: this.form.phone,
-                    first_name: this.form.fname,
-                    last_name: this.form.lname,
-                },
-                method: 'POST',
-            })
+            let user = {
+                prev_username: this.$store.getters.username,
+                username: this.form.username,
+                email: this.form.email,
+                avatar: this.form.avatar,
+                first_name: this.form.fname,
+                last_name: this.form.lname,
+                phone: this.form.phone,
+                userID: this.$store.getters.userID,
+            };
+            this.profile(user)
                 .then((res) => {
                     if (res.data.success == false) {
                         this.$notification['error']({
@@ -199,8 +283,8 @@ export default {
             e.preventDefault();
             // stop here if form is invalid
             this.submittedP = true;
-            this.$v.$touch();
-            if (this.$v.$invalid) {
+            this.$v.formP.$touch();
+            if (this.$v.formP.$invalid) {
                 return;
             }
             axios({

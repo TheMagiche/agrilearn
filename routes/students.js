@@ -27,9 +27,6 @@ router.post('/classes/:id', async function(req, res, next) {
 
         const studentByID = await User.findById(id);
 
-        // const studentByUsername = await Student.findOne({
-        //     username: studentByID.username,
-        // })
         const countDoc = await Student.findOne({
             username: studentByID.username,
         });
@@ -39,10 +36,14 @@ router.post('/classes/:id', async function(req, res, next) {
         const studentByUsername = await countDoc
             .populate({
                 path: 'classes',
-                select: ['title', 'imgUrl', 'rating', 'instructor'],
+                select: ['title', 'imgUrl', 'rating', 'instructor', 'pro'],
                 options: {
                     limit: limit * 1,
                     skip: (page - 1) * limit,
+                },
+                populate: {
+                    path: 'instructor',
+                    select: ['username', 'avatar'],
                 },
             })
             .execPopulate();
@@ -284,110 +285,28 @@ router.get('/:id/class/:classID/checkReg', async function(req, res) {
  */
 router.get('/:id/profile', async function(req, res) {
     console.log('fetching student details...');
-    const studID = req.params.id;
-    const studentByID = await User.findById(studID);
-
-    const studentByUsername = await Student.findOne({
-        username: studentByID.username,
-    });
-
-    return res.status(200).json({
-        username: studentByID.username,
-        email: studentByID.email,
-        type: studentByID.type,
-        verified: studentByID.verified,
-        phoneNumber: studentByID.phoneNumber,
-        status: studentByUsername.status,
-        first_name: studentByUsername.first_name,
-        last_name: studentByUsername.last_name,
-        classes: studentByUsername.classes,
-    });
-});
-/**
- * @route POST api/students/profile/update
- * @desc update User Data
- * @access Private
- */
-router.post('/profile/update', async function(req, res) {
     try {
-        const username = req.body.username;
-        const email = req.body.email;
-        const phoneNumber = req.body.phone;
-        await User.findOne({
-            $or: [
-                {
-                    username: username,
-                },
-                {
-                    email: email,
-                },
-                {
-                    phoneNumber: phoneNumber,
-                },
-            ],
-        })
-            .then(user => {
-                if (user) {
-                    if (user.username == username && user.email != email) {
-                        console.log('Username already exists, username: ' + username);
-                        return res.status(400).json({
-                            msg: 'Username already exists',
-                            success: false,
-                        });
-                    }
-                    if (user.email == email && user.username != username) {
-                        console.log('EMAIL already exists, email: ' + email);
-                        return res.status(400).json({
-                            msg: 'Email already exists',
-                            success: false,
-                        });
-                    }
-                    if (user.phoneNumber == phoneNumber && user.email != email) {
-                        console.log('Phone number already exists, email: ' + phoneNumber);
-                        return res.status(400).json({
-                            msg: 'Phone number already exists',
-                            success: false,
-                        });
-                    }
-                } else {
-                    user.username = username;
-                    user.email = email;
-                    user.phone = phoneNumber;
-                    user.save();
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                return res.status(500).send({
-                    msg: 'Something went wrong',
-                    success: false,
-                });
-            });
+        const studID = req.params.id;
+        const studentByID = await User.findById(studID);
 
-        const studentByUsername = await Student.findOneAndUpdate(
-            {
-                username: username,
-            },
-            {
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-            },
-            {
-                new: true,
-            }
-        );
+        const studentByUsername = await Student.findOne({
+            username: studentByID.username,
+        });
+
         return res.status(200).json({
+            username: studentByID.username,
+            email: studentByID.email,
+            type: studentByID.type,
+            verified: studentByID.verified,
+            phoneNumber: studentByID.phoneNumber,
+            status: studentByUsername.status,
             first_name: studentByUsername.first_name,
             last_name: studentByUsername.last_name,
-            success: true,
-            msg: 'Updated Details Successfully',
+            classes: studentByUsername.classes,
+            avatar: studentByID.avatar,
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).send({
-            msg: 'Something went wrong',
-            success: false,
-        });
     }
 });
 
@@ -397,32 +316,35 @@ router.post('/profile/update', async function(req, res) {
  * @access Private
  */
 router.get('/:id/premium', async function(req, res) {
-    const userID = req.params.id;
-    await User.findOne({
-        _id: userID,
-    })
-        .then(user => {
-            if (new Date(user.premiumExpires) < Date.now()) {
-                Student.findOne({
-                    username: user.username,
-                })
-                    .then(stud => {
-                        stud.premiumExpires = null;
-                        stud.premiumToken = null;
-                        student.status = false;
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-                res.status(200).json({
-                    msg: 'Your premium subscription has ended',
-                    success: true,
-                });
-            }
+    try {
+        const studID = req.params.id;
+        const studentByID = await User.findById(studID);
+
+        await Student.findOne({
+            username: studentByID.username,
         })
-        .catch(err => {
-            console.log(err);
-        });
+            .then(stud => {
+                if (stud.premiumToken !== undefined && new Date(stud.premiumExpires) > Date.now()) {
+                    return res.status(200).json({
+                        msg: 'Thank you for supporting Agriskul',
+                        success: true,
+                    });
+                }
+                stud.premiumExpires = Date.now();
+                stud.premiumToken = null;
+                stud.status = false;
+                stud.save();
+                return res.status(200).json({
+                    msg: 'Your premium subscription has ended. Please consider supporting us',
+                    success: false,
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 /**
@@ -471,7 +393,7 @@ router.post('/:id/premium', async function(req, res) {
                                     itemID: 'agriskulpremiummbership',
                                     particulars: '30 Day subscription',
                                     quantity: 1,
-                                    unitCost: 100.0,
+                                    unitCost: 1000.0,
                                     details: 'Get a 30 day subscription for pro membership in agriskul.co.ke',
                                 });
                                 // console.log(order);

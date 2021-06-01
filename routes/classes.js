@@ -29,7 +29,7 @@ router.get('/', async function(req, res) {
             .limit(6)
             .populate({
                 path: 'instructor',
-                select: ['username'],
+                select: ['username', 'avatar'],
             });
 
         res.status(200).json({
@@ -64,7 +64,7 @@ router.post('/all', async function(req, res) {
         .skip((page - 1) * limit)
         .populate({
             path: 'instructor',
-            select: ['username'],
+            select: ['username', 'avatar'],
         });
     const count = await Class.countDocuments();
     res.status(200).json({
@@ -87,7 +87,7 @@ router.post('/create/:id', async function(req, res, next) {
         const id = req.params.id;
         // console.log(id);
         const { title, description, imageUrl, pro, readTime } = req.body;
-
+        console.log(req.body)
         const myclass = await Class.create({
             title: title,
             description: description,
@@ -114,6 +114,7 @@ router.post('/create/:id', async function(req, res, next) {
             class: myclass,
         });
     } catch (err) {
+        console.log(err);
         res.status(400).json({
             success: false,
             msg: 'Could not create class',
@@ -166,7 +167,7 @@ router.delete('/:id/delete', async function(req, res, next) {
     Class.findById(req.params.id, function(err, myclass) {
         if (err) return next(err);
         myclass.remove();
-        return res.json({
+        return res.status(200).json({
             success: true,
             msg: 'Successfully deleted class',
         });
@@ -187,7 +188,7 @@ router.get('/details/:id', async function(req, res) {
             .select('-ratings')
             .populate({
                 path: 'instructor',
-                select: ['email', 'username'],
+                select: ['email', 'username', 'avatar'],
             })
             .populate({
                 path: 'lessons',
@@ -238,7 +239,7 @@ router.post('/ratings/:classID', async function(req, res) {
         .skip((page - 1) * limit)
         .populate({
             path: 'author',
-            select: ['username', 'email'],
+            select: ['username', 'email', 'avatar'],
         });
 
     const count = await ClassRating.countDocuments({

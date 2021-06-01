@@ -1,5 +1,5 @@
 <template>
-    <a-drawer title="Create new class" :width="900" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
+    <a-drawer title="Create new class" width="80%" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
         <a-form-model ref="classForm" :model="form" layout="vertical" @submit="onSubmit">
             <a-row :gutter="16">
                 <a-col :span="20">
@@ -91,7 +91,6 @@ export default {
                 imageUrl: '',
                 estTime: '',
             },
-            submitted: false,
             visible: false,
         };
     },
@@ -99,22 +98,17 @@ export default {
         onClose() {
             this.visible = false;
         },
-        onSubmit: async (e) => {
+        onSubmit: async function(e) {
             e.preventDefault();
-            // stop here if form is invalid
-            this.submitted = true;
-            this.$v.$touch();
-            if (this.$v.$invalid) {
-                return;
-            }
+            const userID = this.$store.getters.userID;
             await axios({
                 url: `/api/classes/create/${userID}`,
                 data: {
-                    title: this.title,
-                    description: this.description,
-                    imageUrl: this.imageUrl,
-                    pro: this.pro,
-                    readTime: this.estTime,
+                    title: this.form.title,
+                    description: this.form.description,
+                    imageUrl: this.form.imageUrl,
+                    pro: this.form.pro,
+                    readTime: this.form.estTime,
                 },
                 method: 'POST',
             })
@@ -124,17 +118,12 @@ export default {
                             message: 'Error',
                             description: `${res.data.msg}`,
                         });
-                        this.$refs.classForm.resetFields();
                     } else {
                         this.$notification['success']({
                             message: 'Class Created',
                             description: `${res.data.msg}`,
                         });
-                        this.$refs.classForm.resetFields();
                         this.visible = false;
-                        this.$router.push({
-                            name: 'InstructorClasses',
-                        });
                     }
                 })
                 .catch((err) => {

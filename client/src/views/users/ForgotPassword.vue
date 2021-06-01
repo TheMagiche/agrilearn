@@ -4,9 +4,9 @@
             <div class="form-container">
                 <a-card title="Recover Account" class="formCard">
                     <a-row type="flex" align="middle" class="form-content">
-                        <a-col :span="18">
-                            <a-form-model ref="ruleForm" :model="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
-                                <a-form-model-item label="Email">
+                        <a-col :span="18" :lg="18" :md="18" :sm="24" :xs="24">
+                            <a-form-model ref="ruleForm" :model="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
+                                <a-form-model-item label="Email used on sign up">
                                     <a-input placeholder="someone@gmail.com" allow-clear v-model.trim="form.email">
                                         <!-- <a-icon slot="prefix" type="user" /> -->
                                         <a-tooltip slot="suffix" title="Gmail preferably">
@@ -16,12 +16,12 @@
                                     <span v-if="submitted && !$v.form.email.required">Required field</span>
                                     <span v-if="!$v.form.email.email">Email is invalid</span>
                                 </a-form-model-item>
-                                <a-form-model-item :wrapper-col="{ span: 12, offset: 5 }">
+                                <a-form-model-item>
                                     <a-button type="primary" html-type="submit" block> Proceed </a-button>
                                 </a-form-model-item>
                             </a-form-model>
                         </a-col>
-                        <a-col :span="6" class="imgContainer">
+                        <a-col :span="6" :lg="6" :md="6" :sm="24" :xs="24" class="imgContainer">
                             <img :src="require('@/assets/images/leaf.png')" alt="leafimg" />
                         </a-col>
                     </a-row>
@@ -37,8 +37,17 @@
 .formCard {
     text-align: center;
 }
+.ant-form-item-control {
+    line-height: 23px;
+}
 .formCard img {
     height: 9em;
+}
+span {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    color: red;
 }
 </style>
 <script>

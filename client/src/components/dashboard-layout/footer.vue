@@ -1,5 +1,5 @@
 <template>
-    <div class="text-center">&copy; 2020 - {{year}} Agriskul. Made by @themagiche</div>
+    <div class="text-center">&copy; 2020 - {{ year }} Agriskul. Made by <a href="https://github.com/TheMagiche">@themagiche</a></div>
 </template>
 
 <style>

@@ -1,22 +1,30 @@
 <template>
     <a-menu theme="light" mode="horizontal" :style="{ textAlign: 'right', lineHeight: '64px' }">
-        <a-menu-item key="logout">
-            <a-button type="dashed" icon="logout" @click="logout"> Logout </a-button>
-        </a-menu-item>
         <a-menu-item key="home">
             <a-row>
                 {{ getUsername | capitalize }}'s Dashboard
                 <span style="margin-right: 24px; text-align: center !important">
-                    <a-badge dot><a-avatar /></a-badge>
+                    <a-badge dot>
+                        <a-avatar class="avatarI" :src="require(`@/assets/avatars/${getAvatar}.png`)" />
+                    </a-badge>
                 </span>
             </a-row>
         </a-menu-item>
+        <a-menu-item key="logout">
+            <a-button type="dashed" icon="logout" @click="logout"> Logout </a-button>
+        </a-menu-item>
     </a-menu>
 </template>
-<style scoped></style>
+<style scoped>
+.avatarI {
+    background: #ddd;
+    padding: 2px;
+}
+</style>
 <script>
 import Axios from 'axios';
 import Vue from 'vue';
+
 Vue.prototype.$http = Axios;
 const token = localStorage.getItem('token');
 if (token) {
@@ -45,6 +53,7 @@ export default {
                 return 'Guest';
             }
         },
+
         getUserID: function () {
             let userID = this.$store.getters.userID;
             if (userID == localStorage.getItem('userID')) {
@@ -71,6 +80,14 @@ export default {
         },
         isLoggedIn: function () {
             return this.$store.getters.isLoggedIn;
+        },
+        getAvatar: function () {
+            let avatar = this.$store.getters.getAvatar;
+            if (typeof avatar == 'string') {
+                return avatar;
+            } else {
+                return 'Artboard 1';
+            }
         },
     },
     methods: {

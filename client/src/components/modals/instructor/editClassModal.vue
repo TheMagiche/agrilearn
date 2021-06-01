@@ -1,5 +1,5 @@
 <template>
-    <a-drawer title="Edit class" :width="900" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
+    <a-drawer title="Edit class" width="80%" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
         <a-form-model ref="classForm" :model="form" layout="vertical" @submit="onSubmit">
             <a-row :gutter="16">
                 <a-col :span="20">
@@ -120,8 +120,6 @@ export default {
                     this.form.imageUrl = resp.data.class.imgUrl;
                     this.pro = resp.data.class.pro;
                     this.form.estTime = resp.data.class.readTime;
-                    // eslint-disable-next-line no-console
-                    // console.log(this.classLessons);
                 })
                 .catch((err) => {
                     // eslint-disable-next-line no-console

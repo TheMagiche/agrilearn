@@ -18,6 +18,7 @@ import StudentProfile from '../views/student/StudentProfile.vue';
 // instructor pages
 import InstructorClasses from '../views/instructor/InstructorClasses.vue';
 import InstructorProfile from '../views/instructor/InstructorProfile.vue';
+import InstructorRegister from '../views/instructor/Register.vue';
 
 // class pages
 import ClassDetail from '../views/classes/ClassDetail.vue';
@@ -42,6 +43,11 @@ const routes = [
         path: '/signup',
         name: 'Register',
         component: Register,
+    },
+    {
+        path: '/register/instructor',
+        name: 'InstRegister',
+        component: InstructorRegister,
     },
     {
         path: '/signin',

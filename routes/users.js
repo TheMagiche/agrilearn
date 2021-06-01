@@ -13,13 +13,13 @@ var smtpTransport = require('nodemailer-smtp-transport');
 var async = require('async');
 var crypto = require('crypto');
 // Serialize user for the session to determine which data will be saved
-passport.serializeUser(function (user, done) {
+passport.serializeUser(function(user, done) {
     done(null, user._id);
 });
 
 // Deserialize user
-passport.deserializeUser(function (id, done) {
-    User.getUserById(id, function (err, user) {
+passport.deserializeUser(function(id, done) {
+    User.getUserById(id, function(err, user) {
         done(err, user);
     });
 });
@@ -36,15 +36,17 @@ const nodeMailer = require('nodemailer');
 //         rejectUnauthorized: false
 //     }
 // }));
-let transporter = nodeMailer.createTransport(smtpTransport({
-    host: 'smtp.sendgrid.net',
-    port: 465,
-    auth: {
-        // should be replaced with real sender's account
-        user: 'apikey',
-        pass: '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',
-    },
-}));
+let transporter = nodeMailer.createTransport(
+    smtpTransport({
+        host: 'smtp.sendgrid.net',
+        port: 465,
+        auth: {
+            // should be replaced with real sender's account
+            user: 'apikey',
+            pass: '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',
+        },
+    })
+);
 /**
  * @route POST api/users/register
  * @desc Registerthe User
@@ -55,29 +57,33 @@ let transporter = nodeMailer.createTransport(smtpTransport({
 router.post('/register', async (req, res, next) => {
     console.log('Receiving details ..');
     async.waterfall([
-        function (done) {
+        function(done) {
             crypto.randomBytes(20, (err, buf) => {
                 var token = buf.toString('hex');
                 done(err, token);
             });
         },
-        function (token) {
-            var first_name = req.body.first_name;
-            var last_name = req.body.last_name;
+        function(token) {
+            var first_name = req.body.fname;
+            var last_name = req.body.lname;
             var email = req.body.email;
             var username = req.body.username;
             var password = req.body.password;
             var type = req.body.type;
-            var phoneNumber = req.body.phoneNumber;
+            var phoneNumber = req.body.phone;
             User.findOne({
-                    $or: [{
-                        username: username
-                    }, {
-                        email: email
-                    }, {
-                        phoneNumber: phoneNumber
-                    }]
-                })
+                $or: [
+                    {
+                        username: username,
+                    },
+                    {
+                        email: email,
+                    },
+                    {
+                        phoneNumber: phoneNumber,
+                    },
+                ],
+            })
                 .then(user => {
                     //if user found.
                     if (user) {
@@ -126,10 +132,9 @@ router.post('/register', async (req, res, next) => {
                             });
                             console.log(newStudent);
                             // Save student in the user collection
-                            User.saveStudent(newUser, newStudent, token, async function (err, user) {
+                            User.saveStudent(newUser, newStudent, token, async function(err, user) {
                                 console.log('Student created!');
                             });
-
                         } else {
                             console.log('Registering as instructor...');
                             var newInstructor = new Instructor({
@@ -140,10 +145,9 @@ router.post('/register', async (req, res, next) => {
                             });
                             console.log(newInstructor);
                             // Save instructor in the user collection
-                            User.saveInstructor(newUser, newInstructor, token, async function (err, user) {
+                            User.saveInstructor(newUser, newInstructor, token, async function(err, user) {
                                 console.log('Instructor created!');
                             });
-
                         }
 
                         // var Nodeemail = {
@@ -190,8 +194,8 @@ router.get('/verify/:token', (req, res) => {
         User.findOne({
             resetPasswordToken: req.params.token,
             resetPasswordExpires: {
-                $gt: Date.now()
-            }
+                $gt: Date.now(),
+            },
         }).then(user => {
             if (!user) {
                 return res.status(401).json({
@@ -211,7 +215,7 @@ router.get('/verify/:token', (req, res) => {
         });
     } else {
         User.findOne({
-            verified: true
+            verified: true,
         }).then(user => {
             if (!user) {
                 return res.status(401).json({
@@ -235,14 +239,17 @@ router.get('/verify/:token', (req, res) => {
  * Working
  */
 
-router.post('/login', async function (req, res) {
+router.post('/login', async function(req, res) {
     try {
         await User.findOne({
-            $or: [{
-                username: req.body.detail
-            }, {
-                email: req.body.detail
-            }],
+            $or: [
+                {
+                    username: req.body.detail,
+                },
+                {
+                    email: req.body.detail,
+                },
+            ],
         }).then(user => {
             if (!user) {
                 return res.json({
@@ -258,7 +265,6 @@ router.post('/login', async function (req, res) {
                         from: 'agriskul@gmail.com',
                         subject: 'Account Verification',
                         html: 'Account Verification.\n\n' + 'Please click on the following link, or paste this into your browser to complete the process:\n\n' + '<a href="http://' + req.headers.host + '/verify/' + token + '">Verify your Account</a>\n\n' + 'If you did not request this, please ignore this email.\n',
-
                     };
 
                     user.resetPasswordToken = token;
@@ -290,7 +296,8 @@ router.post('/login', async function (req, res) {
                     };
                     jwt.sign(
                         payload,
-                        'agrilearn', {
+                        'agrilearn',
+                        {
                             expiresIn: 604800,
                         },
                         (err, token) => {
@@ -302,6 +309,8 @@ router.post('/login', async function (req, res) {
                                     username: user.username,
                                     type: user.type,
                                     email: user.email,
+                                    verified: user.verified,
+                                    avatar: user.avatar,
                                 },
                                 msg: 'Hurry! You are now logged in.',
                             });
@@ -325,8 +334,8 @@ router.post('/login', async function (req, res) {
 });
 
 passport.use(
-    new LocalStrategy(function (username, password, done) {
-        User.getUserByUsername(username, function (err, user) {
+    new LocalStrategy(function(username, password, done) {
+        User.getUserByUsername(username, function(err, user) {
             if (err) {
                 throw err;
             }
@@ -335,7 +344,7 @@ passport.use(
                     message: 'User' + ' ' + username + ' ' + 'is not registered.',
                 });
             }
-            User.comparePassword(password, user.password, function (err, isMatch) {
+            User.comparePassword(password, user.password, function(err, isMatch) {
                 if (err) {
                     return done(err);
                 }
@@ -344,7 +353,7 @@ passport.use(
                 } else {
                     console.log('wrong password');
                     return done(null, false, {
-                        message: 'Invalid password.'
+                        message: 'Invalid password.',
                     });
                 }
             });
@@ -358,12 +367,12 @@ passport.use(
  * @access Private
  * Working
  */
-router.get('/logout', function (req, res) {
+router.get('/logout', function(req, res) {
     req.logout();
     res.send(200).json({
-        msg: "Successfully Logged out",
-        success: true
-    })
+        msg: 'Successfully Logged out',
+        success: true,
+    });
 });
 /**
  * @route POST api/users/reset-password
@@ -371,21 +380,21 @@ router.get('/logout', function (req, res) {
  * @access Private
  */
 
-router.post('/reset-password', function (req, res) {
+router.post('/reset-password', function(req, res) {
     console.log('getting details');
     async.waterfall([
-        function (done) {
+        function(done) {
             crypto.randomBytes(20, (err, buf) => {
                 var token = buf.toString('hex');
                 console.log(token);
                 done(err, token);
             });
         },
-        function (token, done) {
+        function(token, done) {
             let email = req.body.email;
             console.log(email);
             User.findOne({
-                email: email
+                email: email,
             }).then(user => {
                 if (user) {
                     console.log('adding new user details');
@@ -400,7 +409,8 @@ router.post('/reset-password', function (req, res) {
                         from: 'agriskul@gmail.com',
                         subject: 'Password Reset',
                         text: 'Learn today enjoy tommorow',
-                        html: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                        html:
+                            'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
                             '<a href="http://' +
                             req.headers.host +
@@ -440,24 +450,27 @@ router.post('/reset-password', function (req, res) {
  * @access Private
  */
 router.get('/reset/:token', (req, res) => {
-    User.findOne({
-        resetPasswordToken: req.params.token,
-        resetPasswordExpires: {
-            $gt: Date.now()
+    User.findOne(
+        {
+            resetPasswordToken: req.params.token,
+            resetPasswordExpires: {
+                $gt: Date.now(),
+            },
+        },
+        (err, user) => {
+            if (!user) {
+                return res.status(401).json({
+                    msg: 'Password reset token is invalid or has expired.',
+                    success: false,
+                });
+            } else {
+                return res.status(200).json({
+                    msg: 'Proceed to change passowrd',
+                    success: true,
+                });
+            }
         }
-    }, (err, user) => {
-        if (!user) {
-            return res.status(401).json({
-                msg: 'Password reset token is invalid or has expired.',
-                success: false,
-            });
-        } else {
-            return res.status(200).json({
-                msg: 'Proceed to change passowrd',
-                success: true,
-            });
-        }
-    });
+    );
 });
 
 /**
@@ -469,13 +482,13 @@ router.post('/reset/:token', (req, res) => {
     console.log('resetting password');
 
     async.waterfall([
-        function () {
+        function() {
             let password = req.body.password;
             User.findOne({
                 resetPasswordToken: req.params.token,
                 resetPasswordExpires: {
-                    $gt: Date.now()
-                }
+                    $gt: Date.now(),
+                },
             }).then(user => {
                 if (!user) {
                     return res.json({
@@ -483,7 +496,7 @@ router.post('/reset/:token', (req, res) => {
                         success: false,
                     });
                 } else {
-                    bcrypt.hash(password, 10, function (err, hash) {
+                    bcrypt.hash(password, 10, function(err, hash) {
                         if (err) {
                             throw err;
                         }
@@ -514,7 +527,6 @@ router.post('/reset/:token', (req, res) => {
                 }
             });
         },
-
     ]);
 });
 /**
@@ -522,7 +534,7 @@ router.post('/reset/:token', (req, res) => {
  * @desc Sent email from front page
  * @access Public
  */
-router.post('/message', function (req, res) {
+router.post('/message', function(req, res) {
     var myemail = {
         to: 'wilsonmwangi692@gmail.com',
         from: 'agriskul@gmail.com',
@@ -550,16 +562,15 @@ router.post('/message', function (req, res) {
  * @desc Update user password
  * @access Private
  */
-router.post('/password/update', async function (req, res) {
+router.post('/password/update', async function(req, res) {
     console.log('Changing password');
 
     try {
         let password = req.body.password;
         await User.findOne({
-            username: req.body.username
+            username: req.body.username,
         }).then(user => {
-
-            bcrypt.hash(password, 10, function (err, hash) {
+            bcrypt.hash(password, 10, function(err, hash) {
                 if (err) {
                     throw err;
                 }
@@ -567,11 +578,10 @@ router.post('/password/update', async function (req, res) {
                 user.password = hash;
                 user.save();
             });
-
         });
         res.status(200).json({
             success: true,
-            msg: "Successfully updated password"
+            msg: 'Successfully updated password',
         });
     } catch (error) {
         res.status(500).send({
@@ -582,11 +592,136 @@ router.post('/password/update', async function (req, res) {
     }
 });
 
+/**
+ * @route POST api/users/profile/update
+ * @desc Update user password
+ * @access Private
+ */
+router.post('/profile/update', async function(req, res) {
+    console.log('updating profile');
+    try {
+        const username = req.body.prev_username;
+        const email = req.body.email;
+        await User.findOne({
+            $or: [
+                {
+                    username: username,
+                },
+                {
+                    email: email,
+                },
+            ],
+        })
+            .then(async user => {
+                if (user && user._id != req.body.userID) {
+                    if (user.username == req.body.username) {
+                        console.log('Username already exists, ' + username);
+                        return res.json({
+                            msg: 'Username already exists',
+                            success: false,
+                            error: 'username',
+                        });
+                    }
+                    if (user.email == req.body.email) {
+                        console.log('Email already exists, ' + email);
+                        return res.json({
+                            msg: 'Email already exists',
+                            success: false,
+                            error: 'email',
+                        });
+                    }
+                    if (user.phoneNumber == req.body.phone) {
+                        console.log('Phone number already exists, phone: ' + req.body.phone);
+                        return res.json({
+                            msg: 'Phone number already exists',
+                            success: false,
+                            error: 'phone',
+                        });
+                    }
+                } else {
+                    user.username = req.body.username;
+                    user.email = req.body.email;
+                    user.phoneNumber = req.body.phone;
+                    user.avatar = req.body.avatar;
 
+                    if (user.type === 'student') {
+                        const studentByUsername = await Student.findOneAndUpdate(
+                            {
+                                username: username,
+                            },
+                            {
+                                first_name: req.body.first_name,
+                                last_name: req.body.last_name,
+                                username: req.body.username,
+                                email: req.body.email,
+                                avatar: req.body.avatar                           },
+                            {
+                                new: true,
+                            }
+                        );
+                        user.save();
+                        return res.status(200).json({
+                            user: {
+                                _id: user._id,
+                                username: user.username,
+                                type: user.type,
+                                email: user.email,
+                                avatar: user.avatar,
+                                verified: user.verified,
+                                phoneNumber: user.phoneNumber
+                            },
+                            success: true,
+                            msg: 'Updated Details Successfully',
+                        });
+                    } else {
+                        const instructorByUsername = await Instructor.findOneAndUpdate(
+                            {
+                                username: username,
+                            },
+                            {
+                                first_name: req.body.first_name,
+                                last_name: req.body.last_name,
+                                username: req.body.username,
+                                email: req.body.email,
+                                avatar: req.body.avatar
+                            },
+                            {
+                                new: true,
+                            }
+                        );
+                        user.save();
+                        return res.status(200).json({
+                            user: {
+                                _id: user._id,
+                                username: user.username,
+                                type: user.type,
+                                email: user.email,
+                                avatar: user.avatar,
+                                verified: user.verified,
+                                phoneNumber: user.phoneNumber
+                            },
+
+                            success: true,
+                            msg: 'Updated Details Successfully',
+                        });
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                return res.status(500).send({
+                    msg: 'Something went wrong',
+                    success: false,
+                });
+            });
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 router.all('*', (req, res) => {
     res.status(400).send({
-        error: 'undefined-route'
+        error: 'undefined-route',
     });
 });
 

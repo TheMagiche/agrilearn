@@ -14,6 +14,10 @@ var UserSchema = mongoose.Schema({
         type: String,
         bcrypt: true,
     },
+    avatar: {
+        type: String,
+        default: "Artboard 1"
+    },
     type: {
         // If it is an instructor or a student
         type: String,

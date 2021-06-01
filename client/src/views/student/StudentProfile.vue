@@ -3,9 +3,12 @@
         <template v-slot:dashboard-content>
             <a-spin :spinning="spinning">
                 <a-row type="flex" align="middle" :gutter="[16, 16]">
-                    <a-col :span="10">
+                    <a-col :span="10" :lg="10" :md="10" :sm="24" :xs="24">
                         <a-card hoverable class="profileCard">
-                            <img slot="cover" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                            <div class="imageContainer">
+                                <img slot="cover" :alt="avatar" :src="resolveImage(avatar)" />
+                            </div>
+                            <br />
                             <template slot="actions" class="ant-card-actions">
                                 <a-button @click="editProfile" type="primary">
                                     <a-icon key="setting" type="setting" />
@@ -19,24 +22,24 @@
                             <a-card-meta :title="username" :description="type"> </a-card-meta>
                         </a-card>
                     </a-col>
-                    <a-col :span="14">
-                        <div class="greyArea" style="">
+                    <a-col :span="14" :lg="14" :md="14" :sm="24" :xs="24">
+                        <div class="greyArea">
                             <a-card title="General Details" :bordered="false">
                                 <div class="profile-section">
-                                    <div class="profile-heading">Name:</div>
-                                    <div class="profile-detail">{{ first_name | capitalize }} {{ last_name | capitalize }}</div>
+                                    <span class="profile-heading">Name:</span>
+                                    <a-tag color="orange">{{ first_name | capitalize }} {{ last_name | capitalize }}</a-tag>
                                 </div>
                                 <div class="profile-section">
-                                    <div class="profile-heading">Email:</div>
-                                    <div class="profile-detail">
+                                    <span class="profile-heading">Email:</span>
+                                    <a-tag color="cyan">
                                         {{ email }}
-                                    </div>
+                                    </a-tag>
                                 </div>
                                 <div class="profile-section">
-                                    <div class="profile-heading">Phone:</div>
-                                    <div class="profile-detail">
+                                    <span class="profile-heading">Phone:</span>
+                                    <a-tag color="pink">
                                         {{ phoneNumber }}
-                                    </div>
+                                    </a-tag>
                                 </div>
                             </a-card>
                         </div>
@@ -44,20 +47,20 @@
                         <div class="greyArea">
                             <a-card title="Contextual Information" :bordered="false">
                                 <div class="profile-section">
-                                    <div class="profile-heading">Status:</div>
-                                    <div class="profile-detail">{{ status }}</div>
+                                    <span class="profile-heading">Status:</span>
+                                    <a-tag color="purple">{{ status }}</a-tag>
                                 </div>
                                 <div class="profile-section">
-                                    <div class="profile-heading">Number of enrolled classes:</div>
-                                    <div class="profile-detail">
+                                    <span class="profile-heading">Number of enrolled classes:</span>
+                                    <a-tag color="green">
                                         {{ classes.length }}
-                                    </div>
+                                    </a-tag>
                                 </div>
                                 <div class="profile-section">
-                                    <div class="profile-heading">Verified:</div>
-                                    <div class="profile-detail">
+                                    <span class="profile-heading">Verified:</span>
+                                    <a-tag color="blue">
                                         {{ verified }}
-                                    </div>
+                                    </a-tag>
                                 </div>
                             </a-card>
                         </div>
@@ -72,6 +75,11 @@
 .profileCard {
     width: 80%;
 }
+@media (max-width: 500px) {
+    .profileCard {
+        width: 100%;
+    }
+}
 .greyArea {
     background: #ececec;
     padding: 30px;
@@ -81,12 +89,24 @@
 }
 .profile-heading {
     font-weight: bold;
+    margin-right: 2em;
 }
 .profile-detail {
     padding: 0 0.5em;
     background: #30a679;
     color: #fff;
     border-radius: 5px;
+}
+.imageContainer {
+    background: #eee;
+    /* margin: 5px auto; */
+    padding: 1em;
+    height: 250px;
+    width: 250px;
+}
+.imageContainer img {
+    height: 100%;
+    width: 100%;
 }
 </style>
 <script>
@@ -117,6 +137,7 @@ export default {
             classes: 0,
             type: '',
             status: 'Free Account',
+            avatar: 'Artboard 1',
         };
     },
     computed: {
@@ -132,6 +153,9 @@ export default {
         },
     },
     methods: {
+        resolveImage: function (avatar) {
+            return require(`@/assets/avatars/${avatar}.png`);
+        },
         editProfile: function () {
             bus.$emit('stud-profile-visible', true);
         },
@@ -144,9 +168,18 @@ export default {
                 url: `/api/students/${studID}/premium`,
                 method: 'GET',
             })
-                .then((resp) => {
-                    // eslint-disable-next-line no-console
-                    console.log(resp.data);
+                .then((res) => {
+                    if (res.data.success) {
+                        this.$notification['success']({
+                            message: 'Premium Member',
+                            description: `${res.data.msg}`,
+                        });
+                    } else {
+                        this.$notification['warning']({
+                            message: 'Go Premium',
+                            description: `${res.data.msg}`,
+                        });
+                    }
                 })
                 .catch((err) => {
                     // eslint-disable-next-line no-console
@@ -168,6 +201,8 @@ export default {
                     this.first_name = resp.data.first_name;
                     this.last_name = resp.data.last_name;
                     this.classes = resp.data.classes;
+                    this.avatar = resp.data.avatar;
+
                     if (resp.data.status == true) {
                         this.pro = true;
                         this.status = 'Paid Account';
@@ -175,6 +210,7 @@ export default {
                         this.pro = false;
                         this.status = 'Free Account';
                     }
+
                     this.spinning = false;
                     this.loading = false;
                 })
@@ -184,7 +220,7 @@ export default {
                 });
         },
     },
-    created(){
+    created() {
         bus.$on('stud-profile-updated', (val) => {
             if (val) {
                 this.getDetails();
@@ -197,8 +233,8 @@ export default {
         });
     },
     mounted() {
-        this.getDetails();
         this.checkPremium();
+        this.getDetails();
     },
 };
 </script>

@@ -1,15 +1,22 @@
 <template>
     <a-layout style="min-height: 100vh">
-        <a-layout-sider v-model="collapsed" :style="{ overflow: 'auto', minHeight: '100vh' }" collapsible>
+        <a-layout-sider v-model="collapsed" theme="light" :style="{ overflow: 'auto', minHeight: '100vh' }" :trigger="null" collapsible>
             <div class="logo">
                 <router-link to="/"><img class="dashLogo" :src="require('@/assets/icon.png')" alt="logo" /></router-link>
             </div>
+            
+            <div class="text-center">
+                <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
+                    <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
+                </a-button>
+            </div>
+
             <SideBar></SideBar>
         </a-layout-sider>
         <a-layout>
             <a-layout-header style="background: #fff; padding: 0">
                 <!-- We want header content here -->
-                
+
                 <Navbar></Navbar>
             </a-layout-header>
 
@@ -39,6 +46,9 @@ img.dashLogo {
 .main {
     padding: 1em;
 }
+.text-center{
+    text-align: center;    
+}
 </style>
 
 <script>
@@ -54,8 +64,13 @@ export default {
     },
     data() {
         return {
-            collapsed: false,
+            collapsed: true,
         };
+    },
+    methods: {
+        toggleCollapsed() {
+            this.collapsed = !this.collapsed;
+        },
     },
 };
 </script>

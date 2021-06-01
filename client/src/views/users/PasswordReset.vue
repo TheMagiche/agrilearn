@@ -1,29 +1,48 @@
 <template>
     <HomeLayout>
         <template v-slot:content>
-            <div>This is the password reset page</div>
-            <a-form-model ref="ruleForm" :model="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
-                <a-form-model-item label="New Password">
-                    <a-input-password v-model.trim="form.password" placeholder="Must be atleast 6 characters" autocomplete="off" />
-                    <span v-if="submitted && !$v.form.password.required">Required field</span>
-                    <span v-if="!$v.form.password.minLength">Password must be at least 6 characters</span>
-                    <span v-if="!$v.form.password.maxLength">password too long</span>
-                </a-form-model-item>
-                <a-form-model-item label="Confirm Password">
-                    <a-input-password placeholder="Same as above" v-model.trim="form.confirm_password" autocomplete="off" />
-                    <span v-if="submitted && !$v.form.confirm_password.required">Required field</span>
-                    <span v-if="!$v.form.confirm_password.sameAsPassword">Passwords must match</span>
-                </a-form-model-item>
-                <a-form-model-item :wrapper-col="{ span: 12, offset: 5 }">
-                    <a-button type="primary" html-type="submit" block> Submit </a-button>
-                </a-form-model-item>
-            </a-form-model>
+            <div class="form-container">
+                <a-card title="Reset Password" class="formCard">
+                    <a-row type="flex" align="middle" class="form-content">
+                        <a-col :span="18" :lg="18" :md="18" :sm="24" :xs="24">
+                            <a-form-model ref="ruleForm" :model="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
+                                <a-form-model-item label="New Password">
+                                    <a-input-password v-model.trim="form.password" placeholder="Must be atleast 6 characters" autocomplete="off" />
+                                    <span v-if="submitted && !$v.form.password.required">Required field</span>
+                                    <span v-if="!$v.form.password.minLength">Password must be at least 6 characters</span>
+                                    <span v-if="!$v.form.password.maxLength">password too long</span>
+                                </a-form-model-item>
+                                <a-form-model-item label="Confirm Password">
+                                    <a-input-password placeholder="Same as above" v-model.trim="form.confirm_password" autocomplete="off" />
+                                    <span v-if="submitted && !$v.form.confirm_password.required">Required field</span>
+                                    <span v-if="!$v.form.confirm_password.sameAsPassword">Passwords must match</span>
+                                </a-form-model-item>
+                                <a-form-model-item>
+                                    <a-button type="primary" html-type="submit" block> Submit </a-button>
+                                </a-form-model-item>
+                            </a-form-model>
+                        </a-col>
+                        <a-col :span="6" :lg="6" :md="6" :sm="24" :xs="24" class="imgContainer">
+                            <img :src="require('@/assets/images/leaf.png')" alt="leafimg" />
+                        </a-col>
+                    </a-row>
+                </a-card>
+            </div>
         </template>
     </HomeLayout>
 </template>
 <style scoped>
+.form-container {
+    padding: 6em;
+}
+.formCard {
+    text-align: center;
+}
 .ant-form-item-control {
     line-height: 23px;
+}
+.formCard img {
+    height: 9em;
 }
 span {
     display: inline;

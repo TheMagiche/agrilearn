@@ -4,8 +4,8 @@
             <div class="form-container">
                 <a-card title="LOG IN TO CONTINUE" class="formCard">
                     <a-row type="flex" align="middle" class="form-content">
-                        <a-col :span="18">
-                            <a-form-model ref="ruleForm" :model="form" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }" @submit="handleSubmit">
+                        <a-col :span="18" :lg="18" :md="18" :sm="24" :xs="24">
+                            <a-form-model ref="ruleForm" :model="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
                                 <a-form-model-item label="Username or email">
                                     <a-input placeholder="John1232 or someone@gmail.com" v-model.trim="form.detail">
                                         <!-- <a-icon slot="prefix" type="user" /> -->
@@ -22,13 +22,13 @@
                                     <span v-if="!$v.form.password.minLength">Password must be at least 6 characters</span>
                                     <span v-if="!$v.form.password.maxLength">Password is too long</span>
                                 </a-form-model-item>
-                                <a-form-model-item :wrapper-col="{ span: 12, offset: 5 }">
+                                <a-form-model-item>
                                     <a-button type="primary" html-type="submit"> Submit </a-button>
                                     <a-button class="forgotPass" @click="forgotPass" type="dashed"> Forgot Password </a-button>
                                 </a-form-model-item>
                             </a-form-model>
                         </a-col>
-                        <a-col :span="6" class="imgContainer">
+                        <a-col :span="6" :lg="6" :md="6" :sm="24" :xs="24" class="imgContainer">
                             <img :src="require('@/assets/images/leaf.png')" alt="leafimg" />
                         </a-col>
                     </a-row>

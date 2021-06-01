@@ -3,13 +3,15 @@
         <template v-slot:dashboard-content>
             <a-spin :spinning="spinning">
                 <a-row :gutter="[16, 16]">
-                    <a-col :span="14">
+                    <a-col :span="14" :lg="14" :md="14" :sm="24" :xs="24">
                         <a-card :loading="loading" hoverable class="detailCard">
                             <img slot="cover" alt="example" :src="defaultImg" />
                             <template slot="actions" class="ant-card-actions">
                                 <a-button v-if="checkisInstructor && checkInstructor" type="warning" icon="edit" @click="editLesson"> Edit </a-button>
-                                <!-- <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="ellipsis" @click="deleteLesson(lessonID)"> Delete </a-button> 
-                                <a-button type="primary" icon="ellipsis" @click="addComment"> Add Comment </a-button>-->
+                                <a-popconfirm title="Are you sure delete this lesson?" ok-text="Yes" cancel-text="No" @confirm="deleteLesson(lessonID)" @cancel="cancel">
+                                    <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="delete"> Delete </a-button>
+                                </a-popconfirm>
+                                <a-button type="primary" icon="ellipsis" @click="goBack"> Back to class </a-button>
                             </template>
                             <a-row type="flex" align="top">
                                 <a-col>
@@ -23,9 +25,9 @@
                             </a-row>
                         </a-card>
                     </a-col>
-                    <a-col :span="10">
+                    <a-col :span="10" :lg="10" :md="10" :sm="24" :xs="24">
                         <a-card :loading="loading" title="Forum">
-                            <Disqus  :pageConfig="pageConfig" />
+                            <Disqus :pageConfig="pageConfig" />
                         </a-card>
                     </a-col>
                 </a-row>
@@ -70,7 +72,6 @@ export default {
             pageConfig: {
                 identifier: this.$router.currentRoute,
                 title: `${this.lessonTitle}`,
-                
             },
         };
     },
@@ -105,6 +106,9 @@ export default {
         },
     },
     methods: {
+        cancel(e) {
+            this.$message.error('Not deleted');
+        },
         getLesson: function () {
             const lessonID = this.$route.params.id;
             axios({
@@ -124,6 +128,9 @@ export default {
                     console.log(err);
                 });
         },
+        goBack: function () {
+            this.$router.go(-1);
+        },
         deleteLesson: function () {
             const lessonID = this.$route.params.id;
             axios({
@@ -131,15 +138,11 @@ export default {
                 method: 'DELETE',
             })
                 .then((resp) => {
-                    // eslint-disable-next-line no-console
-                    console.log(resp.data.msg);
-                    this.$router
-                        .go(-1)
-                        .then()
-                        .catch((err) => {
-                            // eslint-disable-next-line no-console
-                            console.log(err);
-                        });
+                    this.$notification['success']({
+                        message: 'Delete Successful',
+                        description: `${resp.data.msg}`,
+                    });
+                    this.$router.go(-1);
                 })
                 .catch((err) => {
                     // eslint-disable-next-line no-console

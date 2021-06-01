@@ -1,6 +1,6 @@
 <template>
     <div class="sideBar">
-        <a-menu v-if="isLoggedIn && isStudent" theme="dark" :open-keys="openKeys" @openChange="onOpenChange" mode="inline">
+        <a-menu v-if="isLoggedIn && isStudent" theme="light" @openChange="onOpenChange" mode="inline">
             <a-sub-menu key="sub1" :default-selected-keys="['1']">
                 <span slot="title"><a-icon type="read" /><span>Classes</span></span>
                 <a-menu-item key="1">
@@ -26,7 +26,7 @@
                 </a-menu-item>
             </a-sub-menu>
         </a-menu>
-        <a-menu v-if="isLoggedIn && isInstructor" theme="dark" :open-keys="openKeys" mode="inline" @openChange="onOpenChange">
+        <a-menu v-if="isLoggedIn && isInstructor" theme="light" mode="inline" @openChange="onOpenChange">
             <a-sub-menu key="sub1" :default-selected-keys="['3']">
                 <span slot="title"><a-icon type="read" /><span>Classes</span></span>
                 <a-menu-item key="3">

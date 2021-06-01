@@ -3,7 +3,7 @@
         <template v-slot:dashboard-content>
             <a-spin :spinning="spinning">
                 <a-row class="rowContainer" :gutter="[16, 16]">
-                    <a-col v-for="item in classes" :key="item._id" :span="8">
+                    <a-col v-for="item in classes" :key="item._id" :span="8" :lg="8" :md="12" :sm="24" :xs="24">
                         <a-card hoverable style="width: 100%">
                             <img slot="cover" class="classImg" alt="example" :src="item.imgUrl" />
                             <div class="rating">
@@ -11,7 +11,7 @@
                                     <a-col :span="18"> <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="item.rating" :read-only="true"></star-rating> </a-col>
                                     <a-col :span="6"
                                         ><div class="clsStatus">
-                                            {{ classStatus(item.classPro) }}
+                                            {{ classStatus(item.pro) }}
                                         </div></a-col
                                     >
                                 </a-row>
@@ -22,7 +22,7 @@
                             <a-row>
                                 <a-col :span="4">
                                     <a-tooltip :title="item.instructor.username">
-                                        <a-avatar><a-icon slot="icon" type="user"></a-icon></a-avatar>
+                                        <a-avatar class="avatarI" :src="resolveImage(item.instructor.avatar)" />
                                     </a-tooltip>
                                 </a-col>
                                 <a-col :span="20">
@@ -44,6 +44,10 @@
     </DashboardLayout>
 </template>
 <style scoped>
+.avatarI {
+    background: #ddd;
+    padding: 2px;
+}
 .clsStatus {
     padding: 0.1em 0.5em;
     text-align: center;
@@ -123,6 +127,13 @@ export default {
         },
     },
     methods: {
+        resolveImage: function (avatar) {
+            if (typeof avatar == 'string') {
+                return require(`@/assets/avatars/${avatar}.png`);
+            } else {
+                return require(`@/assets/avatars/Artboard 1.png`);
+            }
+        },
         classStatus: (val) => {
             if (val) {
                 return 'Pro';

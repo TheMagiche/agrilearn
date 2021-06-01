@@ -3,9 +3,12 @@
         <template v-slot:dashboard-content>
             <a-spin :spinning="spinning">
                 <a-row type="flex" align="middle" :gutter="[16, 16]">
-                    <a-col :span="10">
+                    <a-col :span="10" :lg="10" :md="10" :sm="24" :xs="24">
                         <a-card hoverable class="profileCard">
-                            <img slot="cover" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                            <div class="imageContainer">
+                                <img slot="cover" :alt="avatar" :src="resolveImage(avatar)" />
+                            </div>
+                            <br />
                             <template slot="actions" class="ant-card-actions">
                                 <a-button @click="editProfile" type="primary">
                                     <a-icon key="setting" type="setting" />
@@ -15,20 +18,20 @@
                             <a-card-meta :title="username" :description="type"> </a-card-meta>
                         </a-card>
                     </a-col>
-                    <a-col :span="14">
+                    <a-col :span="14" :lg="14" :md="14" :sm="24" :xs="24">
                         <div class="greyArea" style="">
                             <a-card title="General Details" :bordered="false">
                                 <div class="profile-section">
-                                    <div class="profile-heading"> Name:</div>
-                                    <div class="profile-detail"> {{ first_name | capitalize }} {{ last_name | capitalize }}</div>
+                                    <span class="profile-heading">Name:</span>
+                                    <a-tag color="orange">{{ first_name | capitalize }} {{ last_name | capitalize }}</a-tag>
                                 </div>
                                 <div class="profile-section">
-                                    <div class="profile-heading">Email:</div>
-                                    <div class="profile-detail">{{ email }}</div>
+                                    <span class="profile-heading">Email:</span>
+                                    <a-tag color="cyan">{{ email }}</a-tag>
                                 </div>
                                 <div class="profile-section">
-                                    <div class="profile-heading">Phone:</div>
-                                    <div class="profile-detail">{{ phoneNumber }}</div>
+                                    <span class="profile-heading">Phone:</span>
+                                    <a-tag color="pink">{{ phoneNumber }}</a-tag>
                                 </div>
                             </a-card>
                         </div>
@@ -36,12 +39,12 @@
                         <div class="greyArea">
                             <a-card title="Contextual Information" :bordered="false">
                                 <div class="profile-section">
-                                    <div class="profile-heading">Number of classes:</div>
-                                    <div class="profile-detail">{{ classes.length }}</div>
+                                    <span class="profile-heading">Number of classes:</span>
+                                    <a-tag color="purple">{{ classes.length }}</a-tag>
                                 </div>
                                 <div class="profile-section">
-                                    <div class="profile-heading">Verified:</div>
-                                    <div class="profile-detail">{{ verified }}</div>
+                                    <span class="profile-heading">Verified:</span>
+                                    <a-tag color="blue">{{ verified }}</a-tag>
                                 </div>
                             </a-card>
                         </div>
@@ -56,23 +59,37 @@
 .profileCard {
     width: 80%;
 }
+@media (max-width: 500px) {
+    .profileCard {
+        width: 100%;
+    }
+}
 .greyArea {
     background: #ececec;
     padding: 30px;
 }
-.profile-section{
-    padding: .2em
+.profile-section {
+    padding: 0.2em;
 }
-.profile-heading{
- 
+.profile-heading {
     font-weight: bold;
+    margin-right: 2em;
 }
-.profile-detail{
-
-    padding:  0 .5em;
-    background: #30A679;
+.profile-detail {
+    padding: 0 0.5em;
+    background: #30a679;
     color: #fff;
     border-radius: 5px;
+}
+.imageContainer {
+    background: #eee;
+    padding: 1em;
+    height: 250px;
+    width: 250px;
+}
+.imageContainer img {
+    height: 100%;
+    width: 100%;
 }
 </style>
 <script>
@@ -102,6 +119,7 @@ export default {
             verified: false,
             classes: 0,
             type: '',
+            avatar: 'Artboard 1',
         };
     },
     computed: {
@@ -117,6 +135,9 @@ export default {
         },
     },
     methods: {
+        resolveImage: function (avatar) {
+            return require(`@/assets/avatars/${avatar}.png`);
+        },
         editProfile: function () {
             bus.$emit('inst-profile-visible', true);
         },
@@ -135,6 +156,7 @@ export default {
                     this.first_name = resp.data.first_name;
                     this.last_name = resp.data.last_name;
                     this.classes = resp.data.classes;
+                    this.avatar = resp.data.avatar;
                     this.spinning = false;
                     this.loading = false;
                 })

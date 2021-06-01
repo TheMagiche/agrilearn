@@ -1,5 +1,5 @@
 <template>
-    <a-drawer title="Become a premium member" :width="720" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
+    <a-drawer title="Become a premium member" width="80%" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
         <div v-if="!hidden && !completed" class="premium-welcome">
             <div class="premium-text">{{ message }}</div>
             <img :src="require('@/assets/images/loving.png')" height="100%" alt="instructorimg" />
@@ -36,7 +36,7 @@ span {
     height: 60vh;
     text-align: center;
 }
-.premium-text{
+.premium-text {
     font-weight: bold;
     color: black;
 }
@@ -49,7 +49,11 @@ span {
     height: 100% !important;
 }
 
-
+@media (max-width: 500px) {
+    .premium-welcome img {
+        width: 100% !important;
+    }
+}
 </style>
 <script>
 import { bus } from '@/event-bus';

@@ -1,5 +1,5 @@
 <template>
-    <a-drawer title="Contact us for any inquries" :width="720" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
+    <a-drawer title="Contact us for any inquries" width="80%" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
         <a-form-model ref="contactForm" :model="form" layout="vertical" @submit="onSubmit">
             <a-row :gutter="16">
                 <a-col :span="12">

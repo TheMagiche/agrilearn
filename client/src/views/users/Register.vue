@@ -4,8 +4,8 @@
             <div class="form-container">
                 <a-card title="WELCOME TO AGRISKUL" class="formCard">
                     <a-row type="flex" align="middle" class="form-content">
-                        <a-col :span="18">
-                            <a-form-model class="regform" ref="ruleForm" :model="form" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }" @submit="handleSubmit">
+                        <a-col :span="18" :lg="18" :md="18" :sm="24" :xs="24">
+                            <a-form-model class="regform" ref="ruleForm" :model="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
                                 <a-form-model-item label="Username">
                                     <a-input placeholder="John1232 or Mary1232" allow-clear v-model.trim="form.username">
                                         <!-- <a-icon slot="prefix" type="user" /> -->
@@ -47,7 +47,8 @@
                                     <span v-if="!$v.form.email.email">Email is invalid</span>
                                 </a-form-model-item>
                                 <a-form-model-item label="Phone">
-                                    <a-input placeholder="+254700222000" allow-clear v-model.trim="form.phone">
+                                    <a-input addon-before="+254" v-model.trim="form.phone" >
+                                    <!-- <a-input placeholder="+254700222000" allow-clear v-model.trim="form.phone"> -->
                                         <!-- <a-icon slot="prefix" type="user" /> -->
                                         <a-tooltip slot="suffix" title="Add relevant phone number">
                                             <a-icon type="info-circle" style="color: rgba(0, 0, 0, 0.45)" />
@@ -68,12 +69,12 @@
                                     <span v-if="submitted && !$v.form.confirm_password.required">Required field</span>
                                     <span v-if="!$v.form.confirm_password.sameAsPassword">Passwords must match</span>
                                 </a-form-model-item>
-                                <a-form-model-item :wrapper-col="{ span: 20, offset: 4 }">
+                                <a-form-model-item>
                                     <a-button type="primary" html-type="submit" block> Submit </a-button>
                                 </a-form-model-item>
                             </a-form-model>
                         </a-col>
-                        <a-col :span="6" class="imgContainer">
+                        <a-col :span="6" :lg="6" :md="6" :sm="24" :xs="24" class="imgContainer">
                             <img :src="require('@/assets/images/leaf.png')" alt="leafimg" />
                         </a-col>
                     </a-row>
@@ -138,8 +139,8 @@ export default {
             email: { required, email, maxLength: maxLength(100) },
             phone: {
                 required,
-                minLength: minLength(13),
-                maxLength: maxLength(13),
+                minLength: minLength(9),
+                maxLength: maxLength(9),
             },
             password: { required, minLength: minLength(6), maxLength: maxLength(13) },
             confirm_password: { required, sameAsPassword: sameAs('password') },
@@ -163,7 +164,7 @@ export default {
                 password: this.form.password,
                 password2: this.form.confirm_password,
                 type: this.type,
-                phone: this.form.phone,
+                phone: `+254${this.form.phone}`,
             };
             this.register(user).then((res) => {
                 if (res.data.success == true) {

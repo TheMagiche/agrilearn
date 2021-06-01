@@ -5,6 +5,7 @@ const state = {
     username: localStorage.getItem('username') || null,
     email: localStorage.getItem('email') || null,
     type: localStorage.getItem('type') || null,
+    avatar: localStorage.getItem('avatar') || 'Artboard 1',
     userID: localStorage.getItem('userID') || null,
     verified: localStorage.getItem('verified') || null,
 };
@@ -34,6 +35,7 @@ const getters = {
             return true;
         }
     },
+    getAvatar: (state) => state.avatar,
 };
 
 const actions = {
@@ -48,6 +50,7 @@ const actions = {
             const type = user.type;
             const userID = user._id;
             const verified = user.verified;
+            const avatar = user.avatar;
             // Store the token into the localstorage
             // eslint-disable-next-line no-console
             // console.log(user);
@@ -57,6 +60,7 @@ const actions = {
             localStorage.setItem('userID', userID);
             localStorage.setItem('token', token);
             localStorage.setItem('verified', verified);
+            localStorage.setItem('avatar', avatar);
             // Set the axios defaults
             axios.defaults.headers.common['Authorization'] = token;
             commit('auth_success', token);
@@ -67,15 +71,39 @@ const actions = {
         }
     },
     // Register User
-    async register({ commit }, userData) {
+    async register({ commit }, user) {
         commit('reg_success');
-        let res = await axios.post('/api/users/register', userData);
+        let res = await axios.post('/api/users/register', user);
         if (res.data.success) {
             return res;
         } else {
             return res;
         }
     },
+
+    // Update User Profile
+    async profile({ commit }, user) {
+        
+        let res = await axios.post('/api/users/profile/update', user);
+        if (res.data.success == true) {
+            const user = res.data.user;
+            const username = user.username;
+            const email = user.email;
+            const type = user.type;
+            const avatar = user.avatar;
+            const userID = user._id;
+            localStorage.setItem('username', username);
+            localStorage.setItem('email', email);
+            localStorage.setItem('type', type);
+            localStorage.setItem('userID', userID);
+            localStorage.setItem('avatar', avatar);
+            commit('profile_update');
+            return res;
+        } else {
+            return res;
+        }
+    },
+
     // Logout the user
     async logout({ commit }) {
         await localStorage.removeItem('token');
@@ -84,9 +112,9 @@ const actions = {
         await localStorage.removeItem('type');
         await localStorage.removeItem('userID');
         await localStorage.removeItem('verified');
+        await localStorage.removeItem('avatar');
         commit('logout');
         delete axios.defaults.headers.common['Authorization'];
-
         return;
     },
 };
@@ -99,6 +127,16 @@ const mutations = {
         state.type = localStorage.getItem('type');
         state.userID = localStorage.getItem('userID');
         state.verified = localStorage.getItem('verified');
+        state.avatar = localStorage.getItem('avatar');
+        state.error = null;
+    },
+    profile_update(state) {
+        state.username = localStorage.getItem('username');
+        state.email = localStorage.getItem('email');
+        state.type = localStorage.getItem('type');
+        state.userID = localStorage.getItem('userID');
+        state.verified = localStorage.getItem('verified');
+        state.avatar = localStorage.getItem('avatar');
         state.error = null;
     },
     reg_success(state) {
@@ -112,6 +150,7 @@ const mutations = {
         state.type = null;
         state.userID = null;
         state.verified = null;
+        state.avatar = null;
     },
 };
 

@@ -13,6 +13,10 @@ var InstructorSchema = mongoose.Schema({
     email: {
         type: String,
     },
+    avatar: {
+        type: String,
+        default: "Artboard 1"
+    },
     classes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class',

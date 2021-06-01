@@ -4,48 +4,53 @@
             <template v-slot:dashboard-content>
                 <a-spin :spinning="spinning">
                     <a-row :gutter="[16, 16]">
-                        <a-col :span="14">
+                        <a-col :span="14" :lg="14" :md="14" :sm="24" :xs="24">
                             <a-card :loading="loading" hoverable class="detailCard">
                                 <img slot="cover" alt="example" :src="classImageUrl" />
                                 <div class="rating">
-                                    <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="classRating" :read-only="true"></star-rating>
+                                    <a-row>
+                                        <a-col :span="18"> <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="classRating" :read-only="true"></star-rating> </a-col>
+                                        <a-col :span="6"
+                                            ><div class="clsStatus">
+                                                {{ classStatus }}
+                                            </div></a-col
+                                        >
+                                    </a-row>
                                 </div>
                                 <template slot="actions" class="ant-card-actions">
                                     <a-button v-if="checkisStudent && studentCompatibility && !ifRegistered" type="primary" icon="thunderbolt" @click="regClass"> Register </a-button>
                                     <a-button v-if="checkisStudent && ifRegistered" type="warning" icon="api" @click="deRegClass"> Deregister </a-button>
                                     <a-button v-if="checkisStudent && ifRegistered" type="primary" icon="smile" @click="rateClass"> Rate </a-button>
                                     <a-button v-if="checkisInstructor && checkInstructor" type="warning" icon="edit" @click="editClass"> Edit </a-button>
-                                    <!-- <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="ellipsis" @click="deleteClass(classID)"> Delete </a-button> -->
+                                    <a-popconfirm title="Are you sure delete this class?" ok-text="Yes" cancel-text="No" @confirm="deleteClass(classID)" @cancel="cancel">
+                                        <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="delete"> Delete </a-button>
+                                    </a-popconfirm>
                                     <a-button v-if="checkisInstructor && checkInstructor" type="primary" icon="diff" @click="addLesson"> Add lesson </a-button>
                                 </template>
-                                <a-row type="flex" align="top">
-                                    <a-col :span="22">
-                                        <a-row>
-                                            <a-col :span="2">
-                                                <a-tooltip :title="classInstructorUsername">
-                                                    <a-avatar><a-icon slot="icon" type="user"></a-icon></a-avatar>
-                                                </a-tooltip>
-                                            </a-col>
-                                            <a-col :span="22">
-                                                <h2>
-                                                    <strong>{{ classTitle }}</strong>
-                                                </h2>
-                                            </a-col>
-                                        </a-row>
-
-                                        <br />
+                                <br />
+                                <a-row align="top" style="margin: '1em 0'">
+                                    <a-col :span="2" :lg="2" :md="2" :sm="2" :xs="4">
+                                        <a-tooltip :title="classInstructorUsername">
+                                            <a-avatar class="avatarI" :src="resolveImage(classInstructorAvatar)" />
+                                        </a-tooltip>
                                     </a-col>
-                                    <a-col :span="2">
-                                        <div class="clsStatus">
-                                            {{ classStatus }}
-                                        </div>
+                                    <a-col :span="22" :lg="22" :md="22" :sm="22" :xs="20">
+                                        <h2 class="classTitle">
+                                            <strong>{{ classTitle }}</strong>
+                                        </h2>
+                                        <a-tag color="orange">{{ classStudents.length }} students </a-tag>
+                                        <a-tag color="green"> {{ classLessons.length }} lessons </a-tag>
+                                        <a-tag color="cyan"> {{ classReadTime }} minute read </a-tag>
                                     </a-col>
                                 </a-row>
+
+                                <br />
                                 <p v-html="classDescription"></p>
                             </a-card>
                         </a-col>
-                        <a-col :span="10">
+                        <a-col :span="10" :lg="10" :md="10" :sm="24" :xs="24">
                             <a-card :loading="loading" title="Lessons">
+                                <a-empty v-if="classLessons.length == 0" />
                                 <ul class="lesson-ul">
                                     <li class="lesson-li" v-for="lesson in classLessons" :key="lesson._id">
                                         <p class="lesson-title">{{ lesson.title }}</p>
@@ -69,7 +74,7 @@
                                                 <a-skeleton :loading="loading" active avatar>
                                                     <a-list-item-meta :description="item.comment">
                                                         <strong slot="title">{{ item.author.username }} ~ {{ item.author.email }}</strong>
-                                                        <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                                                        <a-avatar slot="avatar" class="avatarI" :src="resolveImage(item.author.avatar)" />
                                                     </a-list-item-meta>
                                                 </a-skeleton>
                                             </a-col>
@@ -91,6 +96,10 @@
     </div>
 </template>
 <style scoped>
+.avatarI{
+    background: #ddd;
+    padding: 2px;
+}
 .detailCard {
     width: 100%;
 }
@@ -135,6 +144,11 @@
     color: white;
     background: burlywood;
 }
+@media (min-width: 500px) {
+    .classTitle {
+        font-size: 18px;
+    }
+}
 </style>
 <script>
 // @ is an alias to /src
@@ -166,6 +180,7 @@ export default {
             classInstructorID: '',
             classInstructorEmail: '',
             classInstructorUsername: '',
+            classInstructorAvatar:'Artboard 1',
             classLessons: [],
             classStudents: [],
             classReviews: [],
@@ -252,6 +267,16 @@ export default {
         },
     },
     methods: {
+        resolveImage: function (avatar) {
+            if (typeof avatar == 'string') {
+                return require(`@/assets/avatars/${avatar}.png`);
+            } else {
+                return require(`@/assets/avatars/Artboard 1.png`);
+            }
+        },
+        cancel(e) {
+            this.$message.error('Not deleted');
+        },
         Texttrim: function (value) {
             if (!value) return '';
             value = value.toString();
@@ -295,6 +320,7 @@ export default {
                     this.classInstructorID = resp.data.class.instructor._id;
                     this.classInstructorEmail = resp.data.class.instructor.email;
                     this.classInstructorUsername = resp.data.class.instructor.username;
+                    this.classInstructorAvatar = resp.data.class.instructor.avatar;
                     this.classLessons = resp.data.class.lessons;
 
                     this.classStudents = resp.data.class.students;
@@ -302,7 +328,7 @@ export default {
                     this.classRating = parseInt(resp.data.class.rating);
                     if (resp.data.class.pro == true) {
                         this.classPro = true;
-                        this.classStatus = 'Pro (for premium students only)';
+                        this.classStatus = 'Pro';
                     } else {
                         this.classPro = false;
                         this.classStatus = 'Free';
@@ -326,22 +352,13 @@ export default {
                 method: 'DELETE',
             })
                 .then((resp) => {
-                    // eslint-disable-next-line no-console
-                    console.log(resp.data.msg);
-                    this.$router
-                        .push({
-                            name: 'InstructorClasses',
-                        })
-                        .then((res) => {
-                            this.$notification['success']({
-                                message: 'Delete Successful',
-                                description: `${res.data.msg}`,
-                            });
-                        })
-                        .catch((err) => {
-                            // eslint-disable-next-line no-console
-                            console.log(err);
-                        });
+                    this.$notification['success']({
+                        message: 'Delete Successful',
+                        description: `${resp.data.msg}`,
+                    });
+                    this.$router.push({
+                        name: 'InstructorClasses',
+                    });
                 })
                 .catch((err) => {
                     // eslint-disable-next-line no-console
@@ -444,10 +461,10 @@ export default {
             bus.$emit('rating-visible', true);
         },
     },
-    created(){
-        bus.$on('added-rating', (val) =>{
+    created() {
+        bus.$on('added-rating', (val) => {
             this.getReviews();
-        })
+        });
     },
     mounted() {
         this.getClass();

@@ -1,5 +1,5 @@
 <template>
-    <a-drawer title="Create new lesson" :width="900" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
+    <a-drawer title="Create new lesson" width="80%" :visible="visible" :body-style="{ paddingBottom: '80px' }" @close="onClose">
         <a-form-model ref="LessonForm" :model="form" layout="vertical" @submit="onSubmit">
             <a-row :gutter="16">
                 <a-col :span="12">
@@ -83,7 +83,7 @@ export default {
         onClose() {
             this.visible = false;
         },
-        onSubmit: async (e) => {
+        onSubmit: async function (e) {
             const classID = this.$route.params.id;
             await axios({
                 url: `/api/lessons/create/${classID}`,
@@ -95,8 +95,19 @@ export default {
                 },
                 method: 'POST',
             })
-                .then(() => {
-                    this.visible = false;
+                .then((res) => {
+                    if (res.data.success == false) {
+                        this.$notification['error']({
+                            message: 'Error',
+                            description: `${res.data.msg}`,
+                        });
+                    } else {
+                        this.$notification['success']({
+                            message: 'Lesson Created',
+                            description: `${res.data.msg}`,
+                        });
+                        this.visible = false;
+                    }
                 })
                 .catch((err) => {
                     // eslint-disable-next-line no-console

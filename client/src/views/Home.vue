@@ -3,27 +3,39 @@
         <template v-slot:content>
             <div class="showcase">
                 <a-row type="flex" align="top" :gutter="[16, 16]">
-                    <a-col :span="14">
+                    <a-col :span="14" :lg="14" :md="24" :sm="24" :xs="24">
                         <div class="flexbox">
                             <img class="siteLogo" :src="require('@/assets/logo.png')" alt="logo" />
+
                             <h1>Learn to grow your agribusiness</h1>
-                            <p>Find the perfect tutorial to get started on your farming today, learn the latest trends and stay ahead of the curve</p>
+                            <p>Find the perfect tutorials to get you started on your farming today, learn the latest trends and stay ahead of the curve</p>
                         </div>
-                        <div class="testimonial">
-                            <span v-for="item in testimonials" :key="item.id">
+
+                        <a-row class="testimonial">
+                            <a-col v-for="item in testimonials" :key="item.id" :lg="6" :md="6" :sm="6" :xs="6">
                                 <a-tooltip placement="right">
-                                    <template slot="title"> 
-                                        <strong>{{item.name}} </strong>
-                                        <br/> 
-                                        {{item.testimonial}} 
-                                        
+                                    <template slot="title">
+                                        <strong>{{ item.name }} </strong>
+                                        <br />
+                                        {{ item.testimonial }}
                                     </template>
-                                    <a-avatar :size="100" :src="item.img" />
+                                    <a-avatar :size="70" :src="item.img" />
                                 </a-tooltip>
-                            </span>
-                        </div>
+                            </a-col>
+                        </a-row>
+                        <a-row class="partners">
+                            <p style="margin-bottom: '5px'"><em>in partnership with</em></p>
+                            <a-col v-for="item in partners" :key="item.id" :lg="6" :md="6" :sm="6" :xs="6">
+                                <a-tooltip placement="right">
+                                    <template slot="title">
+                                        <strong>{{ item.name }} </strong>
+                                    </template>
+                                    <a-avatar :size="60" :src="item.img" />
+                                </a-tooltip>
+                            </a-col>
+                        </a-row>
                     </a-col>
-                    <a-col :span="10">
+                    <a-col :span="10" :lg="10" :md="24" :sm="24" :xs="24">
                         <a-timeline mode="alternate">
                             <a-timeline-item>
                                 <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px" />
@@ -54,7 +66,7 @@
                     <p>Practice makes perfect, start today!</p>
                 </div>
                 <a-row :gutter="[16, 16]">
-                    <a-col v-for="item in classes" :key="item._id" :span="8">
+                    <a-col v-for="item in classes" :key="item._id" :span="8" :lg="8" :md="12" :sm="24" :xs="24">
                         <a-card hoverable class="homeCard">
                             <img slot="cover" class="classImg" alt="example" :src="item.imgUrl" />
                             <div class="rating">
@@ -62,7 +74,7 @@
                                     <a-col :span="18"> <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="item.rating" :read-only="true"></star-rating> </a-col>
                                     <a-col :span="6"
                                         ><div class="clsStatus">
-                                            {{ classStatus(item.classPro) }}
+                                            {{ classStatus(item.pro) }}
                                         </div></a-col
                                     >
                                 </a-row>
@@ -73,7 +85,7 @@
                             <a-row>
                                 <a-col :span="4">
                                     <a-tooltip :title="item.instructor.username">
-                                        <a-avatar><a-icon slot="icon" type="user"></a-icon></a-avatar>
+                                        <a-avatar class="avatarI" :src="resolveImage(item.instructor.avatar)" />
                                     </a-tooltip>
                                 </a-col>
                                 <a-col :span="20">
@@ -91,6 +103,10 @@
     </HomeLayout>
 </template>
 <style scoped>
+.avatarI {
+    background: #ddd;
+    padding: 2px;
+}
 .clsStatus {
     padding: 0.1em 0.5em;
     text-align: center;
@@ -98,7 +114,7 @@
     background: burlywood;
 }
 .showcase {
-    padding: 2em;
+    padding: 1.5em;
 }
 .clsSection {
     padding: 2em 6em;
@@ -135,22 +151,30 @@
     left: 15px;
 }
 .flexbox {
-    padding-top: 8em;
+    padding-top: 3em;
 }
 .flexbox h1 {
     font-size: 2.5em;
     text-transform: capitalize;
     font-weight: bolder;
 }
-.testimonial {
+.testimonial,
+.partners {
     padding-top: 2em;
 }
-.testimonial span {
+.testimonial span,
+.partners span {
     margin-right: 10px;
 }
 img.siteLogo {
     width: 14em;
     height: 100%;
+}
+.showcase {
+    background-image: url('~@/assets/images/bg.png'), url('~@/assets/images/bg-fruits.png');
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: contain;
 }
 </style>
 <script>
@@ -163,6 +187,7 @@ import fredimg from '@/assets/images/profile/fred.jpg';
 import vincentimg from '@/assets/images/profile/vincent.jpg';
 import claireimg from '@/assets/images/profile/claire.jpg';
 import obadiahimg from '@/assets/images/profile/obadiah.jpg';
+import agriplanimg from '@/assets/images/partners/agriplan.png';
 
 export default {
     name: 'Home',
@@ -175,6 +200,13 @@ export default {
             loading: true,
             classes: null,
             showcasebg: showcasebg,
+            partners: [
+                {
+                    id: 1,
+                    name: 'Agriplan',
+                    img: agriplanimg,
+                },
+            ],
             testimonials: [
                 {
                     id: 1,
@@ -204,11 +236,19 @@ export default {
         };
     },
     methods: {
-        classStatus: (val) => {
-            if (val) {
-                return 'Pro';
+        resolveImage: function (avatar) {
+            if (typeof avatar == 'string') {
+                return require(`@/assets/avatars/${avatar}.png`);
+            } else {
+                return require(`@/assets/avatars/Artboard 1.png`);
             }
-            return 'Free';
+            
+        },
+        classStatus: (val) => {
+            if (!val) {
+                return 'Free';
+            }
+            return 'Pro';
         },
         getClasses: function () {
             axios({

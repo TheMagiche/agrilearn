@@ -18,6 +18,10 @@ var StudentSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    avatar: {
+        type: String,
+        default: "Artboard 1"
+    },
     premiumToken: {
         type: String,
         default: '',
