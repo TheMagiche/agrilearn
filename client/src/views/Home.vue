@@ -206,7 +206,8 @@ import vincentimg from '@/assets/images/profile/vincent.jpg';
 import claireimg from '@/assets/images/profile/claire.jpg';
 import obadiahimg from '@/assets/images/profile/obadiah.jpg';
 import agriplanimg from '@/assets/images/partners/agriplan.png';
-
+import optivenimg from '@/assets/images/partners/optiven.jpg';
+import unicefimg from '@/assets/images/partners/unicef.png';
 export default {
     name: 'Home',
     title: 'Home',
@@ -223,6 +224,16 @@ export default {
                     id: 1,
                     name: 'Agriplan',
                     img: agriplanimg,
+                },
+                {
+                    id: 1,
+                    name: 'Optiven',
+                    img: optivenimg,
+                },
+                {
+                    id: 1,
+                    name: 'World Urban Campaign, UNHABITAT',
+                    img: unicefimg,
                 },
             ],
             testimonials: [

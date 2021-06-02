@@ -19,7 +19,7 @@
 
         <div v-if="completed" class="premium-welcome">
             <img :src="require('@/assets/images/loving.png')" height="100%" alt="instructorimg" />
-            <p class="premium-text">You've got a premuim account for the next 30 days!</p>
+            <p class="premium-text">You've got a premuim account for the next 1 year!</p>
             <a-button type="primary" @click="confirmPremiumStatus">Complete Process</a-button>
             <div class="premium-text">{{ message }}</div>
         </div>

@@ -391,10 +391,10 @@ router.post('/:id/premium', async function(req, res) {
                                 // Create Order Detail <as many as required>
                                 var order = pesapal.orderDetail({
                                     itemID: 'agriskulpremiummbership',
-                                    particulars: '30 Day subscription',
+                                    particulars: '1 year subscription',
                                     quantity: 1,
                                     unitCost: 1000.0,
-                                    details: 'Get a 30 day subscription for pro membership in agriskul.co.ke',
+                                    details: 'Get a 1 year subscription for pro membership in agriskul.co.ke',
                                 });
                                 // console.log(order);
 
@@ -406,7 +406,7 @@ router.post('/:id/premium', async function(req, res) {
                                 var postOrderUrl = await pesapal.sendPostPesaPalDirectOrder({
                                     reference: token,
                                     customerDetails: customer,
-                                    description: '30 day pro account',
+                                    description: '1 year pro account',
                                     orders: orders,
                                 }); // Returns a url to redirect to pesapal payment page
                                 // console.log(postOrderUrl);
@@ -485,7 +485,7 @@ router.post('/:id/confirmpremium', async function(req, res) {
                             username: user.username,
                         })
                             .then(stud => {
-                                stud.premiumExpires = Date.now() + 60 * 60 * 24 * 1000 * 30; //30days
+                                stud.premiumExpires = Date.now() + 60 * 60 * 24 * 1000 * 36 * 10; //360days
                                 stud.premiumToken = token;
                                 stud.status = true;
                                 stud.save();
