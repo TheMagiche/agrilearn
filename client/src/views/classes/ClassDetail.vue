@@ -74,7 +74,7 @@
                                             <a-col>
                                                 <a-skeleton :loading="loading" active avatar>
                                                     <a-list-item-meta :description="item.comment">
-                                                        <strong slot="title">{{ item.author.username }} ~ {{ item.author.email }}</strong>
+                                                        <strong slot="title">{{ item.author.username }} <span v-if="checkisInstructor && checkInstructor">~ {{ item.author.email }} </span></strong>
                                                         <a-avatar slot="avatar" class="avatarI" :src="resolveImage(item.author.avatar)" />
                                                     </a-list-item-meta>
                                                 </a-skeleton>
