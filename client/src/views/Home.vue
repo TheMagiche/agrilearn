@@ -117,10 +117,11 @@
     padding: 1.5em;
 }
 .clsSection {
-    padding: 2em 6em;
+    padding: 2em 4em;
     text-align: center;
     background: rgb(226, 226, 226);
 }
+
 .homeCard {
     width: 100%;
     margin: 1em auto;
@@ -175,6 +176,23 @@ img.siteLogo {
     background-repeat: no-repeat;
     background-position: bottom right;
     background-size: contain;
+}
+@media (max-width: 500px) {
+    .clsSection {
+        padding: 2em 2em;
+        text-align: center;
+        background: rgb(226, 226, 226);
+    }
+    .step-card-left {
+        width: 250px;
+        top: 25px;
+        left: 5px;
+    }
+    .step-card-right {
+        width: 250px;
+        top: 25px;
+        left: -35px;
+    }
 }
 </style>
 <script>
@@ -242,7 +260,6 @@ export default {
             } else {
                 return require(`@/assets/avatars/Artboard 1.png`);
             }
-            
         },
         classStatus: (val) => {
             if (!val) {

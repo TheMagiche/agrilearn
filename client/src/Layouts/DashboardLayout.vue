@@ -1,10 +1,11 @@
 <template>
     <a-layout style="min-height: 100vh">
-        <a-layout-sider v-model="collapsed" theme="light" :style="{ overflow: 'auto', minHeight: '100vh' }" :trigger="null" collapsible>
+        <!-- style={{ overflow: 'auto', height: '100vh',  }} -->
+        <a-layout-sider v-model="collapsed" theme="light" class="sider" :style="{ overflow: 'auto', minHeight: '100vh', position: 'fixed', zIndex: 4, top: 0, left: 0 }" :trigger="null" collapsible>
             <div class="logo">
                 <router-link to="/"><img class="dashLogo" :src="require('@/assets/icon.png')" alt="logo" /></router-link>
             </div>
-            
+
             <div class="text-center">
                 <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
                     <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
@@ -44,10 +45,16 @@ img.dashLogo {
     width: 25px;
 }
 .main {
-    padding: 1em;
+    padding-left: 6em;
+    padding-right: 1em;
 }
-.text-center{
-    text-align: center;    
+.text-center {
+    text-align: center;
+}
+@media (max-width: 500px) {
+    .main {
+        padding-left: 6em;
+    }
 }
 </style>
 

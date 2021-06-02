@@ -20,12 +20,13 @@
                                 <template slot="actions" class="ant-card-actions">
                                     <a-button v-if="checkisStudent && studentCompatibility && !ifRegistered" type="primary" icon="thunderbolt" @click="regClass"> Register </a-button>
                                     <a-button v-if="checkisStudent && ifRegistered" type="warning" icon="api" @click="deRegClass"> Deregister </a-button>
-                                    <a-button v-if="checkisStudent && ifRegistered" type="primary" icon="smile" @click="rateClass"> Rate </a-button>
+                                    
                                     <a-button v-if="checkisInstructor && checkInstructor" type="warning" icon="edit" @click="editClass"> Edit </a-button>
                                     <a-popconfirm title="Are you sure delete this class?" ok-text="Yes" cancel-text="No" @confirm="deleteClass(classID)" @cancel="cancel">
                                         <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="delete"> Delete </a-button>
                                     </a-popconfirm>
                                     <a-button v-if="checkisInstructor && checkInstructor" type="primary" icon="diff" @click="addLesson"> Add lesson </a-button>
+                                    <a-button v-if="checkisStudent && ifRegistered" type="primary" icon="smile" @click="rateClass"> Rate </a-button>
                                 </template>
                                 <br />
                                 <a-row align="top" style="margin: '1em 0'">
@@ -117,7 +118,7 @@
 }
 
 .lesson-li {
-    margin: 2em auto;
+    margin: .5em auto 1em;
     padding-left: 2em;
     width: 100%;
     position: relative;

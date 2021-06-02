@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["404"],{"8cdb":function(e,n,t){"use strict";t.r(n);var o=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("HomeLayout",{scopedSlots:e._u([{key:"content",fn:function(){return[t("div",[e._v("This is the 404 page")])]},proxy:!0}])})},u=[],c=t("99d3"),s={name:"Home",title:"Home",components:{HomeLayout:c["a"]}},a=s,i=t("2877"),l=Object(i["a"])(a,o,u,!1,null,null,null);n["default"]=l.exports}}]);
-//# sourceMappingURL=404.7de6961c.js.map

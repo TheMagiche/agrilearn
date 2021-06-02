@@ -1,5 +1,9 @@
 <template>
     <a-menu theme="light" mode="horizontal" :style="{ textAlign: 'right', lineHeight: '64px' }">
+        
+        <a-menu-item key="logout">
+            <a-button type="dashed" icon="logout" @click="logout"> Logout </a-button>
+        </a-menu-item>
         <a-menu-item key="home">
             <a-row>
                 {{ getUsername | capitalize }}'s Dashboard
@@ -9,9 +13,6 @@
                     </a-badge>
                 </span>
             </a-row>
-        </a-menu-item>
-        <a-menu-item key="logout">
-            <a-button type="dashed" icon="logout" @click="logout"> Logout </a-button>
         </a-menu-item>
     </a-menu>
 </template>

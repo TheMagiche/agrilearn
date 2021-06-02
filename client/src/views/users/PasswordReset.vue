@@ -35,6 +35,11 @@
 .form-container {
     padding: 6em;
 }
+@media (max-width: 500px) {
+    .form-container {
+    padding: 2em;
+}
+}
 .formCard {
     text-align: center;
 }
