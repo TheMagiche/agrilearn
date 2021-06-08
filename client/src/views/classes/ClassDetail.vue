@@ -6,7 +6,7 @@
                     <a-row :gutter="[16, 16]">
                         <a-col :span="14" :lg="14" :md="14" :sm="24" :xs="24">
                             <a-card :loading="loading" hoverable class="detailCard">
-                                <img slot="cover" alt="example" :src="classImageUrl" />
+                                <img slot="cover" alt="example" :src="resolveCover(classImageUrl)" />
                                 <div class="rating">
                                     <a-row>
                                         <a-col :span="18"> <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="classRating" :read-only="true"></star-rating> </a-col>
@@ -20,7 +20,7 @@
                                 <template slot="actions" class="ant-card-actions">
                                     <a-button v-if="checkisStudent && studentCompatibility && !ifRegistered" type="primary" icon="thunderbolt" @click="regClass"> Register </a-button>
                                     <a-button v-if="checkisStudent && ifRegistered" type="warning" icon="api" @click="deRegClass"> Deregister </a-button>
-                                    
+
                                     <a-button v-if="checkisInstructor && checkInstructor" type="warning" icon="edit" @click="editClass"> Edit </a-button>
                                     <a-popconfirm title="Are you sure delete this class?" ok-text="Yes" cancel-text="No" @confirm="deleteClass(classID)" @cancel="cancel">
                                         <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="delete"> Delete </a-button>
@@ -74,7 +74,9 @@
                                             <a-col>
                                                 <a-skeleton :loading="loading" active avatar>
                                                     <a-list-item-meta :description="item.comment">
-                                                        <strong slot="title">{{ item.author.username }} <span v-if="checkisInstructor && checkInstructor">~ {{ item.author.email }} </span></strong>
+                                                        <strong slot="title"
+                                                            >{{ item.author.username }} <span v-if="checkisInstructor && checkInstructor">~ {{ item.author.email }} </span></strong
+                                                        >
                                                         <a-avatar slot="avatar" class="avatarI" :src="resolveImage(item.author.avatar)" />
                                                     </a-list-item-meta>
                                                 </a-skeleton>
@@ -97,7 +99,7 @@
     </div>
 </template>
 <style scoped>
-.avatarI{
+.avatarI {
     background: #ddd;
     padding: 2px;
 }
@@ -118,7 +120,7 @@
 }
 
 .lesson-li {
-    margin: .5em auto 1em;
+    margin: 0.5em auto 1em;
     padding-left: 2em;
     width: 100%;
     position: relative;
@@ -181,7 +183,7 @@ export default {
             classInstructorID: '',
             classInstructorEmail: '',
             classInstructorUsername: '',
-            classInstructorAvatar:'Artboard 1',
+            classInstructorAvatar: 'Artboard 1',
             classLessons: [],
             classStudents: [],
             classReviews: [],
@@ -268,6 +270,13 @@ export default {
         },
     },
     methods: {
+        resolveCover: function (cover) {
+            if (typeof cover == 'string' && cover !== '') {
+                return cover;
+            } else {
+                return 'https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940';
+            }
+        },
         resolveImage: function (avatar) {
             if (typeof avatar == 'string') {
                 return require(`@/assets/avatars/${avatar}.png`);

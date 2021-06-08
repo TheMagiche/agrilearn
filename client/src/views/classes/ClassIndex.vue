@@ -5,7 +5,7 @@
                 <a-row class="rowContainer" :gutter="[16, 16]">
                     <a-col v-for="item in classes" :key="item._id" :span="8" :lg="8" :md="12" :sm="24" :xs="24">
                         <a-card hoverable style="width: 100%">
-                            <img slot="cover" class="classImg" alt="example" :src="item.imgUrl" />
+                            <img slot="cover" class="classImg" alt="example" :src="resolveCover(item.imgUrl)"  />
                             <div class="rating">
                                 <a-row>
                                     <a-col :span="18"> <star-rating v-bind:increment="0.5" v-bind:star-size="20" v-model="item.rating" :read-only="true"></star-rating> </a-col>
@@ -19,14 +19,14 @@
                             <template slot="actions" class="ant-card-actions">
                                 <a-button type="dashed" icon="ellipsis" @click="viewClass(item._id)">view</a-button>
                             </template>
-                            <a-row>
+                            <a-row class="classtext">
                                 <a-col :span="4">
                                     <a-tooltip :title="item.instructor.username">
                                         <a-avatar class="avatarI" :src="resolveImage(item.instructor.avatar)" />
                                     </a-tooltip>
                                 </a-col>
                                 <a-col :span="20">
-                                    <span
+                                    <span class="classtitle"
                                         ><strong>{{ item.title }}</strong></span
                                     >
                                     <br />
@@ -60,6 +60,15 @@
 }
 .rowContainer {
     min-height: 70vh;
+}
+.classtitle {
+    text-transform: uppercase;
+    width: 100%;
+    display: block;
+}
+.classtext {
+    height: 5em;
+    align-items: center;
 }
 .rating {
     margin-bottom: 10px;
@@ -127,6 +136,13 @@ export default {
         },
     },
     methods: {
+        resolveCover: function (cover) {
+            if (typeof cover == 'string' && cover !== '') {
+                return cover;
+            } else {
+                return 'https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940';
+            }
+        },
         resolveImage: function (avatar) {
             if (typeof avatar == 'string') {
                 return require(`@/assets/avatars/${avatar}.png`);
