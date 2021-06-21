@@ -8,9 +8,9 @@
                             <img slot="cover" alt="example" :src="defaultImg" />
                             <template slot="actions" class="ant-card-actions">
                                 <a-button v-if="checkisInstructor && checkInstructor" type="warning" icon="edit" @click="editLesson"> Edit </a-button>
-                                <a-popconfirm title="Are you sure delete this lesson?" ok-text="Yes" cancel-text="No" @confirm="deleteLesson(lessonID)" @cancel="cancel">
+                                <!-- <a-popconfirm title="Are you sure delete this lesson?" ok-text="Yes" cancel-text="No" @confirm="deleteLesson(lessonID)" @cancel="cancel">
                                     <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="delete"> Delete </a-button>
-                                </a-popconfirm>
+                                </a-popconfirm> -->
                                 <a-button type="primary" icon="ellipsis" @click="goBack"> Back to class </a-button>
                             </template>
                             <a-row type="flex" align="top">

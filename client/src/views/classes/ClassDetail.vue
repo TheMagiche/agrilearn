@@ -22,9 +22,9 @@
                                     <a-button v-if="checkisStudent && ifRegistered" type="warning" icon="api" @click="deRegClass"> Deregister </a-button>
 
                                     <a-button v-if="checkisInstructor && checkInstructor" type="warning" icon="edit" @click="editClass"> Edit </a-button>
-                                    <a-popconfirm title="Are you sure delete this class?" ok-text="Yes" cancel-text="No" @confirm="deleteClass(classID)" @cancel="cancel">
+                                    <!-- <a-popconfirm title="Are you sure delete this class?" ok-text="Yes" cancel-text="No" @confirm="deleteClass(classID)" @cancel="cancel">
                                         <a-button v-if="checkisInstructor && checkInstructor" type="danger" icon="delete"> Delete </a-button>
-                                    </a-popconfirm>
+                                    </a-popconfirm> -->
                                     <a-button v-if="checkisInstructor && checkInstructor" type="primary" icon="diff" @click="addLesson"> Add lesson </a-button>
                                     <a-button v-if="checkisStudent && ifRegistered" type="primary" icon="smile" @click="rateClass"> Rate </a-button>
                                 </template>
