@@ -14,10 +14,10 @@
                                     <a-icon key="setting" type="setting" />
                                     Edit profile
                                 </a-button>
-                                <!-- <a-button @click="getPremium" type="warning">
+                                <a-button @click="getPremium" type="warning">
                                     <a-icon key="trophy" type="trophy" />
                                     Get Premium
-                                </a-button> -->
+                                </a-button>
                             </template>
                             <a-card-meta :title="username" :description="type"> </a-card-meta>
                         </a-card>
