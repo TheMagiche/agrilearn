@@ -393,7 +393,7 @@ router.post('/:id/premium', async function(req, res) {
                                     itemID: 'agriskulpremiummbership',
                                     particulars: '1 year subscription',
                                     quantity: 1,
-                                    unitCost: 1000.0,
+                                    unitCost: 10.0,
                                     details: 'Get a 1 year subscription for pro membership in agriskul.co.ke',
                                 });
                                 // console.log(order);

@@ -36,7 +36,6 @@
     "less-loader": "^4.1.0",
     "prettier": "^2.2.1",
     "sass-loader": "^8.0.2",
-    "vue-cli-plugin-ant-design": "^1.0.1",
-    "vue-template-compiler": "^2.6.11"
+    "vue-cli-plugin-ant-design": "^1.0.1"
   }
 }
